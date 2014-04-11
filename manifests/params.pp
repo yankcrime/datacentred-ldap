@@ -23,9 +23,17 @@ class ldap::params {
 
   $server_log_level = 'none'
 
-  $server_schemas   = []
-  $server_modules   = []
-  $server_indexes   = []
+  $server_modules   = [ 'back_bdb' ]
+  $server_schemas   = [ 'core', 'cosine', 'nis', 'inetorgperson' ]
+  $server_indexes   = [ 'index objectclass  eq',
+                        'index entryCSN     eq',
+                        'index entryUUID    eq',
+                        'index uidNumber    eq',
+                        'index gidNumber    eq',
+                        'index cn           pres,sub,eq',
+                        'index sn           pres,sub,eq',
+                        'index uid          pres,sub,eq',
+                        'index displayName  pres,sub,eq' ]
 
   $server_ssl       = false
   $server_ssl_ca    = undef

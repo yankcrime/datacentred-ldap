@@ -5,7 +5,7 @@ loglevel <%= @loglevel %>
 
 # Schemas
 <% @schemas.each do |name| -%>
-include /etc/ldap/schema/<%= schema %>.schema
+include /etc/ldap/schema/<%= name %>.schema
 <% end -%>
 
 # Modules

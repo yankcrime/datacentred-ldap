@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'ldap::server', :type => :class do
   let(:params) { {
     :suffix => 'dc=example,dc=com',
+    :rootdn => 'cn=admin,dc=example,dc=com',
     :rootpw => 'llama123'
   }}
 

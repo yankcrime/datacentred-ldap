@@ -33,5 +33,4 @@ class ldap::params {
   $server_ssl_key   = undef
 
   $server_directory = '/var/lib/ldap'
-  $server_rootdn    = "cn=admin,${server_suffix}"
 }

@@ -2,6 +2,9 @@
 #
 # Module to install and manage an ldap server
 class ldap::server (
+  $suffix,
+  $rootdn,
+  $rootpw,
   $package_name    = $ldap::params::server_package_name,
   $package_ensure  = $ldap::params::server_package_ensure,
   $service_manage  = $ldap::params::server_service_manage,
@@ -19,9 +22,6 @@ class ldap::server (
   $ssl_cert        = $ldap::params::server_ssl_cert,
   $ssl_key         = $ldap::params::server_ssl_key,
   $directory       = $ldap::params::server_directory,
-  $rootdn          = $ldap::params::server_rootdn,
-  $suffix,
-  $rootpw
 ) inherits ldap::params {
 
   anchor { 'ldap::server::begin': } ->

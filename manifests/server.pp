@@ -22,7 +22,15 @@ class ldap::server (
   $ssl_cert        = $ldap::params::server_ssl_cert,
   $ssl_key         = $ldap::params::server_ssl_key,
   $directory       = $ldap::params::server_directory,
+  $bind_anon       = $ldap::params::server_anon_bind
 ) inherits ldap::params {
+
+  # If SSL is defined, ensure ca, cert and key are passed
+  if $ssl == true {
+    if $ssl_ca == undef or $ssl_cert == undef or $ssl_key == undef {
+      fail('ssl_ca, ssl_cert and ssl_key are all required when ssl is enabled')
+    }
+  }
 
   anchor { 'ldap::server::begin': } ->
   class { '::ldap::server::install': } ->

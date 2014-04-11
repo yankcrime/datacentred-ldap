@@ -69,5 +69,13 @@ describe 'ldap::server', :type => :class do
       let(:params) { super().merge('config_file' => '/etc/dave.conf') }
       it { should contain_file('/etc/dave.conf')}
     end
+
+    context 'with ssl enabled and no files specified' do
+      let(:params) { super().merge('ssl' => true) }
+      it do
+        expect { should compile }.to raise_error(Puppet::Error, /ssl/)
+      end
+    end
+
   end
 end

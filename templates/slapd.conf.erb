@@ -1,7 +1,12 @@
 # Server Configuration
 pidfile  /var/run/slapd/slapd.pid
 argsfile /var/run/slapd/slapd.args
-loglevel <%= @loglevel %>
+loglevel <%= @log_level %>
+
+<% if @bind_anon == true -%>
+# Allow anonymous bind
+allow bind_anon_dn
+<% end -%>
 
 # Schemas
 <% @schemas.each do |name| -%>
@@ -13,11 +18,6 @@ include /etc/ldap/schema/<%= name %>.schema
 moduleload <%= name %>
 <% end -%>
 
-# Indexes
-<% @indexes.each do |name| -%>
-index <%= name %>
-<% end -%>
-
 <% if @ssl == true -%>
 # SSL
 TLSCACertificateFile   <%= @ssl_ca %>
@@ -27,10 +27,15 @@ TLSCertificateKeyFile  <%= @ssl_key %>
 
 # Database definition
 database  bdb
-suffix    <%= @suffix %>
 directory <%= @directory %>
-rootdn    <%= @rootdn %>
-rootpw    <%= @rootpw %>
+suffix    "<%= @suffix %>"
+rootdn    "<%= @rootdn %>"
+rootpw    "<%= @rootpw %>"
+
+# Indexes
+<% @indexes.each do |name| -%>
+index <%= name %>
+<% end -%>
 
 # Database parameters 
 cachesize 10000

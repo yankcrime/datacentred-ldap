@@ -25,20 +25,22 @@ class ldap::params {
 
   $server_modules   = [ 'back_bdb' ]
   $server_schemas   = [ 'core', 'cosine', 'nis', 'inetorgperson' ]
-  $server_indexes   = [ 'index objectclass  eq',
-                        'index entryCSN     eq',
-                        'index entryUUID    eq',
-                        'index uidNumber    eq',
-                        'index gidNumber    eq',
-                        'index cn           pres,sub,eq',
-                        'index sn           pres,sub,eq',
-                        'index uid          pres,sub,eq',
-                        'index displayName  pres,sub,eq' ]
+  $server_indexes   = [ 'objectclass  eq',
+                        'entryCSN     eq',
+                        'entryUUID    eq',
+                        'uidNumber    eq',
+                        'gidNumber    eq',
+                        'cn           pres,sub,eq',
+                        'sn           pres,sub,eq',
+                        'uid          pres,sub,eq',
+                        'displayName  pres,sub,eq' ]
 
   $server_ssl       = false
   $server_ssl_ca    = undef
   $server_ssl_cert  = undef
   $server_ssl_key   = undef
+
+  $server_bind_anon = true
 
   $server_directory = '/var/lib/ldap'
 }

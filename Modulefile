@@ -9,4 +9,3 @@ project_page 'https://github.com/datacentred/datacentred-ldap'
 
 ## Add dependencies, if any:
 dependency 'puppetlabs/stdlib'
-dependency 'puppetlabs/concat'

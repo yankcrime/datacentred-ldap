@@ -33,6 +33,12 @@ describe 'ldap::server', :type => :class do
         :group   => '0',
         :mode    => '0644'
       )}
+
+      it { should contain_file('/etc/default/slapd').with(
+        :owner   => '0',
+        :group   => '0',
+        :mode    => '0644'
+      )}
     end
 
     context 'with a custom package name' do

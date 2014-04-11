@@ -12,9 +12,11 @@ class ldap::params {
 
   case $::osfamily {
     'Debian': {
-      $server_package_name = ['slapd']
-      $server_service_name = 'slapd'
-      $server_config_file  = '/etc/ldap/slapd.conf'
+      $server_package_name     = ['slapd']
+      $server_service_name     = 'slapd'
+      $server_config_file      = '/etc/ldap/slapd.conf'
+      $server_default_file     = '/etc/default/slapd'
+      $server_default_template = 'ldap/debian/defaults.erb'
     }
     default: {
       fail("${::module_name} is not supported on ${::operatingsystem}.")

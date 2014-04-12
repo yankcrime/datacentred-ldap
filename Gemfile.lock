@@ -9,6 +9,7 @@ GEM
     metaclass (0.0.4)
     mocha (1.0.0)
       metaclass (~> 0.0.1)
+    net-ldap (0.6.0)
     puppet (3.2.4)
       facter (~> 1.6)
       hiera (~> 1.0)
@@ -34,14 +35,17 @@ GEM
     rspec-mocks (2.14.6)
     rspec-puppet (1.0.1)
       rspec
+    rspec-puppet-utils (2.0.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  net-ldap
   puppet (~> 3.2.0)
   puppet-lint
   puppet-syntax
   puppetlabs_spec_helper
   rake
-  rspec-puppet (~> 1.0.0)
+  rspec-puppet
+  rspec-puppet-utils

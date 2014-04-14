@@ -5,7 +5,7 @@ require 'puppet-syntax/tasks/puppet-syntax'
 # Blacksmith borks on ruby 1.8.7
 begin
   require 'puppet_blacksmith/rake_tasks'
-rescue
+rescue LoadError
 end
 
 # Ensure we fail the tests on lint warnings

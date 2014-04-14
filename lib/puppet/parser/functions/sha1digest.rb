@@ -10,6 +10,6 @@ module Puppet::Parser::Functions
 
     ENDHEREDOC
 
-    [Digest::SHA1.digest(args[0])].pack('m0')
+    [Digest::SHA1.digest(args[0])].pack('m0').strip
   end
 end

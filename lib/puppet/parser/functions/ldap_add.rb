@@ -1,4 +1,4 @@
-require_relative '../../../ldap_helper'
+require 'ldap_helper'
 require 'net/ldap'
 
 module Puppet::Parser::Functions

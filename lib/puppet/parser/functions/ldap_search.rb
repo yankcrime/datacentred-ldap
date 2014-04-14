@@ -1,4 +1,4 @@
-require_relative '../../../ldap_helper'
+require 'ldap_helper'
 require 'net/ldap'
 
 module Puppet::Parser::Functions
@@ -16,8 +16,8 @@ module Puppet::Parser::Functions
 
     extend LDAPHelper
     ldap = ldap(args)
-    ldap.search(params(args).merge(filter: Net::LDAP::Filter.eq(*params(args)[:filter])),
-                                         return_result: false)
+    ldap.search(params(args).merge(:filter => Net::LDAP::Filter.eq(*params(args)[:filter])),
+                                   :return_result => false)
     return_code_and_message(ldap)
   end
 end

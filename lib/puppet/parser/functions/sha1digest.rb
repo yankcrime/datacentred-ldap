@@ -1,4 +1,4 @@
-require_relative '../../../ldap_helper'
+require 'ldap_helper'
 
 module Puppet::Parser::Functions
   newfunction(:sha1digest, :type => :rvalue, :doc => <<-'ENDHEREDOC') do |args|
@@ -6,10 +6,10 @@ module Puppet::Parser::Functions
 
       Example:
 
-        sha1digest(["hello"]) # => "{SHA}6d3L1UCJtULYvBnp47aqAvjtfM8="
+        sha1digest(["hello"]) # => "6d3L1UCJtULYvBnp47aqAvjtfM8="
 
     ENDHEREDOC
 
-    "{SHA}#{Digest::SHA1.base64digest(args[0])}"
+    [Digest::SHA1.digest(args[0])].pack('m0')
   end
 end

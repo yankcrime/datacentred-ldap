@@ -2,7 +2,7 @@ require 'rspec-puppet'
 require 'rspec-puppet-utils'
 require 'puppetlabs_spec_helper/module_spec_helper'
 require 'net/ldap'
-require_relative 'support/ldap_setup'
+require 'support/ldap_setup'
 
 fixture_path = File.expand_path(File.join(__FILE__, '..', 'fixtures'))
 

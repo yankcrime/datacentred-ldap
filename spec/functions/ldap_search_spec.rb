@@ -14,8 +14,8 @@ describe "ldap_search function" do
 
   [true, false].each do |bool|
     it "should react to success" do
-      @mock_ldap.expects(:search).with(@ldap_entry.merge(filter: Net::LDAP::Filter.eq(*@ldap_entry[:filter])),
-                                         return_result: false).returns(bool)
+      @mock_ldap.expects(:search).with(@ldap_entry.merge(:filter => Net::LDAP::Filter.eq(*@ldap_entry[:filter])),
+                                         :return_result => false).returns(bool)
       code, message = scope.function_ldap_search(@params)
       code.should == 0
       message.should == "success"

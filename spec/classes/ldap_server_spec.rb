@@ -71,7 +71,7 @@ describe 'ldap::server', :type => :class do
       it { should contain_service('ldap-server').with_ensure('stopped') }
     end
 
-    context 'with a custom config_file' do
+    context 'with a custom config file' do
       let(:params) { super().merge('config_file' => '/etc/dave.conf') }
       it { should contain_file('/etc/dave.conf')}
     end

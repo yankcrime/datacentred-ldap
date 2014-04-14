@@ -21,11 +21,11 @@ well as extends Puppet to allow management of LDAP resources, such as database s
 
 ## Usage
 
-#### LDAP Client (`ldap`)
+#### LDAP Client (`ldap::client`)
 
 Basic LDAP client configuration
 
-    class { 'ldap':
+    class { 'ldap::client':
       uri  => 'ldap://ldapserver01 ldap://ldapserver02',
       base => 'dc=example,dc=com',
     }
@@ -36,7 +36,7 @@ This will install the required packages and LDAP configuration.
 
 Note: This module does not manage SSL certificates for you, and assumes the files specified already exist on the system (i.e. via an SSL cert management module)
 
-    class { 'ldap':
+    class { 'ldap::client':
       uri      => 'ldaps://ldapserver01 ldaps://ldapserver02',
       base     => 'dc=example,dc=com',
       ssl      => true,
@@ -69,12 +69,12 @@ Note: This module does not manage SSL certificates for you, and assumes the file
 
 #### Hiera example
 
-Both the `ldap` and `ldap::server` module support data bindings from hiera, using the following example:
+Both the `ldap::client` and `ldap::server` module support data bindings from hiera, using the following example:
 
-    ldap::uri: 'ldaps://ldapserver01 ldaps://ldapserver02'
-    ldap::base: 'dc=example,dc=com'
-    ldap::ssl: true
-    ldap::ssl_cert: '/etc/ssl/certs/ldapserver.pem'
+    ldap::client::uri: 'ldaps://ldapserver01 ldaps://ldapserver02'
+    ldap::client::base: 'dc=example,dc=com'
+    ldap::client::ssl: true
+    ldap::client::ssl_cert: '/etc/ssl/certs/ldapserver.pem'
 
     ldap::server::suffix: 'dc=example,dc=com'
     ldap::server::rootdn: 'cn=admin,dc=example,dc=com'

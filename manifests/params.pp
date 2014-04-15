@@ -24,7 +24,7 @@ class ldap::params {
   $server_ssl_cert  = undef
   $server_ssl_key   = undef
 
-  $server_bind_anon = true
+  $server_bind_anon = false
   $server_bind_v2   = true
 
   $server_modules   = [ 'back_bdb' ]

@@ -8,6 +8,11 @@ loglevel <%= @log_level %>
 allow bind_anon_dn
 <% end -%>
 
+<% if @bind_v2 == true -%>
+# Allow LDAPv2
+allow bind_v2
+<% end -%>
+
 # Schemas
 <% @schemas.each do |name| -%>
 include /etc/ldap/schema/<%= name %>.schema

@@ -24,7 +24,8 @@ class ldap::server (
   $ssl_cert         = $ldap::params::server_ssl_cert,
   $ssl_key          = $ldap::params::server_ssl_key,
   $directory        = $ldap::params::server_directory,
-  $bind_anon        = $ldap::params::server_anon_bind
+  $bind_anon        = $ldap::params::server_bind_anon,
+  $bind_v2          = $ldap::params::server_bind_v2,
 ) inherits ldap::params {
 
   # If SSL is defined, ensure ca, cert and key are passed

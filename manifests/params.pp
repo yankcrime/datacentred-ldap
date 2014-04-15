@@ -25,6 +25,7 @@ class ldap::params {
   $server_ssl_key   = undef
 
   $server_bind_anon = true
+  $server_bind_v2   = true
 
   $server_modules   = [ 'back_bdb' ]
   $server_schemas   = [ 'core', 'cosine', 'nis', 'inetorgperson' ]

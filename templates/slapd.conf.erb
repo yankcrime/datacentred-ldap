@@ -14,13 +14,14 @@ allow bind_v2
 <% end -%>
 
 # Schemas
-<% @schemas.each do |name| -%>
-include /etc/ldap/schema/<%= name %>.schema
+<% @schemas.each do |s| -%>
+include /etc/ldap/schema/<%= s %>.schema
 <% end -%>
 
 # Modules
-<% @modules.each do |name| -%>
-moduleload <%= name %>
+moduleload back_bdb
+<% @modules.each do |m| -%>
+moduleload <%= m %>
 <% end -%>
 
 <% if @ssl == true -%>
@@ -37,11 +38,16 @@ suffix    "<%= @suffix %>"
 rootdn    "<%= @rootdn %>"
 rootpw    "<%= @rootpw %>"
 
-# Indexes
-<% @indexes.each do |name| -%>
-index <%= name %>
+# Overlays
+<% @overlays.each do |o| -%>
+overlay <%= o %>
 <% end -%>
 
-# Database parameters 
+# Indexes
+<% @indexes.each do |i| -%>
+index <%= i %>
+<% end -%>
+
+# Database parameters
 cachesize 10000
 checkpoint 128 15

@@ -27,7 +27,8 @@ class ldap::params {
   $server_bind_anon = false
   $server_bind_v2   = true
 
-  $server_modules   = [ 'back_bdb' ]
+  $server_overlays  = [ '' ]
+  $server_modules   = [ '' ]
   $server_schemas   = [ 'core', 'cosine', 'nis', 'inetorgperson' ]
   $server_indexes   = [ 'objectclass  eq',
                         'entryCSN     eq',

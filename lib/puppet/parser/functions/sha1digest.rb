@@ -1,5 +1,3 @@
-require 'ldap_helper'
-
 module Puppet::Parser::Functions
   newfunction(:sha1digest, :type => :rvalue, :doc => <<-'ENDHEREDOC') do |args|
     Hash a plaintext using SHA-1 Digest
@@ -10,6 +8,6 @@ module Puppet::Parser::Functions
 
     ENDHEREDOC
 
-    [Digest::SHA1.digest(args[0])].pack('m0').strip
+    "{SHA}#{[Digest::SHA1.digest(args[0])].pack('m0').strip}"
   end
 end

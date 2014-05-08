@@ -7,4 +7,10 @@ class ldap::client::install inherits ldap::client {
     ensure => $ldap::client::package_ensure,
     name   => $ldap::client::package_name,
   }
+
+  package { 'net-ldap':
+    ensure   => $ldap::client::gem_ensure,
+    name     => $ldap::client::gem_name,
+    provider => 'gem',
+  }
 }

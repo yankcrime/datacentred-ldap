@@ -5,6 +5,7 @@
 class ldap::params {
 
   $client_package_ensure   = 'present'
+  $client_gem_ensure       = 'present'
   $client_config_template  = 'ldap/ldap.conf.erb'
 
   $client_ssl      = false
@@ -44,6 +45,7 @@ class ldap::params {
     'Debian': {
       $client_package_name     = ['libldap-2.4-2']
       $client_config_file      = '/etc/ldap/ldap.conf'
+      $client_gem_name         = 'net-ldap'
 
       $server_package_name     = ['slapd']
       $server_service_name     = 'slapd'

@@ -21,6 +21,12 @@ describe 'ldap::client', :type => :class do
         :name   => 'libldap-2.4-2'
       )}
 
+      it { should contain_package('net-ldap').with(
+        :ensure   => 'present',
+        :name     => 'net-ldap',
+        :provider => 'gem'
+      )}
+
       it { should contain_file('/etc/ldap/ldap.conf').with(
         :owner   => '0',
         :group   => '0',

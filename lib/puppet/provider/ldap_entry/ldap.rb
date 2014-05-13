@@ -59,7 +59,11 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
     attrs.keys.map(&:to_s)
   end
 
-  require 'net/ldap'
+  begin
+    require 'net/ldap'
+  rescue LoadError
+    # Because Puppet freaks out during compilation otherwise
+  end
 
   def ldap_search(args)
     ldap = ldap(args)

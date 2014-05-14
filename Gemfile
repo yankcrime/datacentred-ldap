@@ -8,6 +8,7 @@ group :test do
   gem 'rspec-puppet-utils'
   gem 'puppet-syntax'
   gem 'puppetlabs_spec_helper'
+  gem 'serverspec'
 end
 
 group :development do

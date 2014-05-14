@@ -89,7 +89,7 @@ Both the `ldap::client` and `ldap::server` module support data bindings from hie
 #### Hash a password with SHA-1 Digest
 
 ```ruby
-sha1digest(["secret"]) # => "{SHA}5en6G6MezRroT3XKqkdPOmY/BfQ="
+sha1digest("secret") # => "{SHA}5en6G6MezRroT3XKqkdPOmY/BfQ="
 ```
 
 ### Limitations

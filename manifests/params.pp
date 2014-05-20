@@ -5,7 +5,6 @@
 class ldap::params {
 
   $client_package_ensure   = 'present'
-  $client_gem_ensure       = 'present'
   $client_config_template  = 'ldap/ldap.conf.erb'
 
   $client_ssl      = false
@@ -41,17 +40,19 @@ class ldap::params {
                         'uid          pres,sub,eq',
                         'displayName  pres,sub,eq' ]
 
+  $gem_ensure       = 'present'
+
   case $::osfamily {
     'Debian': {
       $client_package_name     = ['libldap-2.4-2']
       $client_config_file      = '/etc/ldap/ldap.conf'
-      $client_gem_name         = 'net-ldap'
 
       $server_package_name     = ['slapd']
       $server_service_name     = 'slapd'
       $server_config_file      = '/etc/ldap/slapd.conf'
       $server_default_file     = '/etc/default/slapd'
       $server_default_template = 'ldap/debian/defaults.erb'
+      $gem_name                = 'net-ldap'
     }
     default: {
       fail("${::module_name} is not supported on ${::operatingsystem}.")

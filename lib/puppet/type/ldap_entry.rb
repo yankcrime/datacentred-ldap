@@ -84,4 +84,9 @@ Puppet::Type.newtype(:ldap_entry) do
     end
   end
 
+  newparam(:self_signed) do
+    desc 'Whether the LDAP server certificate is self-signed'
+    defaultto false
+  end
+
 end

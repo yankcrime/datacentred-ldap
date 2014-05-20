@@ -86,6 +86,8 @@ class ldap::server (
   $config_template  = $ldap::params::server_config_template,
   $default_file     = $ldap::params::server_default_file,
   $default_template = $ldap::params::server_default_template,
+  $gem_name         = $ldap::params::gem_name,
+  $gem_ensure       = $ldap::params::gem_ensure,
 
 ) inherits ldap::params {
 

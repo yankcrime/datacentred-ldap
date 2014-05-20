@@ -32,8 +32,8 @@ class ldap::client (
   $package_ensure   = $ldap::params::client_package_ensure,
   $config_file      = $ldap::params::client_config_file,
   $config_template  = $ldap::params::client_config_template,
-  $gem_name         = $ldap::params::client_gem_name,
-  $gem_ensure       = $ldap::params::client_gem_ensure,
+  $gem_name         = $ldap::params::gem_name,
+  $gem_ensure       = $ldap::params::gem_ensure,
 ) inherits ldap::params {
 
   # If SSL is defined, ensure cert is passed

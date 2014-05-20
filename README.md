@@ -84,6 +84,33 @@ Both the `ldap::client` and `ldap::server` module support data bindings from hie
     ldap::server::ssl_cert: '/etc/ssl/certs/ldapserver.crt'
     ldap::server::ssl_key: '/etc/ssl/private/ldapserver.key'
 
+### Adding Entries to an LDAP server
+
+It's possible to use Puppet to maintain an LDAP schema and entries using the following custom type.
+
+```puppet
+ldap_entry { 'cn=Foo,ou=Bar,dc=baz,dc=co,dc=uk':
+  ensure      => present,
+  host        => '1.2.3.4',
+  port        => 636,
+  base        => 'dc=baz,dc=co,dc=uk',
+  username    => 'cn=admin,dc=baz,dc=co,dc=uk',
+  password    => 'password',
+  attributes  => { givenName   => 'Foo',
+                   objectClass => ["top", "person", "inetorgPerson"]}
+}
+
+ldap_entry { 'cn=Foo,ou=Bar,dc=baz,dc=co,dc=uk':
+  ensure      => absent,
+  base        => 'dc=baz,dc=co,dc=uk',
+  host        => '1.2.3.4',
+  username    => 'cn=admin,dc=baz,dc=co,dc=uk',
+  password    => 'password',
+}
+```
+
+Please note that password entries need to be hashed before being passed to LDAP. You may use the puppet function `sha1digest` (see the Functions section below) or another hashing scheme such as MD5 or libcrypt. These will appear as `"{MD5}ghGY787GHvh8Uhj"` or `"{CRYPT}$6$hG7Ggh$hjhjkHUGYU67hgGt67h01hdsghGH"`, respectively.
+
 ### Functions
 
 #### Hash a password with SHA-1 Digest
@@ -94,7 +121,9 @@ sha1digest("secret") # => "{SHA}5en6G6MezRroT3XKqkdPOmY/BfQ="
 
 ### Limitations
 
-This module should work across all versions of Debian/Ubuntu. Pull requests gladly accepted
+This module should work across all versions of Debian/Ubuntu. Pull requests gladly accepted.
+
+Note that the `ldap_entry` provider uses the net/ldap gem and requires Ruby 1.9.3 to be installed on the system running the manifest.
 
 ### Testing
 

@@ -1,5 +1,5 @@
 name        'datacentred-ldap'
-version '0.1.2'
+version '0.2.0'
 source      'git://github.com/datacentred/datacentred-ldap.git'
 author      'DataCentred Ltd'
 summary     'Module for managing OpenLDAP'

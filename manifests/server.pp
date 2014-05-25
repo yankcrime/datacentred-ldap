@@ -93,19 +93,23 @@ class ldap::server (
 
   include stdlib
 
-  # Validations
+  validate_string($suffix)
+  validate_string($rootdn)
+  validate_string($rootpw)
+  validate_absolute_path($directory)
+  validate_string($log_level)
   validate_array($schemas)
   validate_array($modules)
   validate_array($indexes)
   validate_array($overlays)
   validate_bool($ssl)
-
-  # If SSL is defined, ensure ca, cert and key are passed
   if $ssl == true {
-    if $ssl_ca == undef or $ssl_cert == undef or $ssl_key == undef {
-      fail('ssl_ca, ssl_cert and ssl_key are all required when ssl is enabled')
-    }
+    validate_absolute_path($ssl_ca)
+    validate_absolute_path($ssl_cert)
+    validate_absolute_path($ssl_key)
   }
+  validate_bool($bind_anon)
+  validate_bool($bind_v2)
 
   anchor { 'ldap::server::begin': } ->
   class { '::ldap::server::install': } ->

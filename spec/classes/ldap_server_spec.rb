@@ -79,7 +79,7 @@ describe 'ldap::server', :type => :class do
     context 'with ssl enabled and no files specified' do
       let(:params) { super().merge('ssl' => true) }
       it do
-        expect { should compile }.to raise_error(Puppet::Error, /ssl/)
+        expect { should compile }.to raise_error
       end
     end
 

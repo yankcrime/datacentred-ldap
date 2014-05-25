@@ -91,6 +91,15 @@ class ldap::server (
 
 ) inherits ldap::params {
 
+  include stdlib
+
+  # Validations
+  validate_array($schemas)
+  validate_array($modules)
+  validate_array($indexes)
+  validate_array($overlays)
+  validate_bool($ssl)
+
   # If SSL is defined, ensure ca, cert and key are passed
   if $ssl == true {
     if $ssl_ca == undef or $ssl_cert == undef or $ssl_key == undef {

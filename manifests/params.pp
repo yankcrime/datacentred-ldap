@@ -54,6 +54,17 @@ class ldap::params {
       $server_default_template = 'ldap/debian/defaults.erb'
       $gem_name                = 'net-ldap'
     }
+    'RedHat': {
+      $client_package_name     = ['openldap']
+      $client_config_file      = '/etc/openldap/ldap.conf'
+
+      $server_package_name     = ['openldap-servers']
+      $server_service_name     = 'slapd'
+      $server_config_file      = '/etc/openldap/slapd.conf'
+      $server_default_file     = '/etc/sysconfig/ldap'
+      $server_default_template = 'ldap/redhat/sysconfig.erb'
+      $gem_name                = 'net-ldap'
+    }
     default: {
       fail("${::module_name} is not supported on ${::osfamily}.")
     }

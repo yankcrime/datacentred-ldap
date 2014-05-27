@@ -55,7 +55,7 @@ class ldap::params {
       $gem_name                = 'net-ldap'
     }
     default: {
-      fail("${::module_name} is not supported on ${::operatingsystem}.")
+      fail("${::module_name} is not supported on ${::osfamily}.")
     }
   }
 }

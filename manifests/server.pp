@@ -105,7 +105,13 @@ class ldap::server (
   validate_bool($ssl)
   if $ssl == true {
     validate_absolute_path($ssl_ca)
-    validate_absolute_path($ssl_cert)
+    # RedHat is linked against Mozilla NSS.
+    # $ssl_ca is pointing to the cert db directory, /etc/openldap/certs
+    # $ssl_cert is the name of the server certificate in that db, "OpenLDAP Server"
+    # $ssl_key is file containing the password for the db, /etc/openldap/certs/password
+    if $::osfamily != 'RedHat' {
+      validate_absolute_path($ssl_cert)
+    }
     validate_absolute_path($ssl_key)
   }
   validate_bool($bind_anon)

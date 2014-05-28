@@ -23,6 +23,11 @@ matrix:
   - rvm: 1.9.3
     env: PUPPET_VERSION="~> 2.7.0"
 notifications:
+  email: false
   hipchat:
+    on_success: change
+    on_failure: change
+    template:
+      - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}'
     rooms:
       secure: YV98rDQEAgVMGdzsNWUBy35l2uSLjEDiwbOdYpQhk5LhZ+5UzNYHN9gAhF0Zvwub2MdOWQVjgbVFVdvHFEDvEhbphDLCwWZFEk65/gIaj7O2KdkPCiw9X2Or9qvwhWjL/7UwdZUBF/vy+stlpJ+JrOjNq4AhUI/ZB8sgF8XHQok=

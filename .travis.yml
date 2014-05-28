@@ -25,4 +25,4 @@ matrix:
 notifications:
   hipchat:
     rooms:
-      secure: RpiLVrqsUYMiVxP6J22SKjXBPwgz9QS6kudQMLWwIHW/TGRnhMJwDqEV6y1ZJ7TCnXj2XGCM8iSZGquL8Iy0lfjAbR1NUtMof/Mpx/zznqeLbOwI8cY1Al55VJe9mPKsYrFBng9RNgw6LbVT9wszUhBUg1GuWinAH+iapJM6A9E=
+      secure: YV98rDQEAgVMGdzsNWUBy35l2uSLjEDiwbOdYpQhk5LhZ+5UzNYHN9gAhF0Zvwub2MdOWQVjgbVFVdvHFEDvEhbphDLCwWZFEk65/gIaj7O2KdkPCiw9X2Or9qvwhWjL/7UwdZUBF/vy+stlpJ+JrOjNq4AhUI/ZB8sgF8XHQok=

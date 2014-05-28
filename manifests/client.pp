@@ -52,9 +52,17 @@ class ldap::client (
   $gem_ensure       = $ldap::params::gem_ensure,
 ) inherits ldap::params {
 
-  # If SSL is defined, ensure cert is passed
-  if ($ssl == true) and ($ssl_cert == undef) {
-    fail('ssl_cert is required when ssl is enabled')
+  include stdlib
+
+  validate_string($uri)
+  validate_string($base)
+  validate_bool($ssl)
+  if $ssl == true {
+    validate_absolute_path($ssl_cacert)
+    validate_absolute_path($ssl_cacertdir)
+    validate_absolute_path($ssl_cert)
+    validate_absolute_path($ssl_key)
+    validate_absolute_path($ssl_reqcert)
   }
 
   anchor { 'ldap::client::begin': } ->

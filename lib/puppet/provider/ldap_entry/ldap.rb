@@ -57,6 +57,7 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
   private
 
   def attributes(attrs)
+    return [] unless resource[:attributes]
     attrs.keys.map(&:to_s)
   end
 

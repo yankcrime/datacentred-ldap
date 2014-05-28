@@ -1,44 +1,89 @@
 require 'spec_helper'
 
 describe 'ldap::server', :type => :class do
-  let(:params) { {
-    :suffix => 'dc=example,dc=com',
-    :rootdn => 'cn=admin,dc=example,dc=com',
-    :rootpw => 'llama123'
-  }}
+  let :params do
+    {
+      :suffix => 'dc=example,dc=com',
+      :rootdn => 'cn=admin,dc=example,dc=com',
+      :rootpw => 'llama123',
+    }
+  end
 
-  context 'on Debian' do
-    let(:facts) { {
-      :osfamily => 'Debian',
-      :lsbdistid => 'debian',
-      :lsbdistcodename => 'squeeze'
-    }}
+  context 'on a Debian OS' do
+    let :facts do
+      {
+        :osfamily        => 'Debian',
+        :lsbdistid       => 'debian',
+        :lsbdistcodename => 'squeeze',
+      }
+    end
 
-    context 'with no parameters' do
-      it { should compile.with_all_deps }
+    it { should compile.with_all_deps }
 
-      it { should contain_package('ldap-server').with(
-        :ensure => 'present',
-        :name   => 'slapd'
-      )}
+    it { should contain_package('ldap-server').with(
+      :ensure => 'present',
+      :name   => 'slapd'
+    )}
 
-      it { should contain_service('ldap-server').with(
-        :ensure => 'running',
-        :enable => true,
-        :name   => 'slapd'
-      )}
+    it { should contain_service('ldap-server').with(
+      :ensure => 'running',
+      :enable => true,
+      :name   => 'slapd'
+    )}
 
-      it { should contain_file('/etc/ldap/slapd.conf').with(
-        :owner   => '0',
-        :group   => '0',
-        :mode    => '0644'
-      )}
+    it { should contain_file('/etc/ldap/slapd.conf').with(
+      :owner   => '0',
+      :group   => '0',
+      :mode    => '0644'
+    )}
 
-      it { should contain_file('/etc/default/slapd').with(
-        :owner   => '0',
-        :group   => '0',
-        :mode    => '0644'
-      )}
+    it { should contain_file('/etc/default/slapd').with(
+      :owner   => '0',
+      :group   => '0',
+      :mode    => '0644'
+    )}
+  end
+
+  context "on a RedHat OS" do
+    let :facts do
+      {
+        :osfamily               => 'RedHat',
+        :operatingsystemrelease => '6',
+      }
+    end
+
+    it { should compile.with_all_deps }
+
+    it { should contain_package('ldap-server').with(
+      :ensure => 'present',
+      :name   => 'openldap-servers'
+    )}
+
+    it { should contain_service('ldap-server').with(
+      :ensure => 'running',
+      :enable => true,
+      :name   => 'slapd'
+    )}
+
+    it { should contain_file('/etc/openldap/slapd.conf').with(
+      :owner   => '0',
+      :group   => '0',
+      :mode    => '0644'
+    )}
+
+    it { should contain_file('/etc/sysconfig/ldap').with(
+      :owner   => '0',
+      :group   => '0',
+      :mode    => '0644'
+    )}
+  end
+
+  context 'on all OSes' do
+    let :facts do
+      {
+        :osfamily               => 'RedHat',
+        :operatingsystemrelease => '6',
+      }
     end
 
     context 'with a custom package name' do
@@ -82,6 +127,5 @@ describe 'ldap::server', :type => :class do
         expect { should compile }.to raise_error
       end
     end
-
   end
 end

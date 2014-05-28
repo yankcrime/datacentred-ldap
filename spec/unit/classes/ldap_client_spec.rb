@@ -1,37 +1,76 @@
 require 'spec_helper'
 
 describe 'ldap::client', :type => :class do
-  let(:params) { {
-    :uri  => 'ldap://localhost',
-    :base => 'dc=example,dc=com',
-  }}
+  let :params do
+    {
+      :uri  => 'ldap://localhost',
+      :base => 'dc=example,dc=com',
+    }
+  end
 
-  context 'on Debian' do
-    let(:facts) { {
-      :osfamily => 'Debian',
-      :lsbdistid => 'debian',
-      :lsbdistcodename => 'squeeze'
-    }}
+  context 'on a Debian OS' do
+    let :facts do
+      {
+        :osfamily        => 'Debian',
+        :lsbdistid       => 'debian',
+        :lsbdistcodename => 'squeeze'
+      }
+    end
 
-    context 'with no parameters' do
-      it { should compile.with_all_deps }
+    it { should compile.with_all_deps }
 
-      it { should contain_package('ldap-client').with(
-        :ensure => 'present',
-        :name   => 'libldap-2.4-2'
-      )}
+    it { should contain_package('ldap-client').with(
+      :ensure => 'present',
+      :name   => 'libldap-2.4-2'
+    )}
 
-      it { should contain_package('net-ldap').with(
-        :ensure   => 'present',
-        :name     => 'net-ldap',
-        :provider => 'gem'
-      )}
+    it { should contain_package('net-ldap').with(
+      :ensure   => 'present',
+      :name     => 'net-ldap',
+      :provider => 'gem'
+    )}
 
-      it { should contain_file('/etc/ldap/ldap.conf').with(
-        :owner   => '0',
-        :group   => '0',
-        :mode    => '0644'
-      )}
+    it { should contain_file('/etc/ldap/ldap.conf').with(
+      :owner   => '0',
+      :group   => '0',
+      :mode    => '0644'
+    )}
+  end
+
+  context "on a RedHat OS" do
+    let :facts do
+      {
+        :osfamily               => 'RedHat',
+        :operatingsystemrelease => '6',
+      }
+    end
+
+    it { should compile.with_all_deps }
+
+    it { should contain_package('ldap-client').with(
+      :ensure => 'present',
+      :name   => 'openldap-clients'
+    )}
+
+    it { should contain_package('net-ldap').with(
+      :ensure   => 'present',
+      :name     => 'net-ldap',
+      :provider => 'gem'
+    )}
+
+    it { should contain_file('/etc/openldap/ldap.conf').with(
+      :owner   => '0',
+      :group   => '0',
+      :mode    => '0644'
+    )}
+  end
+
+  context 'on all OSes' do
+    let :facts do
+      {
+        :osfamily               => 'RedHat',
+        :operatingsystemrelease => '6',
+      }
     end
 
     context 'with a custom package name' do
@@ -52,9 +91,8 @@ describe 'ldap::client', :type => :class do
     context 'with ssl enabled and no certificate specified' do
       let(:params) { super().merge('ssl' => true) }
       it do
-        expect { should compile }.to raise_error(Puppet::Error, /ssl/)
+        expect { should compile }.to raise_error
       end
     end
-
   end
 end

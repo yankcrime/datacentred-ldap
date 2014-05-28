@@ -118,6 +118,9 @@ GEM
       json_pure
       rgen (~> 0.6.5)
     puppet-lint (0.3.2)
+    puppet-syntax (1.2.0)
+      puppet (>= 2.7.0)
+      rake
     puppetlabs_spec_helper (0.4.1)
       mocha (>= 0.10.5)
       rake
@@ -187,6 +190,7 @@ DEPENDENCIES
   net-ldap
   puppet
   puppet-lint
+  puppet-syntax
   puppetlabs_spec_helper
   rake
   rspec-puppet

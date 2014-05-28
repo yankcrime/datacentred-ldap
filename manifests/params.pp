@@ -7,8 +7,8 @@ class ldap::params {
   $client_package_ensure   = 'present'
   $client_config_template  = 'ldap/ldap.conf.erb'
 
-  $client_ssl      = false
-  $client_ssl_cert = undef
+  $client_ssl             = false
+  $client_ssl_reqcert     = 'demand'
 
   $server_package_ensure  = 'present'
   $server_service_enable  = true
@@ -46,18 +46,45 @@ class ldap::params {
 
   case $::osfamily {
     'Debian': {
+      $ldap_config_directory   = '/etc/ldap'
+      $os_config_directory     = '/etc/default'
+
       $client_package_name     = ['libldap-2.4-2']
-      $client_config_file      = '/etc/ldap/ldap.conf'
+      $client_config_file      = "${ldap_config_directory}/ldap.conf"
+
+      $client_ssl_cacert       = 'ca.pem'
+      $client_ssl_cacertdir    = "${ldap_config_directory}/certs"
+      $client_ssl_cert         = 'server.pem'
+      $client_ssl_key          = 'server.key'
 
       $server_package_name     = ['slapd']
       $server_service_name     = 'slapd'
-      $server_config_file      = '/etc/ldap/slapd.conf'
-      $server_default_file     = '/etc/default/slapd'
+      $server_config_file      = "${ldap_config_directory}/slapd.conf"
+      $server_default_file     = "${os_config_directory}/slapd"
       $server_default_template = 'ldap/debian/defaults.erb'
       $gem_name                = 'net-ldap'
     }
+    'RedHat': {
+      $ldap_config_directory   = '/etc/openldap'
+      $os_config_directory     = '/etc/sysconfig'
+
+      $client_package_name     = ['openldap-clients']
+      $client_config_file      = "${ldap_config_directory}/ldap.conf"
+
+      $client_ssl_cacert       = '"OpenLDAP Server"'
+      $client_ssl_cacertdir    = "${ldap_config_directory}/certs"
+      $client_ssl_cert         = '"OpenLDAP Server"'
+      $client_ssl_key          = "${client_ssl_cacertdir}/password"
+
+      $server_package_name     = ['openldap-servers']
+      $server_service_name     = 'slapd'
+      $server_config_file      = "${ldap_config_directory}/slapd.conf"
+      $server_default_file     = "${os_config_directory}/ldap"
+      $server_default_template = 'ldap/redhat/sysconfig.erb'
+      $gem_name                = 'net-ldap'
+    }
     default: {
-      fail("${::module_name} is not supported on ${::operatingsystem}.")
+      fail("${::module_name} is not supported on ${::osfamily}.")
     }
   }
 }

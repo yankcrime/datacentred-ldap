@@ -3,7 +3,6 @@
 # Default paramaters for different operating systems, etc
 #
 class ldap::params {
-
   $client_package_ensure   = 'present'
   $client_config_template  = 'ldap/ldap.conf.erb'
 
@@ -23,6 +22,8 @@ class ldap::params {
   $server_ssl_ca    = undef
   $server_ssl_cert  = undef
   $server_ssl_key   = undef
+
+  $monitor          = false
 
   $server_bind_anon = false
   $server_bind_v2   = true
@@ -44,18 +45,35 @@ class ldap::params {
 
   case $::osfamily {
     'Debian': {
+      $ldap_config_directory   = '/etc/ldap'
+      $os_config_directory     = '/etc/default'
+
       $client_package_name     = ['libldap-2.4-2']
-      $client_config_file      = '/etc/ldap/ldap.conf'
+      $client_config_file      = "${ldap_config_directory}/ldap.conf"
 
       $server_package_name     = ['slapd']
       $server_service_name     = 'slapd'
-      $server_config_file      = '/etc/ldap/slapd.conf'
-      $server_default_file     = '/etc/default/slapd'
+      $server_config_file      = "${ldap_config_directory}/slapd.conf"
+      $server_default_file     = "${os_config_directory}/slapd"
       $server_default_template = 'ldap/debian/defaults.erb'
       $gem_name                = 'net-ldap'
     }
+    'RedHat': {
+      $ldap_config_directory   = '/etc/openldap'
+      $os_config_directory     = '/etc/sysconfig'
+
+      $client_package_name     = ['openldap']
+      $client_config_file      = "${ldap_config_directory}/ldap.conf"
+
+      $server_package_name     = ['openldap-servers']
+      $server_service_name     = 'slapd'
+      $server_config_file      = "${ldap_config_directory}/slapd.conf"
+      $server_default_file     = "${os_config_directory}/ldap"
+      $server_default_template = 'ldap/redhat/sysconfig.erb'
+      $gem_name                = 'net-ldap'
+    }
     default: {
-      fail("${::module_name} is not supported on ${::operatingsystem}.")
+      fail("${::module_name} is not supported on ${::osfamily}.")
     }
   }
 }

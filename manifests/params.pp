@@ -44,24 +44,30 @@ class ldap::params {
 
   case $::osfamily {
     'Debian': {
+      $ldap_config_directory   = '/etc/ldap'
+      $os_config_directory     = '/etc/default'
+
       $client_package_name     = ['libldap-2.4-2']
-      $client_config_file      = '/etc/ldap/ldap.conf'
+      $client_config_file      = "${ldap_config_directory}/ldap.conf"
 
       $server_package_name     = ['slapd']
       $server_service_name     = 'slapd'
-      $server_config_file      = '/etc/ldap/slapd.conf'
-      $server_default_file     = '/etc/default/slapd'
+      $server_config_file      = "${ldap_config_directory}/slapd.conf"
+      $server_default_file     = "${os_config_directory}/slapd"
       $server_default_template = 'ldap/debian/defaults.erb'
       $gem_name                = 'net-ldap'
     }
     'RedHat': {
+      $ldap_config_directory   = '/etc/openldap'
+      $os_config_directory     = '/etc/sysconfig'
+
       $client_package_name     = ['openldap']
-      $client_config_file      = '/etc/openldap/ldap.conf'
+      $client_config_file      = "${ldap_config_directory}/ldap.conf"
 
       $server_package_name     = ['openldap-servers']
       $server_service_name     = 'slapd'
-      $server_config_file      = '/etc/openldap/slapd.conf'
-      $server_default_file     = '/etc/sysconfig/ldap'
+      $server_config_file      = "${ldap_config_directory}/slapd.conf"
+      $server_default_file     = "${os_config_directory}/ldap"
       $server_default_template = 'ldap/redhat/sysconfig.erb'
       $gem_name                = 'net-ldap'
     }

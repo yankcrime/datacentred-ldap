@@ -3,7 +3,6 @@
 # Default paramaters for different operating systems, etc
 #
 class ldap::params {
-
   $client_package_ensure   = 'present'
   $client_config_template  = 'ldap/ldap.conf.erb'
 
@@ -23,6 +22,8 @@ class ldap::params {
   $server_ssl_ca    = undef
   $server_ssl_cert  = undef
   $server_ssl_key   = undef
+
+  $monitor          = false
 
   $server_bind_anon = false
   $server_bind_v2   = true

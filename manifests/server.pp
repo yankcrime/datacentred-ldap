@@ -44,6 +44,15 @@
 # [*ssl_key*]
 #   Path to the SSL certificate key.
 #
+# [*monitor*]
+#   Whether the monitor database should be built (cn=Monitor).
+#
+# [*monitordn*]
+#   The root dn for the monitor database (Default: rootdn).
+#
+# [*monitorpw*]
+#   The password for the monitordn user (Default: rootpw).
+#
 # [*bind_anon*]
 #   Allow anonymous (unauthenticated) binding to the LDAP server.
 #   Default: false
@@ -64,6 +73,8 @@ class ldap::server (
   $suffix,
   $rootdn,
   $rootpw,
+  $monitordn        = $rootdn,
+  $monitorpw        = $rootpw,
   $directory        = $ldap::params::server_directory,
   $log_level        = $ldap::params::server_log_level,
   $schemas          = $ldap::params::server_schemas,
@@ -74,6 +85,7 @@ class ldap::server (
   $ssl_ca           = $ldap::params::server_ssl_ca,
   $ssl_cert         = $ldap::params::server_ssl_cert,
   $ssl_key          = $ldap::params::server_ssl_key,
+  $monitor          = $ldap::params::monitor,
   $bind_anon        = $ldap::params::server_bind_anon,
   $bind_v2          = $ldap::params::server_bind_v2,
   $package_name     = $ldap::params::server_package_name,

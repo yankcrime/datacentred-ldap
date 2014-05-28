@@ -46,6 +46,7 @@ class ldap::client (
   $ssl_reqcert      = $ldap::params::client_ssl_reqcert,
   $package_name     = $ldap::params::client_package_name,
   $package_ensure   = $ldap::params::client_package_ensure,
+  $config_directory = $ldap::params::ldap_config_directory,
   $config_file      = $ldap::params::client_config_file,
   $config_template  = $ldap::params::client_config_template,
   $gem_name         = $ldap::params::gem_name,

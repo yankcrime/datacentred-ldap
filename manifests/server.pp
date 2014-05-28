@@ -94,6 +94,7 @@ class ldap::server (
   $service_name     = $ldap::params::server_service_name,
   $service_enable   = $ldap::params::server_service_enable,
   $service_ensure   = $ldap::params::server_service_ensure,
+  $config_directory = $ldap::params::ldap_config_directory,
   $config_file      = $ldap::params::server_config_file,
   $config_template  = $ldap::params::server_config_template,
   $default_file     = $ldap::params::server_default_file,

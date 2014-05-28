@@ -5,7 +5,8 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
   require 'set'
 
   def exists?
-    disable_ssl if (resource[:self_signed] == true)
+    disable_ssl_verify if (resource[:self_signed] == true)
+    @ssl = true if (resource[:ssl] == true)
     status, results = ldap_search([resource[:host], resource[:port], resource[:username], resource[:password], 
                    {:base => resource[:name], :attributes => attributes(resource[:attributes])}])
     if status == LDAP::NoSuchObject
@@ -111,9 +112,9 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
 
   def ldap(args)
     host, port, admin_user, admin_password, _ = args
-    ldap = Net::LDAP.new(:host => host, :port => port, :auth => {:method => :simple,
-                          :username => admin_user, :password => admin_password},
-                          :encryption => :simple_tls)
+    ldap = Net::LDAP.new({:host => host, :port => port, :auth => {:method => :simple,
+                          :username => admin_user, :password => admin_password}}.
+                          merge(@ssl ? {:encryption => :simple_tls} : {}))
     Puppet.debug("Connecting to LDAP server ldaps://#{host}:#{port}")
     ldap.bind
     ldap
@@ -183,7 +184,7 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
   # Re-open the SSL context class and disable SSL verification
   # Needed for self-signed certs
   require 'openssl'
-  def disable_ssl
+  def disable_ssl_verify
     if OpenSSL::SSL::SSLContext.new.verify_mode != OpenSSL::SSL::VERIFY_NONE
       OpenSSL::SSL::SSLContext.class_eval do
         alias_method :original, :initialize

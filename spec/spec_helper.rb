@@ -4,16 +4,17 @@ require 'net/ldap'
 require 'unit/support/ldap_setup'
 
 RSpec.configure do |c|
+  # Readable test descriptions
   c.color     = true
   c.formatter = :documentation
 
+  # Enable mocking
   c.mock_with :rspec do |mock|
     mock.syntax = [:expect, :should]
   end
 
+  # Ensure that we don't accidentally cache facts and environment
   c.before :each do
-    # Ensure that we don't accidentally cache facts and environment
-    # between test cases.
     Facter::Util::Loader.any_instance.stubs(:load_all)
     Facter.clear
     Facter.clear_messages

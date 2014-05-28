@@ -31,6 +31,20 @@ TLSCertificateFile     <%= @ssl_cert %>
 TLSCertificateKeyFile  <%= @ssl_key %>
 <% end -%>
 
+<% if @config == true -%>
+# Define a config database (cn=config)
+
+database config
+suffix "cn=config"
+rootdn    "<%= @configdn %>"
+rootpw    "<%= @configpw %>"
+
+access to *
+        by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" manage
+        by dn.exact="<%= @configdn %>" manage
+        by * none
+<% end -%>
+
 # Database definition
 database  bdb
 directory <%= @directory %>

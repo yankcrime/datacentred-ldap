@@ -125,12 +125,13 @@ This module should work across all versions of Debian/Ubuntu. Pull requests glad
 
 Note that the `ldap_entry` provider uses the net/ldap gem and requires Ruby 1.9.3 to be installed on the system running the manifest.
 
-### Testing
+### Running tests
 
-This project contains tests for [rspec-puppet](http://rspec-puppet.com/) to verify functionality. For in-depth information please see their respective documentation.
+This project contains tests for both [rspec-puppet](http://rspec-puppet.com/) and [beaker-rspec](https://github.com/puppetlabs/beaker-rspec) to verify functionality. For in-depth information please see their respective documentation.
 
 Quickstart:
 
     gem install bundler
     bundle install
-    bundle exec rake test
+    bundle exec rake spec
+    bundle exec rspec spec/acceptance

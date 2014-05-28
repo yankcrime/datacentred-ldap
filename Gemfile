@@ -1,20 +1,21 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
-group :test do
-  gem 'rake'
-  gem 'puppet', ENV['PUPPET_VERSION'] || '> 2.7.0'
-  gem 'puppet-lint'
-  gem 'rspec-puppet', '> 1.0.0'
-  gem 'rspec-puppet-utils'
-  gem 'puppet-syntax'
-  gem 'puppetlabs_spec_helper'
+group :development, :test do
+  gem 'puppet',                  :require => false
+  gem 'facter',                  :require => false
+  gem 'rake',                    :require => false
+  gem 'rspec-puppet',            :require => false
+  gem 'puppetlabs_spec_helper',  :require => false
+  gem 'serverspec',              :require => false
+  gem 'puppet-lint',             :require => false
+  gem 'beaker',                  :require => false
+  gem 'beaker-rspec',            :require => false
 end
 
 group :development do
-  gem 'travis'
-  gem 'puppet-blacksmith'
+  gem 'travis',                  :require => false
 end
 
 group :production do
-  gem 'net-ldap'
+  gem 'net-ldap',                :require => false
 end 

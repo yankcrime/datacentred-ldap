@@ -1,16 +1,22 @@
-require 'rspec-puppet'
-require 'rspec-puppet-utils'
 require 'puppetlabs_spec_helper/module_spec_helper'
 require 'net/ldap'
-require 'support/ldap_setup'
-
-fixture_path = File.expand_path(File.join(__FILE__, '..', 'fixtures'))
+require 'unit/support/ldap_setup'
 
 RSpec.configure do |c|
-  c.config = '/doesnotexist'
-  c.module_path = File.join(fixture_path, 'modules')
-  c.manifest_dir = File.join(fixture_path, 'manifests')
-  c.color = true
-end
+  c.mock_with :rspec do |mock|
+    mock.syntax = [:expect, :should]
+  end
+  c.include PuppetlabsSpec::Files
 
-puts File.join(fixture_path, 'modules')
+  c.before :each do
+    # Ensure that we don't accidentally cache facts and environment
+    # between test cases.
+    Facter::Util::Loader.any_instance.stubs(:load_all)
+    Facter.clear
+    Facter.clear_messages
+  end
+
+  c.after :each do
+    PuppetlabsSpec::Files.cleanup
+  end
+end

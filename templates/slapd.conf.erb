@@ -15,7 +15,7 @@ allow bind_v2
 
 # Schemas
 <% @schemas.each do |s| -%>
-include /etc/ldap/schema/<%= s %>.schema
+include <%= scope.lookupvar('ldap::params::ldap_config_directory') %>/schema/<%= s %>.schema
 <% end -%>
 
 # Modules

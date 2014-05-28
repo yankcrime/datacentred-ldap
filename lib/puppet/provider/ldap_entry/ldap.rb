@@ -113,7 +113,7 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
     host, port, admin_user, admin_password, _ = args
     ldap = Net::LDAP.new({:host => host, :port => port, :auth => {:method => :simple,
                           :username => admin_user, :password => admin_password}}.
-                          merge(@ssl ? {:encryption => :simple_tls} : {})
+                          merge(@ssl ? {:encryption => :simple_tls} : {}))
     Puppet.debug("Connecting to LDAP server ldaps://#{host}:#{port}")
     ldap.bind
     ldap

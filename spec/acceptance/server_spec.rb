@@ -1,8 +1,16 @@
 require 'spec_helper_acceptance'
 
 describe 'ldap server class', :unless => UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
+  case fact('osfamily')
+  when 'RedHat'
+    package_name = 'openldap-servers'
+    service_name = 'slapd'
+  when 'Debian'
+    package_name = 'slapd'
+    service_name = 'slapd'
+  end
   
-  context 'default parameters' do
+  context 'required parameters' do
     it 'should work with no errors' do
       pp = <<-EOS
         class { 'ldap::server':
@@ -17,14 +25,13 @@ describe 'ldap server class', :unless => UNSUPPORTED_PLATFORMS.include?(fact('os
       expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
     end
 
-    describe package('slapd') do
+    describe package(package_name) do
       it { should be_installed }
     end
 
-    describe service('slapd') do
+    describe service(service_name) do
       it { should be_enabled }
       it { should be_running }
     end
   end
-
 end

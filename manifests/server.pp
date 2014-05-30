@@ -90,7 +90,6 @@ class ldap::server (
   $db_config_template = $ldap::params::server_db_config_template,
   $gem_name           = $ldap::params::gem_name,
   $gem_ensure         = $ldap::params::gem_ensure,
-
 ) inherits ldap::params {
 
   include stdlib

@@ -22,4 +22,5 @@ class ldap::server::config inherits ldap::server {
     group   => 0,
     mode    => '0644',
     content => template($ldap::server::db_config_template),
+  }
 }

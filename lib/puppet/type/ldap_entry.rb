@@ -89,4 +89,9 @@ Puppet::Type.newtype(:ldap_entry) do
     defaultto false
   end
 
+  newparam(:ssl) do
+    desc 'Whether the LDAP server uses SSL'
+    defaultto true
+  end
+
 end

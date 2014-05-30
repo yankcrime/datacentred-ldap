@@ -8,5 +8,9 @@ TIMELIMIT 15
 
 <% if @ssl == true -%>
 # SSL
-TLS_CACERT <%= @ssl %>
+TLS_CACERT <%= @ssl_cacert %>
+TLS_CACERTDIR <%= @ssl_cacertdir %>
+TLS_CERT <%= @ssl_cert %>
+TLS_KEY <%= @ssl_key %>
+TLS_REQCERT <%= @ssl_reqcert %>
 <% end -%>

@@ -15,7 +15,7 @@ allow bind_v2
 
 # Schemas
 <% @schemas.each do |s| -%>
-include /etc/ldap/schema/<%= s %>.schema
+include <%= config_directory %>/schema/<%= s %>.schema
 <% end -%>
 
 # Modules
@@ -29,6 +29,21 @@ moduleload <%= m %>
 TLSCACertificateFile   <%= @ssl_ca %>
 TLSCertificateFile     <%= @ssl_cert %>
 TLSCertificateKeyFile  <%= @ssl_key %>
+<% end -%>
+
+<% if @monitor == true -%>
+# Define a monitoring database (http://www.openldap.org/doc/admin24/backends.html#Monitor)
+# - suffix cn=Monitor is implied and cannot be changed.
+# - database is unwriteable.
+
+database monitor
+# suffix "cn=Monitor"
+rootdn    "<%= @monitordn %>"
+rootpw    "<%= @monitorpw %>"
+access to *
+  by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" read
+  by dn.exact="<%= @monitordn %>" read
+  by * none
 <% end -%>
 
 # Database definition

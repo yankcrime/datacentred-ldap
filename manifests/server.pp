@@ -44,6 +44,15 @@
 # [*ssl_key*]
 #   Path to the SSL certificate key.
 #
+# [*monitor*]
+#   Whether the monitor database should be built (cn=Monitor).
+#
+# [*monitordn*]
+#   The root dn for the monitor database (Default: rootdn).
+#
+# [*monitorpw*]
+#   The password for the monitordn user (Default: rootpw).
+#
 # [*bind_anon*]
 #   Allow anonymous (unauthenticated) binding to the LDAP server.
 #   Default: false
@@ -64,6 +73,8 @@ class ldap::server (
   $suffix,
   $rootdn,
   $rootpw,
+  $monitordn        = $rootdn,
+  $monitorpw        = $rootpw,
   $directory        = $ldap::params::server_directory,
   $log_level        = $ldap::params::server_log_level,
   $schemas          = $ldap::params::server_schemas,
@@ -74,6 +85,7 @@ class ldap::server (
   $ssl_ca           = $ldap::params::server_ssl_ca,
   $ssl_cert         = $ldap::params::server_ssl_cert,
   $ssl_key          = $ldap::params::server_ssl_key,
+  $monitor          = $ldap::params::monitor,
   $bind_anon        = $ldap::params::server_bind_anon,
   $bind_v2          = $ldap::params::server_bind_v2,
   $package_name     = $ldap::params::server_package_name,
@@ -82,6 +94,7 @@ class ldap::server (
   $service_name     = $ldap::params::server_service_name,
   $service_enable   = $ldap::params::server_service_enable,
   $service_ensure   = $ldap::params::server_service_ensure,
+  $config_directory = $ldap::params::ldap_config_directory,
   $config_file      = $ldap::params::server_config_file,
   $config_template  = $ldap::params::server_config_template,
   $default_file     = $ldap::params::server_default_file,
@@ -105,7 +118,13 @@ class ldap::server (
   validate_bool($ssl)
   if $ssl == true {
     validate_absolute_path($ssl_ca)
-    validate_absolute_path($ssl_cert)
+    # RedHat is linked against Mozilla NSS.
+    # $ssl_ca is pointing to the cert db directory, /etc/openldap/certs
+    # $ssl_cert is the name of the server certificate in that db, "OpenLDAP Server"
+    # $ssl_key is file containing the password for the db, /etc/openldap/certs/password
+    if $::osfamily != 'RedHat' {
+      validate_absolute_path($ssl_cert)
+    }
     validate_absolute_path($ssl_key)
   }
   validate_bool($bind_anon)

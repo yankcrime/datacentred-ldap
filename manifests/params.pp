@@ -17,7 +17,7 @@ class ldap::params {
   $server_config_template     = 'ldap/slapd.conf.erb'
   $server_directory           = '/var/lib/ldap'
   $server_db_config_file      = "${server_directory}/DB_CONFIG"
-  $server_db_config_template  = 'DB_CONFIG.erb'
+  $server_db_config_template  = 'ldap/DB_CONFIG.erb'
 
   $server_log_level = 'none'
 

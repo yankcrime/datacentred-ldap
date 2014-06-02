@@ -24,6 +24,7 @@ class ldap::params {
   $server_ssl_cert  = undef
   $server_ssl_key   = undef
 
+  $config           = false
   $monitor          = false
 
   $server_bind_anon = false

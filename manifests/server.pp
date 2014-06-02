@@ -44,6 +44,15 @@
 # [*ssl_key*]
 #   Path to the SSL certificate key.
 #
+# [*config*]
+#   Whether the config database should be built (cn=config).
+#
+# [*configdn*]
+#   The root dn for the config database (Default: rootdn).
+#
+# [*configpw*]
+#   The password for the configdn user (Default: rootpw).
+#
 # [*monitor*]
 #   Whether the monitor database should be built (cn=Monitor).
 #
@@ -73,6 +82,8 @@ class ldap::server (
   $suffix,
   $rootdn,
   $rootpw,
+  $configdn         = $rootdn,
+  $configpw         = $rootpw,
   $monitordn        = $rootdn,
   $monitorpw        = $rootpw,
   $directory        = $ldap::params::server_directory,
@@ -85,6 +96,7 @@ class ldap::server (
   $ssl_ca           = $ldap::params::server_ssl_ca,
   $ssl_cert         = $ldap::params::server_ssl_cert,
   $ssl_key          = $ldap::params::server_ssl_key,
+  $config           = $ldap::params::config,
   $monitor          = $ldap::params::monitor,
   $bind_anon        = $ldap::params::server_bind_anon,
   $bind_v2          = $ldap::params::server_bind_v2,
@@ -101,7 +113,6 @@ class ldap::server (
   $default_template = $ldap::params::server_default_template,
   $gem_name         = $ldap::params::gem_name,
   $gem_ensure       = $ldap::params::gem_ensure,
-
 ) inherits ldap::params {
 
   include stdlib

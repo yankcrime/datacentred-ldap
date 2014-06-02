@@ -10,12 +10,14 @@ class ldap::params {
   $client_ssl             = false
   $client_ssl_reqcert     = 'demand'
 
-  $server_package_ensure  = 'present'
-  $server_service_enable  = true
-  $server_service_ensure  = 'running'
-  $server_service_manage  = true
-  $server_config_template = 'ldap/slapd.conf.erb'
-  $server_directory       = '/var/lib/ldap'
+  $server_package_ensure      = 'present'
+  $server_service_enable      = true
+  $server_service_ensure      = 'running'
+  $server_service_manage      = true
+  $server_config_template     = 'ldap/slapd.conf.erb'
+  $server_directory           = '/var/lib/ldap'
+  $server_db_config_file      = "${server_directory}/DB_CONFIG"
+  $server_db_config_template  = 'ldap/DB_CONFIG.erb'
 
   $server_log_level = 'none'
 

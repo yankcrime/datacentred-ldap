@@ -39,8 +39,8 @@ class ldap::client (
   $uri,
   $base,
   $ssl              = $ldap::params::client_ssl,
-  $ssl_cacert       = $ldap::params::client_ssl_cacert,
   $ssl_cacertdir    = $ldap::params::client_ssl_cacertdir,
+  $ssl_cacert       = $ldap::params::client_ssl_cacert,
   $ssl_cert         = $ldap::params::client_ssl_cert,
   $ssl_key          = $ldap::params::client_ssl_key,
   $ssl_reqcert      = $ldap::params::client_ssl_reqcert,
@@ -59,8 +59,10 @@ class ldap::client (
   validate_string($base)
   validate_bool($ssl)
   if $ssl == true {
+    if $ssl_cacertdir {
+      validate_absolute_path($ssl_cacertdir)
+    }
     validate_absolute_path($ssl_cacert)
-    validate_absolute_path($ssl_cacertdir)
     validate_absolute_path($ssl_cert)
     validate_absolute_path($ssl_key)
     validate_absolute_path($ssl_reqcert)

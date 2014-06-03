@@ -8,6 +8,10 @@ class ldap::params {
   $client_config_template  = 'ldap/ldap.conf.erb'
 
   $client_ssl             = false
+  $client_ssl_cacert      = undef
+  $client_ssl_cacertdir   = undef
+  $client_ssl_cert        = undef
+  $client_ssl_key         = undef
   $client_ssl_reqcert     = 'demand'
 
   $server_package_ensure      = 'present'
@@ -52,15 +56,10 @@ class ldap::params {
       $ldap_config_directory   = '/etc/ldap'
       $os_config_directory     = '/etc/default'
 
-      $client_package_name     = ['libldap-2.4-2']
+      $client_package_name     = 'libldap-2.4-2'
       $client_config_file      = "${ldap_config_directory}/ldap.conf"
 
-      $client_ssl_cacert       = 'ca.pem'
-      $client_ssl_cacertdir    = "${ldap_config_directory}/certs"
-      $client_ssl_cert         = 'server.pem'
-      $client_ssl_key          = 'server.key'
-
-      $server_package_name     = ['slapd']
+      $server_package_name     = 'slapd'
       $server_service_name     = 'slapd'
       $server_config_file      = "${ldap_config_directory}/slapd.conf"
       $server_default_file     = "${os_config_directory}/slapd"
@@ -71,15 +70,10 @@ class ldap::params {
       $ldap_config_directory   = '/etc/openldap'
       $os_config_directory     = '/etc/sysconfig'
 
-      $client_package_name     = ['openldap-clients']
+      $client_package_name     = 'openldap-clients'
       $client_config_file      = "${ldap_config_directory}/ldap.conf"
 
-      $client_ssl_cacert       = '"OpenLDAP Server"'
-      $client_ssl_cacertdir    = "${ldap_config_directory}/certs"
-      $client_ssl_cert         = '"OpenLDAP Server"'
-      $client_ssl_key          = "${client_ssl_cacertdir}/password"
-
-      $server_package_name     = ['openldap-servers']
+      $server_package_name     = 'openldap-servers'
       $server_service_name     = 'slapd'
       $server_config_file      = "${ldap_config_directory}/slapd.conf"
       $server_default_file     = "${os_config_directory}/ldap"

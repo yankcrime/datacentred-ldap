@@ -35,7 +35,7 @@
 #   Whether the server should listen on port 636 (SSL).
 #   Default: false
 #
-# [*ssl_ca*]
+# [*ssl_cacert*]
 #   Path to the certificate authority file for the LDAP SSL certificate.
 #
 # [*ssl_cert*]
@@ -93,7 +93,7 @@ class ldap::server (
   $indexes          = $ldap::params::server_indexes,
   $overlays         = $ldap::params::server_overlays,
   $ssl              = $ldap::params::server_ssl,
-  $ssl_ca           = $ldap::params::server_ssl_ca,
+  $ssl_cacert       = $ldap::params::server_ssl_cacert,
   $ssl_cert         = $ldap::params::server_ssl_cert,
   $ssl_key          = $ldap::params::server_ssl_key,
   $config           = $ldap::params::config,
@@ -130,7 +130,7 @@ class ldap::server (
   validate_array($overlays)
   validate_bool($ssl)
   if $ssl == true {
-    validate_absolute_path($ssl_ca)
+    validate_absolute_path($ssl_cacert)
     # RedHat is linked against Mozilla NSS.
     # $ssl_ca is pointing to the cert db directory, /etc/openldap/certs
     # $ssl_cert is the name of the server certificate in that db, "OpenLDAP Server"

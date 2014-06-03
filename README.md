@@ -58,13 +58,13 @@ Basic LDAP server configuration
 Note: This module does not manage SSL certificates for you, and assumes the files specified already exist on the system (i.e. via an SSL cert management module)
 
     class { 'ldap::server':
-      suffix   => 'dc=example,dc=com',
-      rootdn   => 'cn=admin,dc=example,dc=com',
-      rootpw   => 'llama',
-      ssl      => true,
-      ssl_ca   => '/etc/ssl/certs/ca.pem',
-      ssl_cert => '/etc/ssl/certs/ldapserver.crt',
-      ssl_key  => '/etc/ssl/private/ldapserver.key',
+      suffix     => 'dc=example,dc=com',
+      rootdn     => 'cn=admin,dc=example,dc=com',
+      rootpw     => 'llama',
+      ssl        => true,
+      ssl_cacert => '/etc/ssl/certs/ca.pem',
+      ssl_cert   => '/etc/ssl/certs/ldapserver.crt',
+      ssl_key    => '/etc/ssl/private/ldapserver.key',
     }
 
 #### Hiera example
@@ -80,7 +80,7 @@ Both the `ldap::client` and `ldap::server` module support data bindings from hie
     ldap::server::rootdn: 'cn=admin,dc=example,dc=com'
     ldap::server::rootpw: 'llama'
     ldap::server::ssl: true
-    ldap::server::ssl_ca: '/etc/ssl/certs/ca.pem'
+    ldap::server::ssl_cacert: '/etc/ssl/certs/ca.pem'
     ldap::server::ssl_cert: '/etc/ssl/certs/ldapserver.crt'
     ldap::server::ssl_key: '/etc/ssl/private/ldapserver.key'
 

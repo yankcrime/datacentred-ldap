@@ -25,10 +25,10 @@ class ldap::params {
 
   $server_log_level = 'none'
 
-  $server_ssl       = false
-  $server_ssl_ca    = undef
-  $server_ssl_cert  = undef
-  $server_ssl_key   = undef
+  $server_ssl        = false
+  $server_ssl_cacert = undef
+  $server_ssl_cert   = undef
+  $server_ssl_key    = undef
 
   $config           = false
   $monitor          = false

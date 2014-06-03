@@ -26,7 +26,7 @@ moduleload <%= m %>
 
 <% if @ssl == true -%>
 # SSL
-TLSCACertificateFile   <%= @ssl_ca %>
+TLSCACertificateFile   <%= @ssl_cacert %>
 TLSCertificateFile     <%= @ssl_cert %>
 TLSCertificateKeyFile  <%= @ssl_key %>
 <% end -%>

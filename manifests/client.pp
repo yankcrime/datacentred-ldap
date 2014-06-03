@@ -65,7 +65,7 @@ class ldap::client (
     validate_absolute_path($ssl_cacert)
     validate_absolute_path($ssl_cert)
     validate_absolute_path($ssl_key)
-    validate_absolute_path($ssl_reqcert)
+    validate_re($ssl_reqcert, ['never', 'allow', 'try', 'demand'])
   }
 
   anchor { 'ldap::client::begin': } ->

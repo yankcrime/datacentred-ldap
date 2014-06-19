@@ -1,6 +1,6 @@
 # Server Configuration
-pidfile  /var/run/slapd/slapd.pid
-argsfile /var/run/slapd/slapd.args
+pidfile  <%= @pidfile %>
+argsfile <%= @argsfile %>
 loglevel <%= @log_level %>
 
 <% if @bind_anon == true -%>

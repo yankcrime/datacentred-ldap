@@ -111,12 +111,81 @@ ldap_entry { 'cn=Foo,ou=Bar,dc=baz,dc=co,dc=uk':
 
 Please note that password entries need to be hashed before being passed to LDAP. You may use the puppet function `sha1digest` (see the Functions section below) or another hashing scheme such as MD5 or libcrypt. These will appear as `"{MD5}ghGY787GHvh8Uhj"` or `"{CRYPT}$6$hG7Ggh$hjhjkHUGYU67hgGt67h01hdsghGH"`, respectively.
 
+#### Hiera example
+
+`ldap_entry` resources can be created from Hiera using `create_resources`. 
+
+```yaml
+---
+# LDAP Test
+
+ldap::entries:
+  "%{dn}":
+    attributes:
+      dc: %dc
+      objectClass:
+        - top
+        - domain
+      description: 'Tree root'
+  "ou=users,%{dn}":
+    attributes:
+      ou: 'users'
+      objectClass:
+        - top
+        - organizationalUnit
+      description: "Users for %{dn}"
+  "ou=groups,%{dn}":
+    attributes:
+      ou: 'groups'
+      objectClass:
+        - top
+        - organizationalUnit
+      description: "Groups for %{dn}"
+  "cn=user,ou=users,%{dn}":
+    attributes:
+      cn: 'user'
+      objectClass:
+        - top
+        - person
+        - organizationalPerson
+        - inetOrgPerson
+      uid: 'user'
+      sn: 'user'
+      userPassword: %{password}
+```
+
+You can then create the resources using the following Puppet code:
+```puppet
+$dn = domain2dn("$::domain")
+
+$ldap_defaults = {
+  ensure => present,
+  base   => $dn,
+  host   => 'localhost',
+  port   => 389,
+  ssl    => false,
+  username => "cn=admin,${dn}",
+  password => 'password'
+}
+
+$password = sha1digest("password")
+
+$ldap_entries = hiera_hash('ldap::entries')
+create_resources('ldap_entry',$ldap_entries,$ldap_defaults)
+```
+
 ### Functions
 
 #### Hash a password with SHA-1 Digest
 
 ```ruby
 sha1digest("secret") # => "{SHA}5en6G6MezRroT3XKqkdPOmY/BfQ="
+```
+
+#### Convert a dotted domain to a DN format suitable for LDAP
+
+```ruby
+domain2dn("test.domain") # => "dc=test,dc=domain"
 ```
 
 ### Limitations

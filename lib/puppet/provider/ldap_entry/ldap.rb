@@ -5,6 +5,8 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
   require 'set'
 
   def exists?
+    load_gem('net/ldap')
+
     disable_ssl_verify if (resource[:self_signed] == true)
     @ssl = true if (resource[:ssl] == true)
     status, results = ldap_search([resource[:host], resource[:port], resource[:username], resource[:password], 
@@ -62,10 +64,10 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
     attrs.keys.map(&:to_s)
   end
 
-  begin
-    require 'net/ldap'
-  rescue LoadError
-    # Because Puppet freaks out during compilation otherwise
+  def load_gem(name)
+    # Work-around for PUP-1879. 
+    Gem.clear_paths
+    require "#{name}"
   end
 
   def ldap_search(args)

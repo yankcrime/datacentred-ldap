@@ -94,4 +94,11 @@ Puppet::Type.newtype(:ldap_entry) do
     defaultto true
   end
 
+  # Add autorequire
+  autorequire(:ldap_entry) do
+    # Strip off the first dn to autorequire the parent
+    parent = self[:name].split(",").drop(1).join(",")
+    parent
+  end
+
 end

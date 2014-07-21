@@ -1,4 +1,8 @@
+require 'rubygems' if RUBY_VERSION < '1.9.0' && Puppet.features.rubygems?
+require 'net/ldap' if Puppet.features.net_ldap?
+
 Puppet::Type.type(:ldap_entry).provide(:ldap) do
+  confine :feature => :net_ldap
 
   public
 
@@ -60,12 +64,6 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
   def attributes(attrs)
     return [] unless resource[:attributes]
     attrs.keys.map(&:to_s)
-  end
-
-  begin
-    require 'net/ldap'
-  rescue LoadError
-    # Because Puppet freaks out during compilation otherwise
   end
 
   def ldap_search(args)

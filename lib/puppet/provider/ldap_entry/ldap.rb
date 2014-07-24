@@ -1,4 +1,4 @@
-require 'rubygems' if RUBY_VERSION < '1.9.0' && Puppet.features.rubygems?
+require 'rubygems' if RUBY_VERSION < '1.9.0' && Puppet.version < '3'
 require 'net/ldap' if Puppet.features.net_ldap?
 
 Puppet::Type.type(:ldap_entry).provide(:ldap) do

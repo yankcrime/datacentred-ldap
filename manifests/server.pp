@@ -16,6 +16,12 @@
 # [*directory*]
 #   Path to where the slapd database files should be stored.
 #
+# [*ldapowner*]
+#   The owner of the slapd and database configuration files.
+#
+# [*ldapgroup*]
+#   The group of the slapd and database configuration files.
+#
 # [*log_level*]
 #   Daemon logging level, see http://www.openldap.org/doc/admin24/slapdconfig.html.
 #
@@ -115,6 +121,8 @@ class ldap::server (
   $db_config_template = $ldap::params::server_db_config_template,
   $gem_name         = $ldap::params::gem_name,
   $gem_ensure       = $ldap::params::gem_ensure,
+  $ldapowner        = $ldap::params::ldapowner,
+  $ldapgroup        = $ldap::params::ldapgroup,
 ) inherits ldap::params {
 
   include stdlib

@@ -19,7 +19,6 @@ class ldap::params {
   $server_service_ensure      = 'running'
   $server_service_manage      = true
   $server_config_template     = 'ldap/slapd.conf.erb'
-  $server_directory           = '/var/lib/ldap'
   $server_db_config_file      = "${server_directory}/DB_CONFIG"
   $server_db_config_template  = 'ldap/DB_CONFIG.erb'
 
@@ -61,12 +60,35 @@ class ldap::params {
 
       $pidfile                 = '/var/run/slapd/slapd.pid'
       $argsfile                = '/var/run/slapd/slapd.args'
+      $ldapowner               = '0'
+      $ldapgroup               = '0'
 
       $server_package_name     = 'slapd'
       $server_service_name     = 'slapd'
       $server_config_file      = "${ldap_config_directory}/slapd.conf"
       $server_default_file     = "${os_config_directory}/slapd"
       $server_default_template = 'ldap/debian/defaults.erb'
+      $server_directory        = '/var/lib/ldap'
+      $gem_name                = 'net-ldap'
+    }
+    'OpenBSD': {
+      $ldap_config_directory   = '/etc/openldap'
+      $os_config_directory     = undef
+
+      $client_package_name     = 'openldap-client'
+      $client_config_file      = "${ldap_config_directory}/ldap.conf"
+
+      $pidfile                 = '/var/run/openldap/slapd.pid'
+      $argsfile                = '/var/run/openldap/slapd.args'
+      $ldapowner               = '_openldap'
+      $ldapgroup               = '_openldap'
+
+      $server_package_name     = 'openldap-server'
+      $server_service_name     = 'slapd'
+      $server_config_file      = "${ldap_config_directory}/slapd.conf"
+      $server_default_file     = undef
+      $server_default_template = undef
+      $server_directory        = '/var/openldap-data'
       $gem_name                = 'net-ldap'
     }
     'RedHat': {
@@ -75,6 +97,8 @@ class ldap::params {
 
       $client_package_name     = 'openldap-clients'
       $client_config_file      = "${ldap_config_directory}/ldap.conf"
+      $ldapowner               = '0'
+      $ldapgroup               = '0'
 
       $pidfile                 = '/var/run/openldap/slapd.pid'
       $argsfile                = '/var/run/openldap/slapd.args'
@@ -84,6 +108,7 @@ class ldap::params {
       $server_config_file      = "${ldap_config_directory}/slapd.conf"
       $server_default_file     = "${os_config_directory}/ldap"
       $server_default_template = 'ldap/redhat/sysconfig.erb'
+      $server_directory        = '/var/lib/ldap'
       $gem_name                = 'net-ldap'
     }
     default: {

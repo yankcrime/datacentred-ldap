@@ -65,6 +65,33 @@ describe 'ldap::client', :type => :class do
     )}
   end
 
+  context "on a OpenBSD OS" do
+    let :facts do
+      {
+        :osfamily               => 'OpenBSD',
+      }
+    end
+
+    it { should compile.with_all_deps }
+
+    it { should contain_package('ldap-client').with(
+      :ensure => 'present',
+      :name   => 'openldap-client'
+    )}
+
+    it { should contain_package('net-ldap').with(
+      :ensure   => 'present',
+      :name     => 'net-ldap',
+      :provider => 'gem'
+    )}
+
+    it { should contain_file('/etc/openldap/ldap.conf').with(
+      :owner   => '0',
+      :group   => '0',
+      :mode    => '0644'
+    )}
+  end
+
   context 'on all OSes' do
     let :facts do
       {

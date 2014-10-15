@@ -88,10 +88,10 @@ class ldap::server (
   $suffix,
   $rootdn,
   $rootpw,
-  $configdn         = $rootdn,
-  $configpw         = $rootpw,
-  $monitordn        = $rootdn,
-  $monitorpw        = $rootpw,
+  $configdn         = undef,
+  $configpw         = undef,
+  $monitordn        = undef,
+  $monitorpw        = undef,
   $directory        = $ldap::params::server_directory,
   $log_level        = $ldap::params::server_log_level,
   $schemas          = $ldap::params::server_schemas,
@@ -136,6 +136,42 @@ class ldap::server (
   validate_array($modules)
   validate_array($indexes)
   validate_array($overlays)
+
+  if $config {
+    if $configdn {
+      $substconfigdn = $configdn
+    } else {
+      $substconfigdn = $rootdn
+      $configdn_is_same_as_rootdn = true
+    }
+    if $configdn_is_same_as_rootdn {
+      $substconfigpw = undef
+    } else {
+      if $configpw {
+        $substconfigpw = $configpw
+      } else {
+        $substconfigpw = $rootpw
+      }
+    }
+  }
+  if $monitor {
+    if $monitordn {
+      $substmonitordn = $monitordn
+    } else {
+      $substmonitordn = $rootdn
+      $monitordn_is_same_as_rootdn = true
+    }
+    if $monitordn_is_same_as_rootdn {
+      $substmonitorpw = undef
+    } else {
+      if $monitorpw {
+        $substmonitorpw = $monitorpw
+      } else {
+        $substmonitorpw = $rootpw
+      }
+    }
+  }
+
   validate_bool($ssl)
   if $ssl == true {
     validate_absolute_path($ssl_cacert)

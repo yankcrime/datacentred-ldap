@@ -78,6 +78,39 @@ describe 'ldap::server', :type => :class do
     )}
   end
 
+  context "on a OpenBSD OS" do
+    let :facts do
+      {
+        :osfamily               => 'OpenBSD',
+      }
+    end
+
+    it { should compile.with_all_deps }
+
+    it { should contain_package('ldap-server').with(
+      :ensure => 'present',
+      :name   => 'openldap-server'
+    )}
+
+    it { should contain_service('ldap-server').with(
+      :ensure => 'running',
+      :enable => true,
+      :name   => 'slapd'
+    )}
+
+    it { should contain_file('/etc/openldap/slapd.conf').with(
+      :owner   => '_openldap',
+      :group   => '_openldap',
+      :mode    => '0644'
+    )}
+
+    it { should_not contain_file('/etc/sysconfig/ldap').with(
+      :owner   => '0',
+      :group   => '0',
+      :mode    => '0644'
+    )}
+  end
+
   context 'on all OSes' do
     let :facts do
       {

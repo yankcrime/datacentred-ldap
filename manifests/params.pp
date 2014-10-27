@@ -106,8 +106,16 @@ class ldap::params {
       $server_package_name     = 'openldap-servers'
       $server_service_name     = 'slapd'
       $server_config_file      = "${ldap_config_directory}/slapd.conf"
-      $server_default_file     = "${os_config_directory}/ldap"
-      $server_default_template = 'ldap/redhat/sysconfig.erb'
+      case $::operatingsystemmajrelease {
+        '7'    : {
+          $server_default_file     = "${os_config_directory}/slapd"
+          $server_default_template = 'ldap/redhat/sysconfig-el7.erb'
+        }
+        default: {
+          $server_default_file     = "${os_config_directory}/ldap"
+          $server_default_template = 'ldap/redhat/sysconfig.erb'
+        }
+      }
       $server_directory        = '/var/lib/ldap'
       $gem_name                = 'net-ldap'
     }

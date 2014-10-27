@@ -48,7 +48,7 @@ describe 'ldap::server', :type => :class do
     let :facts do
       {
         :osfamily               => 'RedHat',
-        :operatingsystemrelease => '6',
+        :operatingsystemrelease => '6.5',
       }
     end
 
@@ -76,6 +76,41 @@ describe 'ldap::server', :type => :class do
       :group   => '0',
       :mode    => '0644'
     )}
+  end
+  
+  context "on a RedHat 7 OS" do
+    let :facts do
+      {
+        :osfamily                  => 'RedHat',
+        :operatingsystemrelease    => '7.0.1406',
+        :operatingsystemmajrelease => '7',
+      }
+    end
+
+    it { should compile.with_all_deps }
+
+    it { should contain_package('ldap-server').with(
+      :ensure => 'present',
+      :name   => 'openldap-servers'
+    )}
+
+    it { should contain_service('ldap-server').with(
+      :ensure => 'running',
+      :enable => true,
+      :name   => 'slapd'
+    )}
+
+    it { should contain_file('/etc/openldap/slapd.conf').with(
+      :owner   => '0',
+      :group   => '0',
+      :mode    => '0644'
+    )}
+
+    it { should contain_file('/etc/sysconfig/slapd').with(
+      :owner   => '0',
+      :group   => '0',
+      :mode    => '0644'
+    ).with_content(/SLAPD_OPTIONS="-f \/etc\/openldap\/slapd.conf"/)}
   end
 
   context "on a OpenBSD OS" do

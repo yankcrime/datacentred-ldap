@@ -3,14 +3,26 @@ BASE <%= @base %>
 URI  <%= @uri %>
 
 # Timeout options
-SIZELIMIT 12
-TIMELIMIT 15
+<%- if @sizelimit -%>
+SIZELIMIT <%= @sizelimit %>
+<% end -%>
+<%- if @timelimit -%>
+TIMELIMIT <%= @timelimit %>
+<% end -%>
 
 <%- if @ssl == true -%>
 # SSL
-<% if @ssl_cacertdir %>TLS_CACERTDIR <%= @ssl_cacertdir %><%- end %>
+<% if @ssl_cacertdir -%>
+TLS_CACERTDIR <%= @ssl_cacertdir %>
+<% end -%>
 TLS_CACERT <%= @ssl_cacert %>
+<% if @ssl_cert -%>
 TLS_CERT <%= @ssl_cert %>
+<% end -%>
+<% if @ssl_key -%>
 TLS_KEY <%= @ssl_key %>
+<% end -%>
+<% if @ssl_reqcert -%>
 TLS_REQCERT <%= @ssl_reqcert %>
+<% end -%>
 <% end -%>

@@ -79,8 +79,8 @@ class ldap::params {
 
       $pidfile                 = '/var/run/slapd/slapd.pid'
       $argsfile                = '/var/run/slapd/slapd.args'
-      $ldapowner               = '0'
-      $ldapgroup               = '0'
+      $ldapowner               = 'openldap'
+      $ldapgroup               = 'openldap'
 
       $server_package_name     = 'slapd'
       $server_service_name     = 'slapd'
@@ -116,8 +116,8 @@ class ldap::params {
 
       $client_package_name     = 'openldap-clients'
       $client_config_file      = "${ldap_config_directory}/ldap.conf"
-      $ldapowner               = '0'
-      $ldapgroup               = '0'
+      $ldapowner               = 'ldap'
+      $ldapgroup               = 'ldap'
 
       $pidfile                 = '/var/run/openldap/slapd.pid'
       $argsfile                = '/var/run/openldap/slapd.args'

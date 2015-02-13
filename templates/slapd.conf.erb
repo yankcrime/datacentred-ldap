@@ -14,12 +14,12 @@ allow bind_v2
 <% end -%>
 
 # Schemas
-<% @schemas.each do |s| -%>
-include <%= @config_directory %>/schema/<%= s %>.schema
+<% @schemas.concat(@extra_schemas).each do |s| -%>
+include <%= @schema_directory %>/<%= s %>.schema
 <% end -%>
 
 # Modules
-moduleload back_bdb
+moduleload back_<%= @backend %>
 <% @modules.each do |m| -%>
 moduleload <%= m %>
 <% end -%>
@@ -29,7 +29,35 @@ moduleload <%= m %>
 TLSCACertificateFile   <%= @ssl_cacert %>
 TLSCertificateFile     <%= @ssl_cert %>
 TLSCertificateKeyFile  <%= @ssl_key %>
+<%   if @ssl_verify_client -%>
+TLSVerifyClient        <%= @ssl_verify_client %>
+<%   end -%>
 <% end -%>
+
+# Access control ...
+access to dn.exact=""
+  by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" <%= @access_for_ldapi_rootdn_cfg %>
+  by * read
+access to dn.exact="cn=Subschema"
+  by * read
+
+<% @access.each do |torule| -%>
+<%   torule.each do |what,byrules| -%>
+access to <%= what %>
+  by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" <%= @access_for_ldapi_rootdn_cfg %>
+<%     byrules.each do |byrule| -%>
+<%       byrule.each do |who, access| -%>
+<%         access.sub!('@@writeable_on_sync_provider_only@@', @access_writeable_on_sync_provider_only_cfg) -%>
+  by <%= who %> <%= access %>
+<%       end -%>
+<%     end -%>
+<%   end -%>
+  by * none
+<% end -%>
+
+access to *
+  by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" <%= @access_for_ldapi_rootdn_cfg %>
+  by * none
 
 <% if @config == true -%>
 # Define a config database (cn=config)
@@ -43,6 +71,7 @@ access to *
         by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" manage
         by dn.exact="<%= @configdn %>" manage
         by * none
+
 <% end -%>
 <% if @monitor == true -%>
 # Define a monitoring database (http://www.openldap.org/doc/admin24/backends.html#Monitor)
@@ -60,7 +89,7 @@ access to *
 <% end -%>
 
 # Database definition
-database  bdb
+database  <%= @backend %>
 directory <%= @directory %>
 suffix    "<%= @suffix %>"
 rootdn    "<%= @rootdn %>"
@@ -70,12 +99,49 @@ rootpw    "<%= @rootpw %>"
 <% @overlays.each do |o| -%>
 overlay <%= o %>
 <% end -%>
+<% if @sync_provider -%>
+
+# Replication
+syncrepl
+  rid=<%= @sync_rid %>
+  provider=<%= @sync_provider %>
+  searchbase=<%= @sync_searchbase_cfg %>
+<% if @sync_type -%>
+  type=<%= @sync_type %>
+<% end -%>
+<% if @sync_interval -%>
+  interval=<%= @sync_interval %>
+<% end -%>
+<% if @sync_filter -%>
+  filter=<%= @sync_filter %>
+<% end -%>
+<% if @sync_scope -%>
+  scope=<%= @sync_scope %>
+<% end -%>
+<% if @sync_attrs -%>
+  attrs=<%= @sync_attrs.join(',') %>
+<% end -%>
+<% if @sync_schemachecking -%>
+  schemachecking=<%= @sync_schemachecking %>
+<% end -%>
+<% if @sync_bindmethod -%>
+  bindmethod=<%= @sync_bindmethod %>
+<% end -%>
+<% if not @bind_method or @sync_bindmethod == "simple" -%>
+  binddn=<%= @sync_binddn %>
+  credentials=<%= @sync_credentials %>
+<% end -%>
+
+updateref <%= @sync_master_uri_cfg %>
+<% end -%>
 
 # Indexes
 <% @indexes.each do |i| -%>
 index <%= i %>
 <% end -%>
+<% if @backend == "bdb" -%>
 
 # Database parameters
 cachesize 10000
 checkpoint 128 15
+<% end -%>

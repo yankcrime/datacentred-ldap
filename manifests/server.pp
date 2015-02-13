@@ -28,6 +28,9 @@
 # [*schemas*]
 #   An array of schema files which should be loaded in.
 #
+# [*extra_schemas*]
+#   An array of schema files which should be importe from the master and loaded in.
+#
 # [*modules*]
 #   An array of modules which should be loaded in.
 #
@@ -95,6 +98,8 @@ class ldap::server (
   $directory        = $ldap::params::server_directory,
   $log_level        = $ldap::params::server_log_level,
   $schemas          = $ldap::params::server_schemas,
+  $extra_schemas    = $ldap::params::server_extra_schemas,
+  $schema_directory = $ldap::params::server_schema_directory,
   $modules          = $ldap::params::server_modules,
   $indexes          = $ldap::params::server_indexes,
   $overlays         = $ldap::params::server_overlays,
@@ -133,6 +138,8 @@ class ldap::server (
   validate_absolute_path($directory)
   validate_string($log_level)
   validate_array($schemas)
+  validate_array($extra_schemas)
+  validate_absolute_path($schema_directory)
   validate_array($modules)
   validate_array($indexes)
   validate_array($overlays)

@@ -14,8 +14,8 @@ allow bind_v2
 <% end -%>
 
 # Schemas
-<% @schemas.each do |s| -%>
-include <%= @config_directory %>/schema/<%= s %>.schema
+<% @schemas.concat(@extra_schemas).each do |s| -%>
+include <%= @schema_directory %>/<%= s %>.schema
 <% end -%>
 
 # Modules

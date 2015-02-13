@@ -38,6 +38,7 @@ class ldap::params {
   $server_overlays  = [ ]
   $server_modules   = [ ]
   $server_schemas   = [ 'core', 'cosine', 'nis', 'inetorgperson' ]
+  $server_extra_schemas = [ ]
   $server_indexes   = [ 'objectclass  eq',
                         'entryCSN     eq',
                         'entryUUID    eq',
@@ -115,4 +116,6 @@ class ldap::params {
       fail("${::module_name} is not supported on ${::osfamily}.")
     }
   }
+
+  $server_schema_directory    = "${ldap_config_directory}/schema"
 }

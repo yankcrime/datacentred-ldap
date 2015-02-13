@@ -5,11 +5,11 @@ SLAPD_CONF=/etc/ldap/slapd.conf
 
 # System account to run the slapd server under. If empty the server
 # will run as root.
-SLAPD_USER="<%= @server_user %>"
+SLAPD_USER="<%= @ldapowner %>"
 
 # System group to run the slapd server under. If empty the server will
 # run in the primary group of its user.
-SLAPD_GROUP="<%= @server_group %>"
+SLAPD_GROUP="<%= @ldapgroup %>"
 
 # Path to the pid file of the slapd server. If not set the init.d script
 # will try to figure it out from $SLAPD_CONF (/etc/ldap/slapd.conf by
@@ -33,6 +33,19 @@ SLAPD_SERVICES="ldap:/// ldapi:///"
 # maintenance, for example, or through a configuration management system)
 # when you don't want to edit a configuration file.
 SLAPD_SENTINEL_FILE=/etc/ldap/noslapd
+
+# For Kerberos authentication (via SASL), slapd by default uses the system
+# keytab file (/etc/krb5.keytab).  To use a different keytab file,
+# uncomment this line and change the path.
+#export KRB5_KTNAME=/etc/krb5.keytab
+<% if @kerberos -%>
+<%   if @krb5_keytab -%>
+export KRB5_KTNAME=<%= @krb5_keytab %>
+<%   end -%>
+<%   if @krb5_ticket_cache -%>
+export KRB5CCNAME=<%= @krb5_ticket_cache %>
+<%   end -%>
+<% end -%>
 
 # Additional options to pass to slapd
 SLAPD_OPTIONS=""

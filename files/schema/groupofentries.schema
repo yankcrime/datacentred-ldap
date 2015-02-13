@@ -1,0 +1,9 @@
+# Schema definition as per
+# http://www.ietf.org/mail-archive/web/ldapext/current/msg01141.html
+
+# allows empty groups because member is not a MUST
+objectclass ( 1.2.826.0.1.3458854.2.1.1.1 NAME 'groupOfEntries'
+    SUP top STRUCTURAL
+    MUST ( cn )
+    MAY ( member $ businessCategory $ seeAlso $ owner $ ou $ o $
+          description ) )

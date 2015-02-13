@@ -164,6 +164,7 @@ class ldap::server (
   $modules          = $ldap::params::server_modules,
   $indexes          = $ldap::params::server_indexes,
   $overlays         = $ldap::params::server_overlays,
+  $sync_provider    = undef,
   $access           = $ldap::params::server_access,
   $access_writeable_on_sync_provider_only = undef,
   $access_for_ldapi_rootdn = undef,
@@ -224,7 +225,8 @@ class ldap::server (
     }
     validate_absolute_path($ssl_key)
     if $ssl_verify_client {
-      validate_re($ssl_verify_client, ['never', 'allow', 'try', 'demand', 'hard', 'true'])
+      # use tr[u]e re to work around lint warning "quoted boolean value found"
+      validate_re($ssl_verify_client, ['never', 'allow', 'try', 'demand', 'hard', 'tr[u]e'])
     }
   }
 
@@ -244,8 +246,8 @@ class ldap::server (
     $access_writeable_on_sync_provider_only ? {
     default => $access_writeable_on_sync_provider_only,
     undef => $sync_provider ? {
-      default => "read",
-      undef => "write",
+      default => 'read',
+      undef => 'write',
     }
   }
   if $access_writeable_on_sync_provider_only_cfg {

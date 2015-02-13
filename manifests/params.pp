@@ -32,9 +32,22 @@ class ldap::params {
   $server_ssl_cacert = undef
   $server_ssl_cert   = undef
   $server_ssl_key    = undef
+  $server_ssl_verify_client = undef
 
   $config           = false
   $monitor          = false
+
+  $server_access = [
+    # to what
+    { 'attrs=userPassword,shadowLastChange' => [
+      # by who => access
+      { 'self' => '@@writeable_on_sync_provider_only@@' },
+      { 'anonymous' => 'auth' },
+    ] },
+    { 'attrs=objectClass,cn,uid,uidNumber,gidNumber,gecos,homeDirectory,loginShell,member,memberUid,entry' => [
+      { '*' => 'read' },
+    ] },
+  ]
 
   $server_bind_anon = false
   $server_bind_v2   = true
@@ -123,4 +136,7 @@ class ldap::params {
   }
 
   $server_schema_directory    = "${ldap_config_directory}/schema"
+  $server_kerberos            = false
+  $server_krb5_keytab         = "${ldap_config_directory}/ldap.keytab"
+  $server_krb5_ticket_cache   = "${ldap_config_directory}/ldap.krb5cc"
 }

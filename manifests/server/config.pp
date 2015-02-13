@@ -6,7 +6,8 @@ class ldap::server::config inherits ldap::server {
   file { $ldap::server::config_file:
     owner   => $ldap::server::ldapowner,
     group   => $ldap::server::ldapgroup,
-    mode    => '0644',
+    # may contain passwords
+    mode    => '0400',
     content => template($ldap::server::config_template),
   }
 

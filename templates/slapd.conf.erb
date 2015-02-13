@@ -29,7 +29,35 @@ moduleload <%= m %>
 TLSCACertificateFile   <%= @ssl_cacert %>
 TLSCertificateFile     <%= @ssl_cert %>
 TLSCertificateKeyFile  <%= @ssl_key %>
+<%   if @ssl_verify_client -%>
+TLSVerifyClient        <%= @ssl_verify_client %>
+<%   end -%>
 <% end -%>
+
+# Access control ...
+access to dn.exact=""
+  by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" <%= @access_for_ldapi_rootdn_cfg %>
+  by * read
+access to dn.exact="cn=Subschema"
+  by * read
+
+<% @access.each do |torule| -%>
+<%   torule.each do |what,byrules| -%>
+access to <%= what %>
+  by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" <%= @access_for_ldapi_rootdn_cfg %>
+<%     byrules.each do |byrule| -%>
+<%       byrule.each do |who, access| -%>
+<%         access.sub!('@@writeable_on_sync_provider_only@@', @access_writeable_on_sync_provider_only_cfg) -%>
+  by <%= who %> <%= access %>
+<%       end -%>
+<%     end -%>
+<%   end -%>
+  by * none
+<% end -%>
+
+access to *
+  by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" <%= @access_for_ldapi_rootdn_cfg %>
+  by * none
 
 <% if @config == true -%>
 # Define a config database (cn=config)

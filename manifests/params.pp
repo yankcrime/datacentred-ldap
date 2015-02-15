@@ -14,6 +14,9 @@ class ldap::params {
   $client_ssl_key         = undef
   $client_ssl_reqcert     = 'demand'
 
+  $client_sizelimit = undef
+  $client_timelimit = 15
+
   $server_package_ensure      = 'present'
   $server_service_enable      = true
   $server_service_ensure      = 'running'

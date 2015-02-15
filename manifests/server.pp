@@ -100,6 +100,7 @@ class ldap::server (
   $schemas          = $ldap::params::server_schemas,
   $extra_schemas    = $ldap::params::server_extra_schemas,
   $schema_directory = $ldap::params::server_schema_directory,
+  $schema_source_directory = $ldap::params::server_schema_source_directory,
   $modules          = $ldap::params::server_modules,
   $indexes          = $ldap::params::server_indexes,
   $overlays         = $ldap::params::server_overlays,

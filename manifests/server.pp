@@ -135,7 +135,7 @@ class ldap::server (
   validate_string($rootdn)
   validate_string($rootpw)
   validate_absolute_path($directory)
-  validate_string($backend)
+  validate_re($backend, ['bdb', 'hdb', 'mdb'])
   validate_string($log_level)
   validate_array($schemas)
   validate_array($modules)

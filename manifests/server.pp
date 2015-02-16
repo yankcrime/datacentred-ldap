@@ -314,7 +314,7 @@ class ldap::server (
   if $sync_provider {
     validate_string($sync_provider)
     if !is_integer($sync_rid) {
-       fail('sync_rid must be an integer!')
+      fail('sync_rid must be an integer!')
     }
   }
   if $sync_type {

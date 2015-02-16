@@ -28,7 +28,7 @@ class ldap::server::config inherits ldap::server {
   }
   ->
   ldap::schema_file { $ldap::server::extra_schemas:
-    directory => $ldap::server::schema_directory,
+    directory        => $ldap::server::schema_directory,
     source_directory => $ldap::server::schema_source_directory,
   }
 
@@ -51,11 +51,11 @@ class ldap::server::config inherits ldap::server {
 
   if $ldap::server::dynconfig_directory and $ldap::server::purge_dynconfig_dir == true {
     file { $ldap::server::dynconfig_directory:
-      path => $ldap::server::dynconfig_directory,
-      ensure => absent,
+      ensure  => absent,
+      path    => $ldap::server::dynconfig_directory,
       recurse => true,
-      purge => true,
-      force => true,
-     }
-   }
+      purge   => true,
+      force   => true,
+    }
+  }
 }

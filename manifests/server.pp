@@ -22,6 +22,9 @@
 # [*ldapgroup*]
 #   The group of the slapd and database configuration files.
 #
+# [*backend*]
+#   Database backend to use.
+#
 # [*log_level*]
 #   Daemon logging level, see http://www.openldap.org/doc/admin24/slapdconfig.html.
 #
@@ -93,6 +96,7 @@ class ldap::server (
   $monitordn        = $rootdn,
   $monitorpw        = $rootpw,
   $directory        = $ldap::params::server_directory,
+  $backend          = $ldap::params::server_backend,
   $log_level        = $ldap::params::server_log_level,
   $schemas          = $ldap::params::server_schemas,
   $modules          = $ldap::params::server_modules,
@@ -131,6 +135,7 @@ class ldap::server (
   validate_string($rootdn)
   validate_string($rootpw)
   validate_absolute_path($directory)
+  validate_re($backend, ['bdb', 'hdb', 'mdb'])
   validate_string($log_level)
   validate_array($schemas)
   validate_array($modules)

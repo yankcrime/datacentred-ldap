@@ -22,6 +22,7 @@ class ldap::params {
   $server_service_ensure      = 'running'
   $server_service_manage      = true
   $server_config_template     = 'ldap/slapd.conf.erb'
+  $server_backend             = 'bdb'
   $server_db_config_file      = "${server_directory}/DB_CONFIG"
   $server_db_config_template  = 'ldap/DB_CONFIG.erb'
 

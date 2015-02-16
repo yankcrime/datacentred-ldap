@@ -67,6 +67,18 @@ class ldap::params {
                         'uid          pres,sub,eq',
                         'displayName  pres,sub,eq' ]
 
+  $server_sync_rid            = undef
+  $server_sync_provider       = undef
+  $server_sync_type           = undef
+  $server_sync_interval       = undef
+  $server_sync_filter         = undef
+  $server_sync_scope          = undef
+  $server_sync_attrs          = undef
+  $server_sync_schemachecking = undef
+  $server_sync_bindmethod     = undef
+  $server_sync_binddn         = undef
+  $server_sync_credentials    = undef
+
   $gem_ensure       = 'present'
 
   case $::osfamily {

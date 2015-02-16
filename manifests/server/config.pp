@@ -19,6 +19,18 @@ class ldap::server::config inherits ldap::server {
     }
   }
 
+  file { $ldap::server::schema_directory:
+    ensure => directory,
+    owner  => 0,
+    group  => 0,
+    mode   => '0755',
+  }
+  ->
+  ldap::schema_file { $ldap::server::extra_schemas:
+    directory => $ldap::server::schema_directory,
+    source    => $ldap::server::schema_source_directory,
+  }
+
   file { $ldap::server::directory:
     ensure => directory,
     owner  => $ldap::server::ldapowner,

@@ -49,6 +49,45 @@
 # [*overlays*]
 #   An array of overlays which should be added to the database.
 #
+# [*sync_rid*]
+#   Replication ID to use for syncrepl replication.
+#
+# [*sync_provider*]
+#   Activate syncrepl replication if set and configure this URI as provider for this consumer.
+#
+# [*sync_master_uri*]
+#   Refer clients to this server for write operations if we're configured as consumer (updateref).
+#
+# [*sync_searchbase*]
+#   Replicate beginning at this search base on the provider.
+#
+# [*sync_type*]
+#   Use this replication type (refreshOnly|refreshAndPersist).
+#
+# [*sync_interval*]
+#   Synchronization interval.
+#
+# [*sync_filter*]
+#   Search filter for synchronization.
+#
+# [*sync_scope*]
+#   Search scope for synchronization.
+#
+# [*sync_attrs*]
+#   Attribute list for synchronization.
+#
+# [*sync_schemachecking*]
+#   Whether to do schema checking when synchronizing. (boolean)
+#
+# [*sync_bindmethod*]
+#   Synchronization bind method.
+#
+# [*sync_binddn*]
+#   Bind DN on provider for syncrepl replication.
+#
+# [*sync_credentials*]
+#   Simple bind credentials for provider.
+#
 # [*ssl*]
 #   Whether the server should listen on port 636 (SSL).
 #   Default: false
@@ -177,7 +216,19 @@ class ldap::server (
   $modules          = $ldap::params::server_modules,
   $indexes          = $ldap::params::server_indexes,
   $overlays         = $ldap::params::server_overlays,
-  $sync_provider    = undef,
+  $sync_rid            = $ldap::params::server_sync_rid,
+  $sync_provider       = $ldap::params::server_sync_provider,
+  $sync_master_uri     = undef,
+  $sync_searchbase     = undef,
+  $sync_type           = $ldap::params::server_sync_type,
+  $sync_interval       = $ldap::params::server_sync_interval,
+  $sync_filter         = $ldap::params::server_sync_filter,
+  $sync_scope          = $ldap::params::server_sync_scope,
+  $sync_attrs          = $ldap::params::server_sync_attrs,
+  $sync_schemachecking = $ldap::params::server_sync_schemachecking,
+  $sync_bindmethod     = $ldap::params::server_sync_bindmethod,
+  $sync_binddn         = $ldap::params::server_sync_binddn,
+  $sync_credentials    = $ldap::params::server_sync_credentials,
   $access           = $ldap::params::server_access,
   $access_writeable_on_sync_provider_only = undef,
   $access_for_ldapi_rootdn = undef,
@@ -259,6 +310,55 @@ class ldap::server (
   }
   validate_bool($bind_anon)
   validate_bool($bind_v2)
+
+  if $sync_provider {
+    validate_string($sync_provider)
+    if !is_integer($sync_rid) {
+       fail('sync_rid must be an integer!')
+    }
+  }
+  if $sync_type {
+    validate_string($sync_type)
+  }
+  if $sync_interval {
+    validate_string($sync_interval)
+  }
+  if $sync_filter {
+    validate_string($sync_filter)
+  }
+  if $sync_scope {
+    validate_string($sync_scope)
+  }
+  if $sync_attrs {
+    validate_array($sync_attrs)
+  }
+  if $sync_schemachecking {
+    validate_string($sync_schemachecking)
+  }
+  if $sync_bindmethod {
+    validate_string($sync_bindmethod)
+  }
+  if $sync_credentials {
+    validate_string($sync_credentials)
+  }
+
+  # use sync provider as master uri if not explicitly set
+  $sync_master_uri_cfg = $sync_master_uri ? {
+    default => $sync_master_uri,
+    undef => $sync_provider,
+  }
+  if $sync_master_uri_cfg {
+    validate_string($sync_master_uri_cfg)
+  }
+
+  # use suffix for sync searchbase if not given explicitly as parameter
+  $sync_searchbase_cfg = $sync_searchbase ? {
+    default => $sync_searchbase,
+    undef => $suffix,
+  }
+  if $sync_searchbase_cfg {
+    validate_string($sync_searchbase_cfg)
+  }
 
   validate_array($access)
 

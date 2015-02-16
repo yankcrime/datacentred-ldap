@@ -71,6 +71,7 @@ access to *
         by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" manage
         by dn.exact="<%= @configdn %>" manage
         by * none
+
 <% end -%>
 <% if @monitor == true -%>
 # Define a monitoring database (http://www.openldap.org/doc/admin24/backends.html#Monitor)
@@ -97,6 +98,41 @@ rootpw    "<%= @rootpw %>"
 # Overlays
 <% @overlays.each do |o| -%>
 overlay <%= o %>
+<% end -%>
+<% if @sync_provider -%>
+
+# Replication
+syncrepl
+  rid=<%= @sync_rid %>
+  provider=<%= @sync_provider %>
+  searchbase=<%= @sync_searchbase_cfg %>
+<% if @sync_type -%>
+  type=<%= @sync_type %>
+<% end -%>
+<% if @sync_interval -%>
+  interval=<%= @sync_interval %>
+<% end -%>
+<% if @sync_filter -%>
+  filter=<%= @sync_filter %>
+<% end -%>
+<% if @sync_scope -%>
+  scope=<%= @sync_scope %>
+<% end -%>
+<% if @sync_attrs -%>
+  attrs=<%= @sync_attrs.join(',') %>
+<% end -%>
+<% if @sync_schemachecking -%>
+  schemachecking=<%= @sync_schemachecking %>
+<% end -%>
+<% if @sync_bindmethod -%>
+  bindmethod=<%= @sync_bindmethod %>
+<% end -%>
+<% if not @bind_method or @sync_bindmethod == "simple" -%>
+  binddn=<%= @sync_binddn %>
+  credentials=<%= @sync_credentials %>
+<% end -%>
+
+updateref <%= @sync_master_uri_cfg %>
 <% end -%>
 
 # Indexes

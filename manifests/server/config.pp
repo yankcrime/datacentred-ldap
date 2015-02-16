@@ -29,7 +29,7 @@ class ldap::server::config inherits ldap::server {
   ->
   ldap::schema_file { $ldap::server::extra_schemas:
     directory => $ldap::server::schema_directory,
-    source    => $ldap::server::schema_source_directory,
+    source_directory => $ldap::server::schema_source_directory,
   }
 
   file { $ldap::server::directory:

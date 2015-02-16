@@ -34,6 +34,12 @@
 # [*extra_schemas*]
 #   An array of schema files which should be importe from the master and loaded in.
 #
+# [*schema_directory*]
+#   Directory to import the extra schema files into.
+#
+# [*schema_source_directory*]
+#   Directory to import the extra schema files from, usually a puppet:///files source.
+#
 # [*modules*]
 #   An array of modules which should be loaded in.
 #
@@ -210,9 +216,12 @@ class ldap::server (
   validate_array($schemas)
   validate_array($extra_schemas)
   validate_absolute_path($schema_directory)
+  validate_absolute_path($config_directory)
+  validate_string($schema_source_directory)
   validate_array($modules)
   validate_array($indexes)
   validate_array($overlays)
+
   validate_bool($ssl)
   if $ssl == true {
     validate_absolute_path($ssl_cacert)

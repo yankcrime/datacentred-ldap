@@ -49,7 +49,7 @@ class ldap::server::config inherits ldap::server {
     }
   }
 
-  if $ldap::server::dynconfig_directory and $ldap::server::purge_dynconfig_dir == true {
+  if $ldap::server::dynconfig_directory and $ldap::server::purge_dynconfig_directory == true {
     file { $ldap::server::dynconfig_directory:
       ensure  => absent,
       path    => $ldap::server::dynconfig_directory,

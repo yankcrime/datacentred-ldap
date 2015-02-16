@@ -252,7 +252,7 @@ class ldap::server (
   $service_ensure   = $ldap::params::server_service_ensure,
   $config_directory = $ldap::params::ldap_config_directory,
   $dynconfig_directory = $ldap::params::server_dynconfig_directory,
-  $purge_dynconfig_dir = $ldap::params::purge_dynconfig_dir,
+  $purge_dynconfig_directory = $ldap::params::server_purge_dynconfig_directory,
   $config_file      = $ldap::params::server_config_file,
   $config_template  = $ldap::params::server_config_template,
   $default_file     = $ldap::params::server_default_file,
@@ -278,8 +278,8 @@ class ldap::server (
   validate_absolute_path($schema_directory)
   validate_absolute_path($config_directory)
   validate_string($schema_source_directory)
-  validate_bool($purge_dynconfig_dir)
-  if ($purge_dynconfig_dir) {
+  validate_bool($purge_dynconfig_directory)
+  if ($purge_dynconfig_directory) {
     validate_absolute_path($dynconfig_directory)
   }
   validate_array($modules)

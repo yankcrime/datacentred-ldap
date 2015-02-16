@@ -145,7 +145,7 @@ class ldap::params {
   $pidfile                    = "${server_run_directory}/slapd.pid"
   $argsfile                   = "${server_run_directory}/slapd.args"
 
-  $server_purge_dynconfig_dir = false
+  $server_purge_dynconfig_directory = false
 
   $server_kerberos            = false
   $server_krb5_keytab         = "${ldap_config_directory}/ldap.keytab"

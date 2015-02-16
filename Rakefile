@@ -12,6 +12,7 @@ PuppetLint.configuration.send('disable_class_inherits_from_params_class')
 PuppetLint.configuration.send('disable_class_parameter_defaults')
 PuppetLint.configuration.send('disable_documentation')
 PuppetLint.configuration.send('disable_single_quote_string_with_variables')
+PuppetLint.configuration.send('disable_puppet_url_without_modules')
 
 # Tests should include syntax, lint and rspec
 desc 'Run syntax, lint, and spec tests.'

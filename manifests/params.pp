@@ -128,9 +128,12 @@ class ldap::params {
 
   $client_config_file         = "${ldap_config_directory}/ldap.conf"
   $server_config_file         = "${ldap_config_directory}/slapd.conf"
+  $server_dynconfig_directory = "${ldap_config_directory}/slapd.d"
   $server_schema_directory    = "${ldap_config_directory}/schema"
   $pidfile                    = "${server_run_directory}/slapd.pid"
   $argsfile                   = "${server_run_directory}/slapd.args"
+
+  $server_purge_dynconfig_dir = false
 
   $server_kerberos            = false
   $server_krb5_keytab         = "${ldap_config_directory}/ldap.keytab"

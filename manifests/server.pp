@@ -118,6 +118,13 @@
 # [*access_for_ldapi_rootdn*]
 #   What access to grant to the LDAPI access DN. Default: write.
 #
+# [*dynconfig_directory*]
+#   Path to the slapd.d cn=config backend directory.
+#
+# [*purge_dynconfig_directory*]
+#   Whether to delete the cn=config backend directory to make sure that
+#   slapd.conf is used. Default: false.
+#
 # [*config*]
 #   Whether the config database should be built (cn=config).
 #
@@ -193,6 +200,8 @@ class ldap::server (
   $service_enable   = $ldap::params::server_service_enable,
   $service_ensure   = $ldap::params::server_service_ensure,
   $config_directory = $ldap::params::ldap_config_directory,
+  $dynconfig_directory = $ldap::params::server_dynconfig_directory,
+  $purge_dynconfig_dir = $ldap::params::purge_dynconfig_dir,
   $config_file      = $ldap::params::server_config_file,
   $config_template  = $ldap::params::server_config_template,
   $default_file     = $ldap::params::server_default_file,
@@ -218,6 +227,10 @@ class ldap::server (
   validate_absolute_path($schema_directory)
   validate_absolute_path($config_directory)
   validate_string($schema_source_directory)
+  validate_bool($purge_dynconfig_dir)
+  if ($purge_dynconfig_dir) {
+    validate_absolute_path($dynconfig_directory)
+  }
   validate_array($modules)
   validate_array($indexes)
   validate_array($overlays)

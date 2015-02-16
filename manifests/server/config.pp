@@ -48,4 +48,14 @@ class ldap::server::config inherits ldap::server {
       require => File[$ldap::server::directory],
     }
   }
+
+  if $ldap::server::dynconfig_directory and $ldap::server::purge_dynconfig_dir == true {
+    file { $ldap::server::dynconfig_directory:
+      path => $ldap::server::dynconfig_directory,
+      ensure => absent,
+      recurse => true,
+      purge => true,
+      force => true,
+     }
+   }
 }

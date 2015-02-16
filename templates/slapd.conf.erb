@@ -19,7 +19,7 @@ include <%= @schema_directory %>/<%= s %>.schema
 <% end -%>
 
 # Modules
-moduleload back_bdb
+moduleload back_<%= @backend %>
 <% @modules.each do |m| -%>
 moduleload <%= m %>
 <% end -%>
@@ -60,7 +60,7 @@ access to *
 <% end -%>
 
 # Database definition
-database  bdb
+database  <%= @backend %>
 directory <%= @directory %>
 suffix    "<%= @suffix %>"
 rootdn    "<%= @rootdn %>"
@@ -75,7 +75,9 @@ overlay <%= o %>
 <% @indexes.each do |i| -%>
 index <%= i %>
 <% end -%>
+<% if @backend == "bdb" -%>
 
 # Database parameters
 cachesize 10000
 checkpoint 128 15
+<% end -%>

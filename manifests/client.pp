@@ -28,6 +28,12 @@
 # [*ssl_reqcert*]
 #   How CA validation is being handled (never, allow, try, demand).
 #
+# [*sizelimit*]
+#   Maximum number of entries to return by default.
+#
+# [*timelimit*]
+#   Maximum number of seconds to wait for answers by default.
+#
 # === Examples
 #
 #  class { 'ldap::client':
@@ -51,6 +57,8 @@ class ldap::client (
   $config_template  = $ldap::params::client_config_template,
   $gem_name         = $ldap::params::gem_name,
   $gem_ensure       = $ldap::params::gem_ensure,
+  $sizelimit        = $ldap::params::client_sizelimit,
+  $timelimit        = $ldap::params::client_timelimit,
 ) inherits ldap::params {
 
   include stdlib
@@ -63,9 +71,15 @@ class ldap::client (
       validate_absolute_path($ssl_cacertdir)
     }
     validate_absolute_path($ssl_cacert)
-    validate_absolute_path($ssl_cert)
-    validate_absolute_path($ssl_key)
-    validate_re($ssl_reqcert, ['never', 'allow', 'try', 'demand'])
+    if $ssl_cert {
+      validate_absolute_path($ssl_cert)
+    }
+    if $ssl_key {
+      validate_absolute_path($ssl_key)
+    }
+    if $ssl_reqcert {
+      validate_re($ssl_reqcert, ['never', 'allow', 'try', 'demand'])
+    }
   }
 
   anchor { 'ldap::client::begin': } ->

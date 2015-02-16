@@ -5,7 +5,7 @@
 define ldap::schema_file ($directory,
   $schema = $title,
   $source = undef,
-  $source_directory = "puppet:///files/ldap/schema",
+  $source_directory = 'puppet:///files/ldap/schema',
 ) {
   if $source {
     $schema_source = $source

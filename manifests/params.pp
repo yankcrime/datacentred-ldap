@@ -39,7 +39,7 @@ class ldap::params {
   $server_modules   = [ ]
   $server_schemas   = [ 'core', 'cosine', 'nis', 'inetorgperson' ]
   $server_extra_schemas = [ ]
-  $server_schema_source_directory = "puppet:///files/ldap/schema"
+  $server_schema_source_directory = 'puppet:///files/ldap/schema'
   $server_indexes   = [ 'objectclass  eq',
                         'entryCSN     eq',
                         'entryUUID    eq',

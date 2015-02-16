@@ -32,9 +32,9 @@ describe 'ldap::server', :type => :class do
     )}
 
     it { should contain_file('/etc/ldap/slapd.conf').with(
-      :owner   => '0',
-      :group   => '0',
-      :mode    => '0644'
+      :owner   => 'openldap',
+      :group   => 'openldap',
+      :mode    => '0400'
     )}
 
     it { should contain_file('/etc/default/slapd').with(
@@ -66,9 +66,9 @@ describe 'ldap::server', :type => :class do
     )}
 
     it { should contain_file('/etc/openldap/slapd.conf').with(
-      :owner   => '0',
-      :group   => '0',
-      :mode    => '0644'
+      :owner   => 'ldap',
+      :group   => 'ldap',
+      :mode    => '0400'
     )}
 
     it { should contain_file('/etc/sysconfig/ldap').with(
@@ -101,7 +101,7 @@ describe 'ldap::server', :type => :class do
     it { should contain_file('/etc/openldap/slapd.conf').with(
       :owner   => '_openldap',
       :group   => '_openldap',
-      :mode    => '0644'
+      :mode    => '0400'
     )}
 
     it { should_not contain_file('/etc/sysconfig/ldap').with(

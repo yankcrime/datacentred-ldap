@@ -32,9 +32,22 @@ class ldap::params {
   $server_ssl_cacert = undef
   $server_ssl_cert   = undef
   $server_ssl_key    = undef
+  $server_ssl_verify_client = undef
 
   $config           = false
   $monitor          = false
+
+  $server_access = [
+    # to what
+    { 'attrs=userPassword,shadowLastChange' => [
+      # by who => access
+      { 'self' => '@@writeable_on_sync_provider_only@@' },
+      { 'anonymous' => 'auth' },
+    ] },
+    { 'attrs=objectClass,cn,uid,uidNumber,gidNumber,gecos,homeDirectory,loginShell,member,memberUid,entry' => [
+      { '*' => 'read' },
+    ] },
+  ]
 
   $server_bind_anon = false
   $server_bind_v2   = true
@@ -66,8 +79,8 @@ class ldap::params {
 
       $pidfile                 = '/var/run/slapd/slapd.pid'
       $argsfile                = '/var/run/slapd/slapd.args'
-      $ldapowner               = '0'
-      $ldapgroup               = '0'
+      $ldapowner               = 'openldap'
+      $ldapgroup               = 'openldap'
 
       $server_package_name     = 'slapd'
       $server_service_name     = 'slapd'
@@ -103,8 +116,8 @@ class ldap::params {
 
       $client_package_name     = 'openldap-clients'
       $client_config_file      = "${ldap_config_directory}/ldap.conf"
-      $ldapowner               = '0'
-      $ldapgroup               = '0'
+      $ldapowner               = 'ldap'
+      $ldapgroup               = 'ldap'
 
       $pidfile                 = '/var/run/openldap/slapd.pid'
       $argsfile                = '/var/run/openldap/slapd.args'
@@ -123,4 +136,7 @@ class ldap::params {
   }
 
   $server_schema_directory    = "${ldap_config_directory}/schema"
+  $server_kerberos            = false
+  $server_krb5_keytab         = "${ldap_config_directory}/ldap.keytab"
+  $server_krb5_ticket_cache   = "${ldap_config_directory}/ldap.krb5cc"
 }

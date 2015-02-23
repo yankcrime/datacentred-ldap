@@ -23,8 +23,6 @@ class ldap::params {
   $server_service_manage      = true
   $server_config_template     = 'ldap/slapd.conf.erb'
   $server_backend             = 'bdb'
-  $server_db_config_file      = "${server_directory}/DB_CONFIG"
-  $server_db_config_template  = 'ldap/DB_CONFIG.erb'
 
   $server_log_level = 'none'
 
@@ -150,4 +148,7 @@ class ldap::params {
   $server_kerberos            = false
   $server_krb5_keytab         = "${ldap_config_directory}/ldap.keytab"
   $server_krb5_ticket_cache   = "${ldap_config_directory}/ldap.krb5cc"
+
+  $server_db_config_file      = "${server_directory}/DB_CONFIG"
+  $server_db_config_template  = 'ldap/DB_CONFIG.erb'
 }

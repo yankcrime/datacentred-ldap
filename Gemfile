@@ -23,5 +23,5 @@ group :system_tests do
 end
 
 group :production do
-  gem 'net-ldap',                :require => false
+  gem 'net-ldap'
 end 

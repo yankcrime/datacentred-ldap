@@ -1,14 +1,13 @@
 require 'spec_helper_acceptance'
 
-describe 'ldap::server class' do
+describe 'ldap::client class' do
 
   context 'required parameters' do
     it 'should work idempotently with no errors' do
       pp = <<-EOS
-        class { 'ldap::server':
-          suffix => 'dc=example,dc=com',
-          rootdn => 'cn=admin,dc=example,dc=com',
-          rootpw => 'llama123',
+        class { 'ldap::client':
+          uri  => 'ldap://localhost',
+          base => 'dc=example,dc=com',
         }
       EOS
 
@@ -17,13 +16,9 @@ describe 'ldap::server class' do
       apply_manifest(pp, :catch_changes  => true)
     end
 
-    describe package('slapd') do
+    describe package('libldap-2.4-2') do
       it { is_expected.to be_installed }
     end
-
-    describe service('slapd') do
-      it { is_expected.to be_enabled }
-      it { is_expected.to be_running }
-    end
   end
+
 end

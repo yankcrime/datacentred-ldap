@@ -1,20 +1,25 @@
 source "https://rubygems.org"
 
-group :development, :test do
-  gem 'puppet',                  :require => false
-  gem 'facter',                  :require => false
-  gem 'rake',                    :require => false
-  gem 'rspec-puppet',            :require => false
-  gem 'puppetlabs_spec_helper',  :require => false
-  gem 'puppet-syntax',           :require => false
-  gem 'serverspec',              :require => false
-  gem 'puppet-lint',             :require => false
-  gem 'beaker',                  :require => false
-  gem 'beaker-rspec',            :require => false
+group :test do
+  gem 'rake'
+  gem 'puppet', ENV['PUPPET_VERSION'] || '~> 3.7.0'
+  gem 'rspec-puppet', :git => 'https://github.com/rodjek/rspec-puppet.git' 
+  gem 'puppetlabs_spec_helper'
+  gem 'metadata-json-lint'
+  gem 'rspec-puppet-facts'
 end
 
 group :development do
-  gem 'travis',                  :require => false
+  gem 'travis'
+  gem 'travis-lint'
+  gem 'vagrant-wrapper'
+  gem 'puppet-blacksmith'
+  gem 'guard-rake'
+end
+
+group :system_tests do
+  gem 'beaker'
+  gem 'beaker-rspec'
 end
 
 group :production do

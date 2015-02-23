@@ -1,6 +1,8 @@
+.*.sw?
 pkg
 spec/fixtures
 .rspec_system
-.bundle
 .vagrant
-*~
+.bundle
+vendor
+log

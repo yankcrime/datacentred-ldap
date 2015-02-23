@@ -8,7 +8,11 @@ class ldap::client::install inherits ldap::client {
     name   => $ldap::client::package_name,
   }
 
-  package { 'net-ldap':
+  package { 'ruby':
+    ensure => present,
+  } ->
+
+  package { 'ldap-gem':
     ensure   => $ldap::client::gem_ensure,
     name     => $ldap::client::gem_name,
     provider => 'gem',

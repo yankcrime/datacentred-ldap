@@ -100,5 +100,7 @@ Puppet::Type.newtype(:ldap_entry) do
     parent = self[:name].split(",").drop(1).join(",")
     parent
   end
+  # The server has to run before we can add entries to the database
+  autorequire(:service) { 'ldap-server' }
 
 end

@@ -67,6 +67,9 @@
 # [*sync_interval*]
 #   Synchronization interval.
 #
+# [*sync_retry*]
+#   Synchronization retries
+#
 # [*sync_filter*]
 #   Search filter for synchronization.
 #
@@ -87,6 +90,21 @@
 #
 # [*sync_credentials*]
 #   Simple bind credentials for provider.
+#
+# [*sync_saslmech*]
+#   SASL mechanism for syncrepl replication.
+#
+# [*sync_tls_cert*]
+#   X.509 client certificate for syncrepl replication.
+#
+# [*sync_tls_key*]
+#   X.509 private key for syncrepl replication.
+#
+# [*sync_tls_cacert*]
+#   X.509 ca certificate for syncrepl replication.
+#
+# [*sync_tls_reqcert*]
+#   requirement of server certificat verification
 #
 # [*ssl*]
 #   Whether the server should listen on port 636 (SSL).
@@ -222,6 +240,7 @@ class ldap::server (
   $sync_searchbase     = undef,
   $sync_type           = $ldap::params::server_sync_type,
   $sync_interval       = $ldap::params::server_sync_interval,
+  $sync_retry          = $ldap::params::server_sync_retry,
   $sync_filter         = $ldap::params::server_sync_filter,
   $sync_scope          = $ldap::params::server_sync_scope,
   $sync_attrs          = $ldap::params::server_sync_attrs,
@@ -229,6 +248,12 @@ class ldap::server (
   $sync_bindmethod     = $ldap::params::server_sync_bindmethod,
   $sync_binddn         = $ldap::params::server_sync_binddn,
   $sync_credentials    = $ldap::params::server_sync_credentials,
+  $sync_bindmethod     = $ldap::params::server_sync_bindmethod,
+  $sync_saslmech       = $ldap::params::server_sync_saslmech,
+  $sync_tls_cert       = $ldap::params::server_sync_tls_cert,
+  $sync_tls_key        = $ldap::params::server_sync_tls_key,
+  $sync_tls_cacert     = $ldap::params::server_sync_tls_cacert,
+  $sync_tls_reqcert    = $ldap::params::server_sync_tls_reqcert,
   $access           = $ldap::params::server_access,
   $access_writeable_on_sync_provider_only = undef,
   $access_for_ldapi_rootdn = undef,
@@ -323,6 +348,9 @@ class ldap::server (
   if $sync_interval {
     validate_string($sync_interval)
   }
+  if $sync_retry {
+    validate_string($sync_retry)
+  }
   if $sync_filter {
     validate_string($sync_filter)
   }
@@ -340,6 +368,21 @@ class ldap::server (
   }
   if $sync_credentials {
     validate_string($sync_credentials)
+  }
+  if $sync_saslmech {
+    validate_string($sync_saslmech)
+  }
+  if $sync_tls_cert {
+    validate_string($sync_tls_cert)
+  }
+  if $sync_tls_key {
+    validate_string($sync_tls_key)
+  }
+  if $sync_tls_cacert {
+    validate_string($sync_tls_cacert)
+  }
+  if $sync_tls_reqcert {
+    validate_string($sync_tls_reqcert)
   }
 
   # use sync provider as master uri if not explicitly set

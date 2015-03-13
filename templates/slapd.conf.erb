@@ -34,17 +34,17 @@ TLSVerifyClient        <%= @ssl_verify_client %>
 <%   end -%>
 <% end -%>
 
-# Access control ...
-access to dn.exact=""
-  by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" <%= @access_for_ldapi_rootdn_cfg %>
-  by * read
-access to dn.exact="cn=Subschema"
-  by * read
+<% @authz_regexp.each do |s| -%>
+authz-regexp <%= s %>
+<% end -%>
 
+# Access control ...
 <% @access.each do |torule| -%>
 <%   torule.each do |what,byrules| -%>
 access to <%= what %>
+<%     if not @disable_safe_default_acls -%>
   by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" <%= @access_for_ldapi_rootdn_cfg %>
+<%     end -%>
 <%     byrules.each do |byrule| -%>
 <%       byrule.each do |who, access| -%>
 <%         access.sub!('@@writeable_on_sync_provider_only@@', @access_writeable_on_sync_provider_only_cfg) -%>
@@ -52,12 +52,22 @@ access to <%= what %>
 <%       end -%>
 <%     end -%>
 <%   end -%>
+<% if not @disable_safe_default_acls -%>
   by * none
+<%  end -%>
 <% end -%>
+
+<% if not @disable_safe_default_acls -%>
+access to dn.exact=""
+  by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" <%= @access_for_ldapi_rootdn_cfg %>
+  by * read
+access to dn.exact="cn=Subschema"
+  by * read
 
 access to *
   by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" <%= @access_for_ldapi_rootdn_cfg %>
   by * none
+<% end -%>
 
 <% if @config == true -%>
 # Define a config database (cn=config)
@@ -83,7 +93,7 @@ database monitor
 rootdn    "<%= @monitordn %>"
 rootpw    "<%= @monitorpw %>"
 access to *
-  by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" read
+  by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" read
   by dn.exact="<%= @monitordn %>" read
   by * none
 <% end -%>

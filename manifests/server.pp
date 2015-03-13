@@ -116,6 +116,9 @@
 #   kerberized LDAP connections to other servers, e.g. via the ldap backend or
 #   syncrepl overlay.
 #
+# [*authz_regexp*]
+#   An array of authz-regexp config lines
+#
 # [*access*]
 #   ACLs to configure for the server. An array of hashes of arrays of hashes
 #   describing the ACLs:
@@ -146,6 +149,11 @@
 #       { '*' => 'read' },
 #     ] },
 #   ]
+#
+# [*disable_safe_default_acls*]
+#   Fully disable any safe defaults for ACLs so they can be fully customised
+#   using the access hash and no superfluous fallbacks that are never used get
+#   added (Default: false).
 #
 # [*access_writeable_on_sync_provider_only*]
 #   Can provide an alternative value for access the
@@ -230,6 +238,7 @@ class ldap::server (
   $sync_binddn         = $ldap::params::server_sync_binddn,
   $sync_credentials    = $ldap::params::server_sync_credentials,
   $access           = $ldap::params::server_access,
+  $disable_safe_default_acls = $ldap::params::server_disable_safe_default_acls,
   $access_writeable_on_sync_provider_only = undef,
   $access_for_ldapi_rootdn = undef,
   $ssl              = $ldap::params::server_ssl,
@@ -240,6 +249,7 @@ class ldap::server (
   $kerberos          = $ldap::params::server_kerberos,
   $krb5_keytab       = $ldap::params::server_krb5_keytab,
   $krb5_ticket_cache = $ldap::params::server_krb5_ticket_cache,
+  $authz_regexp     = $ldap::params::server_authz_regexp,
   $config           = $ldap::params::config,
   $monitor          = $ldap::params::monitor,
   $bind_anon        = $ldap::params::server_bind_anon,
@@ -308,6 +318,9 @@ class ldap::server (
     validate_string($krb5_keytab)
     validate_string($krb5_ticket_cache)
   }
+  if $authz_regexp {
+    validate_array($authz_regexp)
+  }
   validate_bool($bind_anon)
   validate_bool($bind_v2)
 
@@ -361,6 +374,7 @@ class ldap::server (
   }
 
   validate_array($access)
+  validate_bool($disable_safe_default_acls)
 
   # if sync provider is given, make access readonly by default but allow override
   # via parameter using e.g. hiera lookup hierarchy

@@ -112,6 +112,9 @@ syncrepl
 <% if @sync_interval -%>
   interval=<%= @sync_interval %>
 <% end -%>
+<% if @sync_retry -%>
+  retry="<%= @sync_retry %>"
+<% end -%>
 <% if @sync_filter -%>
   filter=<%= @sync_filter %>
 <% end -%>
@@ -127,9 +130,26 @@ syncrepl
 <% if @sync_bindmethod -%>
   bindmethod=<%= @sync_bindmethod %>
 <% end -%>
-<% if not @bind_method or @sync_bindmethod == "simple" -%>
+<% if not @sync_bindmethod or @sync_bindmethod == "simple" -%>
   binddn=<%= @sync_binddn %>
   credentials=<%= @sync_credentials %>
+<% end -%>
+<% if @sync_bindmethod == "sasl" -%>
+  saslmech=<%= @sync_saslmech %>
+<%   if @sync_saslmech == "EXTERNAL" -%>
+<%     if @sync_tls_cert -%>
+  tls_cert=<%= @sync_tls_cert %>
+<%     end -%>
+<%     if @sync_tls_key -%>
+  tls_key=<%= @sync_tls_key %>
+<%     end -%>
+<%   end -%>
+<% end -%>
+<% if @sync_tls_cacert -%>
+  tls_cacert=<%= @sync_tls_cacert %>
+<% end -%>
+<% if @sync_tls_reqcert -%>
+  tls_reqcert=<%= @sync_tls_reqcert %>
 <% end -%>
 
 updateref <%= @sync_master_uri_cfg %>

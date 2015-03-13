@@ -29,6 +29,9 @@ moduleload <%= m %>
 TLSCACertificateFile   <%= @ssl_cacert %>
 TLSCertificateFile     <%= @ssl_cert %>
 TLSCertificateKeyFile  <%= @ssl_key %>
+<%   if @ssl_ciphersuite -%>
+TLSCipherSuite         <%= @ssl_ciphersuite %>
+<%   end -%>
 <%   if @ssl_verify_client -%>
 TLSVerifyClient        <%= @ssl_verify_client %>
 <%   end -%>

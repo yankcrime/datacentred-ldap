@@ -13,6 +13,7 @@ class ldap::params {
   $client_ssl_cert        = undef
   $client_ssl_key         = undef
   $client_ssl_reqcert     = 'demand'
+  $client_ssl_ciphersuite = undef
 
   $client_sizelimit = undef
   $client_timelimit = 15
@@ -31,6 +32,7 @@ class ldap::params {
   $server_ssl_cert   = undef
   $server_ssl_key    = undef
   $server_ssl_verify_client = undef
+  $server_ssl_ciphersuite = undef
 
   $config           = false
   $monitor          = false

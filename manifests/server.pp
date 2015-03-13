@@ -101,6 +101,9 @@
 # [*ssl_key*]
 #   Path to the SSL certificate key.
 #
+# [*ssl_ciphersuite*]
+#   specify tls ciphersuite.
+#
 # [*ssl_verify_client*]
 #   Whether and how to verify the client.
 #
@@ -236,6 +239,7 @@ class ldap::server (
   $ssl_cacert       = $ldap::params::server_ssl_cacert,
   $ssl_cert         = $ldap::params::server_ssl_cert,
   $ssl_key          = $ldap::params::server_ssl_key,
+  $ssl_ciphersuite  = $ldap::params::server_ssl_ciphersuite,
   $ssl_verify_client = $ldap::params::server_ssl_verify_client,
   $kerberos          = $ldap::params::server_kerberos,
   $krb5_keytab       = $ldap::params::server_krb5_keytab,
@@ -297,6 +301,9 @@ class ldap::server (
       validate_absolute_path($ssl_cert)
     }
     validate_absolute_path($ssl_key)
+    if $ssl_ciphersuite {
+      validate_string($ssl_ciphersuite)
+    }
     if $ssl_verify_client {
       # use tr[u]e re to work around lint warning "quoted boolean value found"
       validate_re($ssl_verify_client, ['never', 'allow', 'try', 'demand', 'hard', 'tr[u]e'])

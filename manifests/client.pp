@@ -28,6 +28,9 @@
 # [*ssl_reqcert*]
 #   How CA validation is being handled (never, allow, try, demand).
 #
+# [*ssl_ciphersuite*]
+#   specify tls ciphersuite.
+#
 # [*sizelimit*]
 #   Maximum number of entries to return by default.
 #
@@ -50,6 +53,7 @@ class ldap::client (
   $ssl_cert         = $ldap::params::client_ssl_cert,
   $ssl_key          = $ldap::params::client_ssl_key,
   $ssl_reqcert      = $ldap::params::client_ssl_reqcert,
+  $ssl_ciphersuite  = $ldap::params::client_ssl_ciphersuite,
   $package_name     = $ldap::params::client_package_name,
   $package_ensure   = $ldap::params::client_package_ensure,
   $config_directory = $ldap::params::ldap_config_directory,
@@ -76,6 +80,9 @@ class ldap::client (
     }
     if $ssl_key {
       validate_absolute_path($ssl_key)
+    }
+    if $ssl_ciphersuite {
+      validate_string($ssl_ciphersuite)
     }
     if $ssl_reqcert {
       validate_re($ssl_reqcert, ['never', 'allow', 'try', 'demand'])

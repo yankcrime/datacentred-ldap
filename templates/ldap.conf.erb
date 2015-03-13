@@ -25,4 +25,7 @@ TLS_KEY <%= @ssl_key %>
 <% if @ssl_reqcert -%>
 TLS_REQCERT <%= @ssl_reqcert %>
 <% end -%>
+<% if @ssl_ciphersuite -%>
+TLS_CIPHER_SUITE <%= @ssl_ciphersuite %>
+<% end -%>
 <% end -%>

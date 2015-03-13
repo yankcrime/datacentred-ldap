@@ -93,7 +93,9 @@ database  <%= @backend %>
 directory <%= @directory %>
 suffix    "<%= @suffix %>"
 rootdn    "<%= @rootdn %>"
+<% if @rootpw %>
 rootpw    "<%= @rootpw %>"
+<% end -%>
 
 # Overlays
 <% @overlays.each do |o| -%>

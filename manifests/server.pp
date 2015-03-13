@@ -201,7 +201,7 @@
 class ldap::server (
   $suffix,
   $rootdn,
-  $rootpw,
+  $rootpw           = undef,
   $configdn         = $rootdn,
   $configpw         = $rootpw,
   $monitordn        = $rootdn,

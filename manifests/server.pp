@@ -49,6 +49,12 @@
 # [*overlays*]
 #   An array of overlays which should be added to the database.
 #
+# [*memberof_group_oc*]
+#   Group objectclass for memberof overlay.
+#
+# [*refint_attributes*]
+#   Attributes for refint overlay.
+#
 # [*sync_rid*]
 #   Replication ID to use for syncrepl replication.
 #
@@ -292,6 +298,8 @@ class ldap::server (
   $gem_ensure       = $ldap::params::gem_ensure,
   $ldapowner        = $ldap::params::ldapowner,
   $ldapgroup        = $ldap::params::ldapgroup,
+  $memberof_group_oc = $ldap::params::server_memberof_group_oc,
+  $refint_attributes = $ldap::params::server_refint_attributes,
 ) inherits ldap::params {
 
   include stdlib
@@ -390,6 +398,13 @@ class ldap::server (
   }
   if $sync_tls_reqcert {
     validate_string($sync_tls_reqcert)
+  }
+
+  if $memberof_group_oc {
+    validate_string($memberof_group_oc)
+  }
+  if $refint_attributes {
+    validate_string($refint_attributes)
   }
 
   # use sync provider as master uri if not explicitly set

@@ -90,7 +90,8 @@ class ldap::params {
   $server_memberof_group_oc   = undef
   $server_refint_attributes   = undef
 
-  $gem_ensure       = 'present'
+  $manage_package_dependencies = true
+  $net_ldap_package_ensure     = 'present'
 
   case $::osfamily {
     'Debian': {
@@ -108,7 +109,8 @@ class ldap::params {
       $server_default_file     = "${os_config_directory}/slapd"
       $server_default_template = 'ldap/debian/defaults.erb'
       $server_directory        = '/var/lib/ldap'
-      $gem_name                = 'net-ldap'
+      $net_ldap_package_name     = 'ruby-net-ldap'
+      $net_ldap_package_provider = 'apt'
     }
     'OpenBSD': {
       $ldap_config_directory   = '/etc/openldap'
@@ -125,7 +127,8 @@ class ldap::params {
       $server_default_file     = undef
       $server_default_template = undef
       $server_directory        = '/var/openldap-data'
-      $gem_name                = 'net-ldap'
+      $net_ldap_package_name     = 'net-ldap'
+      $net_ldap_package_provider = 'gem'
     }
     'RedHat': {
       $ldap_config_directory   = '/etc/openldap'
@@ -142,7 +145,8 @@ class ldap::params {
       $server_default_file     = "${os_config_directory}/ldap"
       $server_default_template = 'ldap/redhat/sysconfig.erb'
       $server_directory        = '/var/lib/ldap'
-      $gem_name                = 'net-ldap'
+      $net_ldap_package_name     = 'net-ldap'
+      $net_ldap_package_provider = 'gem'
     }
     default: {
       fail("${::operatingsystem} not supported")

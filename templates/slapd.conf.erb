@@ -170,6 +170,12 @@ syncrepl
 updateref <%= @sync_master_uri_cfg %>
 <% end -%>
 
+<% if @memberof_group_oc -%>
+memberof-group-oc <%= @memberof_group_oc %>
+<% end %>
+<% if @refint_attributes -%>
+refint_attributes <%= @refint_attributes %>
+<% end %>
 # Indexes
 <% @indexes.each do |i| -%>
 index <%= i %>

@@ -48,9 +48,11 @@ class ldap::params {
       { '*' => 'read' },
     ] },
   ]
+  $server_disable_safe_default_acls = false
 
   $server_bind_anon = false
   $server_bind_v2   = true
+  $server_authz_regexp = []
 
   $server_overlays  = [ ]
   $server_modules   = [ ]

@@ -6,6 +6,8 @@ loglevel <%= @log_level %>
 <% if @bind_anon == true -%>
 # Allow anonymous bind
 allow bind_anon_dn
+<% else -%>
+disallow bind_anon
 <% end -%>
 
 <% if @bind_v2 == true -%>

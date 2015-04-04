@@ -78,12 +78,12 @@ access to *
 # Define a config database (cn=config)
 
 database config
-rootdn    "<%= @configdn %>"
-rootpw    "<%= @configpw %>"
+rootdn    "<%= @theconfigdn %>"
+rootpw    "<%= @theconfigpw %>"
 
 access to *
         by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" manage
-        by dn.exact="<%= @configdn %>" manage
+        by dn.exact="<%= @theconfigdn %>" manage
         by * none
 
 <% end -%>
@@ -94,11 +94,11 @@ access to *
 
 database monitor
 # suffix "cn=Monitor"
-rootdn    "<%= @monitordn %>"
-rootpw    "<%= @monitorpw %>"
+rootdn    "<%= @themonitordn %>"
+rootpw    "<%= @themonitorpw %>"
 access to *
   by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" read
-  by dn.exact="<%= @monitordn %>" read
+  by dn.exact="<%= @themonitordn %>" read
   by * none
 <% end -%>
 

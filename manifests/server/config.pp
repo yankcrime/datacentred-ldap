@@ -16,12 +16,12 @@ class ldap::server::config inherits ldap::server {
     if $configdn {
       $theconfigdn = $configdn
     } else {
-      $theconfigdn = $rootdn
+      $theconfigdn = $ldap::server::rootdn
     }
     if $configpw {
       $theconfigpw = $configpw
     } else {
-      $theconfigpw = $rootpw
+      $theconfigpw = $ldap::server::rootpw
     }
   }
 

@@ -11,6 +11,33 @@ class ldap::server::config inherits ldap::server {
     content => template($ldap::server::config_template),
   }
 
+
+  if $config {
+    if $configdn {
+      $theconfigdn = $configdn
+    } else {
+      $theconfigdn = $rootdn
+    }
+    if $configpw {
+      $theconfigpw = $configpw
+    } else {
+      $theconfigpw = $rootpw
+    }
+  }
+
+  if $monitor {
+    if $monitordn {
+      $themonitordn = $monitordn
+    } else {
+      $themonitordn = $rootdn
+    }
+    if $monitorpw {
+      $themonitorpw = $monitorpw
+    } else {
+      $themonitorpw = $rootpw
+    }
+  }
+
   if $ldap::server::default_file {
     file { $ldap::server::default_file:
       owner   => 0,

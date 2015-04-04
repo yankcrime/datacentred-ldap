@@ -324,6 +324,7 @@ class ldap::server (
   validate_absolute_path($config_directory)
   validate_string($schema_source_directory)
   validate_bool($purge_dynconfig_directory)
+
   if ($purge_dynconfig_directory) {
     validate_absolute_path($dynconfig_directory)
   }
@@ -359,28 +360,12 @@ class ldap::server (
   if $authz_regexp {
     validate_array($authz_regexp)
   }
-  validate_bool($bind_anon)
-  validate_bool($bind_v2)
 
   validate_bool($config)
-  if $config {
-    if ! $configdn {
-      $configdn = $rootdn
-    }
-    if ! $configpw {
-      $configpw = $rootpw
-    }
-  }
-
   validate_bool($monitor)
-  if $monitor {
-    if ! $monitordn {
-      $monitordn = $rootdn
-    }
-    if ! $monitorpw {
-      $monitorpw = $rootpw
-    }
-  }
+
+  validate_bool($bind_anon)
+  validate_bool($bind_v2)
 
   if $sync_provider {
     validate_string($sync_provider)

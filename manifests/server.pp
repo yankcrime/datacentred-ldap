@@ -237,10 +237,10 @@ class ldap::server (
   $suffix,
   $rootdn,
   $rootpw           = undef,
-  $configdn         = $::ldap::server::rootdn,
-  $configpw         = $::ldap::server::rootpw,
-  $monitordn        = $::ldap::server::rootdn,
-  $monitorpw        = $::ldap::server::rootpw,
+  $configdn         = undef,
+  $configpw         = undef,
+  $monitordn        = undef,
+  $monitorpw        = undef,
   $directory        = $ldap::params::server_directory,
   $backend          = $ldap::params::server_backend,
   $log_level        = $ldap::params::server_log_level,
@@ -361,6 +361,26 @@ class ldap::server (
   }
   validate_bool($bind_anon)
   validate_bool($bind_v2)
+
+  validate_bool($config)
+  if $config {
+    if ! $configdn {
+      $configdn = $rootdn
+    }
+    if ! $configpw {
+      $configpw = $rootpw
+    }
+  }
+
+  validate_bool($monitor)
+  if $monitor {
+    if ! $monitordn {
+      $monitordn = $rootdn
+    }
+    if ! $monitorpw {
+      $monitorpw = $rootpw
+    }
+  }
 
   if $sync_provider {
     validate_string($sync_provider)

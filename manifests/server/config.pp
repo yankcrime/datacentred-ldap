@@ -3,25 +3,16 @@
 # Manage the configuration of the ldap server service
 #
 class ldap::server::config inherits ldap::server {
-  file { $ldap::server::config_file:
-    owner   => $ldap::server::ldapowner,
-    group   => $ldap::server::ldapgroup,
-    # may contain passwords
-    mode    => '0400',
-    content => template($ldap::server::config_template),
-  }
-
-
   if $config {
     if $configdn {
       $theconfigdn = $configdn
     } else {
-      $theconfigdn = $ldap::server::rootdn
+      $theconfigdn = $::ldap::server::rootdn
     }
     if $configpw {
       $theconfigpw = $configpw
     } else {
-      $theconfigpw = $ldap::server::rootpw
+      $theconfigpw = $::ldap::server::rootpw
     }
   }
 
@@ -36,6 +27,14 @@ class ldap::server::config inherits ldap::server {
     } else {
       $themonitorpw = $rootpw
     }
+  }
+
+  file { $ldap::server::config_file:
+    owner   => $ldap::server::ldapowner,
+    group   => $ldap::server::ldapgroup,
+    # may contain passwords
+    mode    => '0400',
+    content => template($ldap::server::config_template),
   }
 
   if $ldap::server::default_file {

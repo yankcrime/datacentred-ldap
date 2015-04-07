@@ -19,7 +19,7 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
       results.select{|r| r.dn == resource[:name]}.each do |entry|
         matching = resource[:attributes].all? do |k, _|
           return false unless entry.respond_to?(k)
-          entry.send(k).to_set == [resource[:attributes][k]].flatten.to_set
+          entry.send(k).join(",").force_encoding('UTF-8') == [resource[:attributes][k]].flatten.join(",")
         end
         return matching
       end

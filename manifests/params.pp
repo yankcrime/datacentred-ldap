@@ -153,19 +153,22 @@ class ldap::params {
     }
   }
 
-  $client_config_file         = "${ldap_config_directory}/ldap.conf"
-  $server_config_file         = "${ldap_config_directory}/slapd.conf"
-  $server_dynconfig_directory = "${ldap_config_directory}/slapd.d"
-  $server_schema_directory    = "${ldap_config_directory}/schema"
-  $pidfile                    = "${server_run_directory}/slapd.pid"
-  $argsfile                   = "${server_run_directory}/slapd.args"
+  $client_config_file               = "${ldap_config_directory}/ldap.conf"
+  $server_config_file               = "${ldap_config_directory}/slapd.conf"
+  $server_dynconfig_directory       = "${ldap_config_directory}/slapd.d"
+  $server_schema_directory          = "${ldap_config_directory}/schema"
+  $pidfile                          = "${server_run_directory}/slapd.pid"
+  $argsfile                         = "${server_run_directory}/slapd.args"
 
   $server_purge_dynconfig_directory = false
 
-  $server_kerberos            = false
-  $server_krb5_keytab         = "${ldap_config_directory}/ldap.keytab"
-  $server_krb5_ticket_cache   = "${ldap_config_directory}/ldap.krb5cc"
+  $server_kerberos                  = false
+  $server_krb5_keytab               = "${ldap_config_directory}/ldap.keytab"
+  $server_krb5_ticket_cache         = "${ldap_config_directory}/ldap.krb5cc"
 
-  $server_db_config_file      = "${server_directory}/DB_CONFIG"
-  $server_db_config_template  = 'ldap/DB_CONFIG.erb'
+  $server_db_config_file            = "${server_directory}/DB_CONFIG"
+  $server_db_config_template        = 'ldap/DB_CONFIG.erb'
+
+  $server_sizelimit                 = '500'
+  $server_timelimit                 = '3600'
 }

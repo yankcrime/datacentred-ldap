@@ -11,7 +11,7 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
   def exists?
     disable_ssl_verify if (resource[:self_signed] == true)
     @ssl = true if (resource[:ssl] == true)
-    status, results = ldap_search([resource[:host], resource[:port], resource[:username], resource[:password], 
+    status, results = ldap_search([resource[:host], resource[:port], resource[:username], resource[:password],
                    {:base => resource[:name], :attributes => attributes(resource[:attributes])}])
     if status == LDAP::NoSuchObject
       return false
@@ -19,7 +19,7 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
       results.select{|r| r.dn == resource[:name]}.each do |entry|
         matching = resource[:attributes].all? do |k, _|
           return false unless entry.respond_to?(k)
-          entry.send(k).to_set == [resource[:attributes][k]].flatten.to_set
+          entry.send(k).sort.join(",").force_encoding('UTF-8') == [resource[:attributes][k]].flatten.sort.join(",")
         end
         return matching
       end
@@ -35,7 +35,7 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
   end
 
   def create
-    status, results = ldap_search([resource[:host], resource[:port], resource[:username], resource[:password], 
+    status, results = ldap_search([resource[:host], resource[:port], resource[:username], resource[:password],
                    {:base => resource[:name], :attributes => attributes(resource[:attributes])}])
     if status == LDAP::Success
       # Entry exists but there are differences
@@ -72,12 +72,12 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
     args = params(args)
     result = ldap.search(args)
     code, message = return_code_and_message(ldap)
-    
+
     if(code == LDAP::Success)
       [code, result]
     else
       [code, message]
-    end    
+    end
   end
 
   def ldap_add(args)
@@ -167,8 +167,8 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
     NotAllowedOnNonLeaf          = 66
     NotAllowedOnRDN              = 67
     EntryAlreadyExists           = 68
-    NoObjectClassModifications   = 69 
-    ResultsTooLarge              = 70 
+    NoObjectClassModifications   = 69
+    ResultsTooLarge              = 70
     AffectsMultipleDSAs          = 71
     UnknownError                 = 80
 

@@ -39,6 +39,13 @@ class ldap::server::config inherits ldap::server {
     mode   => '0700',
   }
 
+  file { $ldap::server::server_run_directory:
+    ensure => directory,
+    owner  => $ldap::server::ldapowner,
+    group  => $ldap::server::ldapgroup,
+    mode   => '0700',
+  }
+
   if $ldap::server::backend == 'bdb' or $ldap::server::backend == 'hdb' {
     file { $ldap::server::db_config_file:
       owner   => $ldap::server::ldapowner,

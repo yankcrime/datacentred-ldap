@@ -225,6 +225,15 @@
 #   Whether to support LDAPv2.
 #   Default: true
 #
+# [*sizelimit*]
+#   The maximum number of entries to return  from  a  search operation.
+#   Default: 500
+#
+# [*timelimit*]
+#   The maximum number of seconds (in real time) slapd will spend answering
+#   a search request.
+#   Default: 3600
+#
 # === Examples
 #
 #  class { 'ldap::server':
@@ -308,6 +317,8 @@ class ldap::server (
   $ldapgroup        = $ldap::params::ldapgroup,
   $memberof_group_oc = $ldap::params::server_memberof_group_oc,
   $refint_attributes = $ldap::params::server_refint_attributes,
+  $sizelimit         = $ldap::params::server_sizelimit,
+  $timelimit         = $ldap::params::server_timelimit
 ) inherits ldap::params {
 
   include stdlib

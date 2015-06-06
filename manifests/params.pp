@@ -168,4 +168,7 @@ class ldap::params {
 
   $server_db_config_file      = "${server_directory}/DB_CONFIG"
   $server_db_config_template  = 'ldap/DB_CONFIG.erb'
+
+  $server_sizelimit                 = '500'
+  $server_timelimit                 = '3600'
 }

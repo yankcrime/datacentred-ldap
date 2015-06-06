@@ -3,6 +3,32 @@
 # Manage the configuration of the ldap server service
 #
 class ldap::server::config inherits ldap::server {
+  if $config {
+    if $configdn {
+      $theconfigdn = $configdn
+    } else {
+      $theconfigdn = $::ldap::server::rootdn
+    }
+    if $configpw {
+      $theconfigpw = $configpw
+    } else {
+      $theconfigpw = $::ldap::server::rootpw
+    }
+  }
+
+  if $monitor {
+    if $monitordn {
+      $themonitordn = $monitordn
+    } else {
+      $themonitordn = $rootdn
+    }
+    if $monitorpw {
+      $themonitorpw = $monitorpw
+    } else {
+      $themonitorpw = $rootpw
+    }
+  }
+
   file { $ldap::server::config_file:
     owner   => $ldap::server::ldapowner,
     group   => $ldap::server::ldapgroup,
@@ -33,6 +59,13 @@ class ldap::server::config inherits ldap::server {
   }
 
   file { $ldap::server::directory:
+    ensure => directory,
+    owner  => $ldap::server::ldapowner,
+    group  => $ldap::server::ldapgroup,
+    mode   => '0700',
+  }
+
+  file { $ldap::server::server_run_directory:
     ensure => directory,
     owner  => $ldap::server::ldapowner,
     group  => $ldap::server::ldapgroup,

@@ -225,6 +225,15 @@
 #   Whether to support LDAPv2.
 #   Default: true
 #
+# [*sizelimit*]
+#   The maximum number of entries to return  from  a  search operation.
+#   Default: 500
+#
+# [*timelimit*]
+#   The maximum number of seconds (in real time) slapd will spend answering
+#   a search request.
+#   Default: 3600
+#
 # === Examples
 #
 #  class { 'ldap::server':
@@ -236,78 +245,80 @@
 class ldap::server (
   $suffix,
   $rootdn,
-  $rootpw           = undef,
-  $configdn         = $rootdn,
-  $configpw         = $rootpw,
-  $monitordn        = $rootdn,
-  $monitorpw        = $rootpw,
-  $directory        = $ldap::params::server_directory,
-  $backend          = $ldap::params::server_backend,
-  $log_level        = $ldap::params::server_log_level,
-  $schemas          = $ldap::params::server_schemas,
-  $extra_schemas    = $ldap::params::server_extra_schemas,
-  $schema_directory = $ldap::params::server_schema_directory,
-  $schema_source_directory = $ldap::params::server_schema_source_directory,
-  $modules          = $ldap::params::server_modules,
-  $indexes          = $ldap::params::server_indexes,
-  $overlays         = $ldap::params::server_overlays,
-  $sync_rid            = $ldap::params::server_sync_rid,
-  $sync_provider       = $ldap::params::server_sync_provider,
-  $sync_master_uri     = undef,
-  $sync_searchbase     = undef,
-  $sync_type           = $ldap::params::server_sync_type,
-  $sync_interval       = $ldap::params::server_sync_interval,
-  $sync_retry          = $ldap::params::server_sync_retry,
-  $sync_filter         = $ldap::params::server_sync_filter,
-  $sync_scope          = $ldap::params::server_sync_scope,
-  $sync_attrs          = $ldap::params::server_sync_attrs,
-  $sync_schemachecking = $ldap::params::server_sync_schemachecking,
-  $sync_bindmethod     = $ldap::params::server_sync_bindmethod,
-  $sync_binddn         = $ldap::params::server_sync_binddn,
-  $sync_credentials    = $ldap::params::server_sync_credentials,
-  $sync_bindmethod     = $ldap::params::server_sync_bindmethod,
-  $sync_saslmech       = $ldap::params::server_sync_saslmech,
-  $sync_tls_cert       = $ldap::params::server_sync_tls_cert,
-  $sync_tls_key        = $ldap::params::server_sync_tls_key,
-  $sync_tls_cacert     = $ldap::params::server_sync_tls_cacert,
-  $sync_tls_reqcert    = $ldap::params::server_sync_tls_reqcert,
-  $access           = $ldap::params::server_access,
-  $disable_safe_default_acls = $ldap::params::server_disable_safe_default_acls,
+  $rootpw                                 = undef,
+  $configdn                               = undef,
+  $configpw                               = undef,
+  $monitordn                              = undef,
+  $monitorpw                              = undef,
+  $directory                              = $ldap::params::server_directory,
+  $backend                                = $ldap::params::server_backend,
+  $log_level                              = $ldap::params::server_log_level,
+  $schemas                                = $ldap::params::server_schemas,
+  $extra_schemas                          = $ldap::params::server_extra_schemas,
+  $schema_directory                       = $ldap::params::server_schema_directory,
+  $schema_source_directory                = $ldap::params::server_schema_source_directory,
+  $modules                                = $ldap::params::server_modules,
+  $indexes                                = $ldap::params::server_indexes,
+  $overlays                               = $ldap::params::server_overlays,
+  $sync_rid                               = $ldap::params::server_sync_rid,
+  $sync_provider                          = $ldap::params::server_sync_provider,
+  $sync_master_uri                        = undef,
+  $sync_searchbase                        = undef,
+  $sync_type                              = $ldap::params::server_sync_type,
+  $sync_interval                          = $ldap::params::server_sync_interval,
+  $sync_retry                             = $ldap::params::server_sync_retry,
+  $sync_filter                            = $ldap::params::server_sync_filter,
+  $sync_scope                             = $ldap::params::server_sync_scope,
+  $sync_attrs                             = $ldap::params::server_sync_attrs,
+  $sync_schemachecking                    = $ldap::params::server_sync_schemachecking,
+  $sync_bindmethod                        = $ldap::params::server_sync_bindmethod,
+  $sync_binddn                            = $ldap::params::server_sync_binddn,
+  $sync_credentials                       = $ldap::params::server_sync_credentials,
+  $sync_bindmethod                        = $ldap::params::server_sync_bindmethod,
+  $sync_saslmech                          = $ldap::params::server_sync_saslmech,
+  $sync_tls_cert                          = $ldap::params::server_sync_tls_cert,
+  $sync_tls_key                           = $ldap::params::server_sync_tls_key,
+  $sync_tls_cacert                        = $ldap::params::server_sync_tls_cacert,
+  $sync_tls_reqcert                       = $ldap::params::server_sync_tls_reqcert,
+  $access                                 = $ldap::params::server_access,
+  $disable_safe_default_acls              = $ldap::params::server_disable_safe_default_acls,
   $access_writeable_on_sync_provider_only = undef,
-  $access_for_ldapi_rootdn = undef,
-  $ssl              = $ldap::params::server_ssl,
-  $ssl_cacert       = $ldap::params::server_ssl_cacert,
-  $ssl_cert         = $ldap::params::server_ssl_cert,
-  $ssl_key          = $ldap::params::server_ssl_key,
-  $ssl_ciphersuite  = $ldap::params::server_ssl_ciphersuite,
-  $ssl_verify_client = $ldap::params::server_ssl_verify_client,
-  $kerberos          = $ldap::params::server_kerberos,
-  $krb5_keytab       = $ldap::params::server_krb5_keytab,
-  $krb5_ticket_cache = $ldap::params::server_krb5_ticket_cache,
-  $authz_regexp     = $ldap::params::server_authz_regexp,
-  $config           = $ldap::params::config,
-  $monitor          = $ldap::params::monitor,
-  $bind_anon        = $ldap::params::server_bind_anon,
-  $bind_v2          = $ldap::params::server_bind_v2,
-  $package_name     = $ldap::params::server_package_name,
-  $package_ensure   = $ldap::params::server_package_ensure,
-  $service_manage   = $ldap::params::server_service_manage,
-  $service_name     = $ldap::params::server_service_name,
-  $service_enable   = $ldap::params::server_service_enable,
-  $service_ensure   = $ldap::params::server_service_ensure,
-  $config_directory = $ldap::params::ldap_config_directory,
-  $dynconfig_directory = $ldap::params::server_dynconfig_directory,
-  $purge_dynconfig_directory = $ldap::params::server_purge_dynconfig_directory,
-  $config_file      = $ldap::params::server_config_file,
-  $config_template  = $ldap::params::server_config_template,
-  $default_file     = $ldap::params::server_default_file,
-  $default_template = $ldap::params::server_default_template,
-  $db_config_file     = $ldap::params::server_db_config_file,
-  $db_config_template = $ldap::params::server_db_config_template,
-  $ldapowner        = $ldap::params::ldapowner,
-  $ldapgroup        = $ldap::params::ldapgroup,
-  $memberof_group_oc = $ldap::params::server_memberof_group_oc,
-  $refint_attributes = $ldap::params::server_refint_attributes,
+  $access_for_ldapi_rootdn                = undef,
+  $ssl                                    = $ldap::params::server_ssl,
+  $ssl_cacert                             = $ldap::params::server_ssl_cacert,
+  $ssl_cert                               = $ldap::params::server_ssl_cert,
+  $ssl_key                                = $ldap::params::server_ssl_key,
+  $ssl_ciphersuite                        = $ldap::params::server_ssl_ciphersuite,
+  $ssl_verify_client                      = $ldap::params::server_ssl_verify_client,
+  $kerberos                               = $ldap::params::server_kerberos,
+  $krb5_keytab                            = $ldap::params::server_krb5_keytab,
+  $krb5_ticket_cache                      = $ldap::params::server_krb5_ticket_cache,
+  $authz_regexp                           = $ldap::params::server_authz_regexp,
+  $config                                 = $ldap::params::config,
+  $monitor                                = $ldap::params::monitor,
+  $bind_anon                              = $ldap::params::server_bind_anon,
+  $bind_v2                                = $ldap::params::server_bind_v2,
+  $package_name                           = $ldap::params::server_package_name,
+  $package_ensure                         = $ldap::params::server_package_ensure,
+  $service_manage                         = $ldap::params::server_service_manage,
+  $service_name                           = $ldap::params::server_service_name,
+  $service_enable                         = $ldap::params::server_service_enable,
+  $service_ensure                         = $ldap::params::server_service_ensure,
+  $config_directory                       = $ldap::params::ldap_config_directory,
+  $dynconfig_directory                    = $ldap::params::server_dynconfig_directory,
+  $purge_dynconfig_directory              = $ldap::params::server_purge_dynconfig_directory,
+  $config_file                            = $ldap::params::server_config_file,
+  $config_template                        = $ldap::params::server_config_template,
+  $default_file                           = $ldap::params::server_default_file,
+  $default_template                       = $ldap::params::server_default_template,
+  $db_config_file                         = $ldap::params::server_db_config_file,
+  $db_config_template                     = $ldap::params::server_db_config_template,
+  $ldapowner                              = $ldap::params::ldapowner,
+  $ldapgroup                              = $ldap::params::ldapgroup,
+  $memberof_group_oc                      = $ldap::params::server_memberof_group_oc,
+  $refint_attributes                      = $ldap::params::server_refint_attributes,
+  $sizelimit                              = $ldap::params::server_sizelimit,
+  $timelimit                              = $ldap::params::server_timelimit
 ) inherits ldap::params {
 
   include stdlib
@@ -324,6 +335,7 @@ class ldap::server (
   validate_absolute_path($config_directory)
   validate_string($schema_source_directory)
   validate_bool($purge_dynconfig_directory)
+
   if ($purge_dynconfig_directory) {
     validate_absolute_path($dynconfig_directory)
   }
@@ -359,6 +371,10 @@ class ldap::server (
   if $authz_regexp {
     validate_array($authz_regexp)
   }
+
+  validate_bool($config)
+  validate_bool($monitor)
+
   validate_bool($bind_anon)
   validate_bool($bind_v2)
 

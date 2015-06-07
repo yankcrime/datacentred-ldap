@@ -3,29 +3,37 @@
 # Manage the configuration of the ldap server service
 #
 class ldap::server::config inherits ldap::server {
+  # If $config is true, we will be configuring the "config" LDAP database
+  # for storing OpenLDAP configurations in LDAP itself.
   if $config {
+    # If $configdn is set, use that in the template.  Else use $rootdn
     if $configdn {
-      $theconfigdn = $configdn
+      $_configdn = $configdn
     } else {
-      $theconfigdn = $::ldap::server::rootdn
+      $_configdn = $::ldap::server::rootdn
     }
+    # If $configpw is set, use that in the template.  Else use $rootpw
     if $configpw {
-      $theconfigpw = $configpw
+      $_configpw = $configpw
     } else {
-      $theconfigpw = $::ldap::server::rootpw
+      $_configpw = $::ldap::server::rootpw
     }
   }
 
+  # If $monitor is true, we will be configuring the "monitor" LDAP database
+  # which allows us to query the LDAP server for statistics about itself
   if $monitor {
+    # If $monitordn is set, use that in the template.  Else use $rootdn
     if $monitordn {
-      $themonitordn = $monitordn
+      $_monitordn = $monitordn
     } else {
-      $themonitordn = $rootdn
+      $_monitordn = $::ldap::server::rootdn
     }
+    # If $monitorpw is set, use that in the template.  Else use $rootpw
     if $monitorpw {
-      $themonitorpw = $monitorpw
+      $_monitorpw = $monitorpw
     } else {
-      $themonitorpw = $rootpw
+      $_monitorpw = $::ldap::server::rootpw
     }
   }
 

@@ -246,10 +246,10 @@ class ldap::server (
   $suffix,
   $rootdn,
   $rootpw           = undef,
-  $configdn         = $rootdn,
-  $configpw         = $rootpw,
-  $monitordn        = $rootdn,
-  $monitorpw        = $rootpw,
+  $configdn         = undef,
+  $configpw         = undef,
+  $monitordn        = undef,
+  $monitorpw        = undef,
   $directory        = $ldap::params::server_directory,
   $backend          = $ldap::params::server_backend,
   $log_level        = $ldap::params::server_log_level,
@@ -335,6 +335,7 @@ class ldap::server (
   validate_absolute_path($config_directory)
   validate_string($schema_source_directory)
   validate_bool($purge_dynconfig_directory)
+
   if ($purge_dynconfig_directory) {
     validate_absolute_path($dynconfig_directory)
   }
@@ -370,6 +371,10 @@ class ldap::server (
   if $authz_regexp {
     validate_array($authz_regexp)
   }
+
+  validate_bool($config)
+  validate_bool($monitor)
+
   validate_bool($bind_anon)
   validate_bool($bind_v2)
 

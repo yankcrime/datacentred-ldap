@@ -13,8 +13,29 @@
 # [*rootpw*]
 #   The password for the rootdn administrative user.
 #
+# [*config_file*]
+#   Location of the server configuration file.
+#
+# [*config_file_mode*]
+#   Permissions of the server configuration file.
+#
+# [*default_file*]
+#   Location of the OS OpenLDAP server defaults file.
+#
+# [*default_file_mode*]
+#   Permission of the OS OpenLDAP server defaults file.
+#
+# [*db_config_file*]
+#   Location of the DB_CONFIG file.
+#
+# [*db_config_file_mode*]
+#   Permission of the DB_CONFIG file.
+#
 # [*directory*]
 #   Path to where the slapd database files should be stored.
+#
+# [*directory_mode*]
+#   Permissions of the path to where the slapd database files should be stored.
 #
 # [*ldapowner*]
 #   The owner of the slapd and database configuration files.
@@ -34,8 +55,17 @@
 # [*extra_schemas*]
 #   An array of schema files which should be importe from the master and loaded in.
 #
+# [*run_directory*]
+#   Directory where OpenLDAP stores run time information, i.e. PID file.
+#
+# [*run_directory_mode*]
+#   Permissions of the directory where OpenLDAP stores run time information, i.e. PID file.
+#
 # [*schema_directory*]
 #   Directory to import the extra schema files into.
+#
+# [*schema_directory_mode*]
+#   Permissions of the directory to import the extra schema files into.
 #
 # [*schema_source_directory*]
 #   Directory to import the extra schema files from, usually a puppet:///files source.
@@ -251,12 +281,16 @@ class ldap::server (
   $monitordn        = undef,
   $monitorpw        = undef,
   $directory        = $ldap::params::server_directory,
+  $directory_mode   = $ldap::params::server_directory_mode,
   $backend          = $ldap::params::server_backend,
   $log_level        = $ldap::params::server_log_level,
   $schemas          = $ldap::params::server_schemas,
   $extra_schemas    = $ldap::params::server_extra_schemas,
   $schema_directory = $ldap::params::server_schema_directory,
+  $schema_directory_mode   = $ldap::params::server_schema_directory_mode,
   $schema_source_directory = $ldap::params::server_schema_source_directory,
+  $run_directory           = $ldap::params::server_run_directory,
+  $run_directory_mode      = $ldap::params::server_run_directory_mode,
   $modules          = $ldap::params::server_modules,
   $indexes          = $ldap::params::server_indexes,
   $overlays         = $ldap::params::server_overlays,
@@ -308,17 +342,21 @@ class ldap::server (
   $dynconfig_directory = $ldap::params::server_dynconfig_directory,
   $purge_dynconfig_directory = $ldap::params::server_purge_dynconfig_directory,
   $config_file      = $ldap::params::server_config_file,
-  $config_template  = $ldap::params::server_config_template,
-  $default_file     = $ldap::params::server_default_file,
-  $default_template = $ldap::params::server_default_template,
-  $db_config_file     = $ldap::params::server_db_config_file,
-  $db_config_template = $ldap::params::server_db_config_template,
-  $ldapowner        = $ldap::params::ldapowner,
-  $ldapgroup        = $ldap::params::ldapgroup,
-  $memberof_group_oc = $ldap::params::server_memberof_group_oc,
-  $refint_attributes = $ldap::params::server_refint_attributes,
-  $sizelimit         = $ldap::params::server_sizelimit,
-  $timelimit         = $ldap::params::server_timelimit
+  $config_file_mode = $ldap::params::server_config_file_mode,
+
+  $config_template     = $ldap::params::server_config_template,
+  $default_file        = $ldap::params::server_default_file,
+  $default_file_mode   = $ldap::params::server_default_file_mode,
+  $default_template    = $ldap::params::server_default_template,
+  $db_config_file      = $ldap::params::server_db_config_file,
+  $db_config_file_mode = $ldap::params::server_db_config_file_mode,
+  $db_config_template  = $ldap::params::server_db_config_template,
+  $ldapowner           = $ldap::params::ldapowner,
+  $ldapgroup           = $ldap::params::ldapgroup,
+  $memberof_group_oc   = $ldap::params::server_memberof_group_oc,
+  $refint_attributes   = $ldap::params::server_refint_attributes,
+  $sizelimit           = $ldap::params::server_sizelimit,
+  $timelimit           = $ldap::params::server_timelimit
 ) inherits ldap::params {
 
   include stdlib

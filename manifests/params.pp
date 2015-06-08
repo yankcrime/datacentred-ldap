@@ -95,56 +95,65 @@ class ldap::params {
 
   case $::osfamily {
     'Debian': {
-      $ldap_config_directory   = '/etc/ldap'
-      $os_config_directory     = '/etc/default'
-      $server_run_directory    = '/var/run/slapd'
+      $ldap_config_directory     = '/etc/ldap'
+      $os_config_directory       = '/etc/default'
+      $server_run_directory      = '/var/run/slapd'
+      $server_run_directory_mode = '0700'
 
-      $client_package_name     = 'libldap-2.4-2'
+      $client_package_name       = 'libldap-2.4-2'
 
-      $ldapowner               = 'openldap'
-      $ldapgroup               = 'openldap'
+      $ldapowner                 = 'openldap'
+      $ldapgroup                 = 'openldap'
 
-      $server_package_name     = 'slapd'
-      $server_service_name     = 'slapd'
-      $server_default_file     = "${os_config_directory}/slapd"
-      $server_default_template = 'ldap/debian/defaults.erb'
-      $server_directory        = '/var/lib/ldap'
+      $server_package_name       = 'slapd'
+      $server_service_name       = 'slapd'
+      $server_default_file       = "${os_config_directory}/slapd"
+      $server_default_file_mode  = '0644'
+      $server_default_template   = 'ldap/debian/defaults.erb'
+      $server_directory          = '/var/lib/ldap'
+      $server_directory_mode     = '0700'
       $net_ldap_package_name     = 'ruby-net-ldap'
       $net_ldap_package_provider = 'apt'
     }
     'OpenBSD': {
-      $ldap_config_directory   = '/etc/openldap'
-      $os_config_directory     = undef
-      $server_run_directory    = '/var/run/openldap'
+      $ldap_config_directory     = '/etc/openldap'
+      $os_config_directory       = undef
+      $server_run_directory      = '/var/run/openldap'
+      $server_run_directory_mode = '0755'
 
-      $client_package_name     = 'openldap-client'
+      $client_package_name       = 'openldap-client'
 
-      $ldapowner               = '_openldap'
-      $ldapgroup               = '_openldap'
+      $ldapowner                 = '_openldap'
+      $ldapgroup                 = '_openldap'
 
-      $server_package_name     = 'openldap-server'
-      $server_service_name     = 'slapd'
-      $server_default_file     = undef
-      $server_default_template = undef
-      $server_directory        = '/var/openldap-data'
+      $server_package_name       = 'openldap-server'
+      $server_service_name       = 'slapd'
+      $server_default_file       = undef
+      $server_default_file_mode  = undef
+      $server_default_template   = undef
+      $server_directory          = '/var/openldap-data'
+      $server_directory_mode     = '0700'
       $net_ldap_package_name     = 'net-ldap'
       $net_ldap_package_provider = 'gem'
     }
     'RedHat': {
-      $ldap_config_directory   = '/etc/openldap'
-      $os_config_directory     = '/etc/sysconfig'
-      $server_run_directory    = '/var/run/openldap'
+      $ldap_config_directory     = '/etc/openldap'
+      $os_config_directory       = '/etc/sysconfig'
+      $server_run_directory      = '/var/run/openldap'
+      $server_run_directory_mode = '0700'
 
-      $client_package_name     = 'openldap-clients'
+      $client_package_name       = 'openldap-clients'
 
-      $ldapowner               = 'ldap'
-      $ldapgroup               = 'ldap'
+      $ldapowner                 = 'ldap'
+      $ldapgroup                 = 'ldap'
 
-      $server_package_name     = 'openldap-servers'
-      $server_service_name     = 'slapd'
-      $server_default_file     = "${os_config_directory}/ldap"
-      $server_default_template = 'ldap/redhat/sysconfig.erb'
-      $server_directory        = '/var/lib/ldap'
+      $server_package_name       = 'openldap-servers'
+      $server_service_name       = 'slapd'
+      $server_default_file       = "${os_config_directory}/ldap"
+      $server_default_file_mode  = '0644'
+      $server_default_template   = 'ldap/redhat/sysconfig.erb'
+      $server_directory          = '/var/lib/ldap'
+      $server_directory_mode     = '0700'
       $net_ldap_package_name     = 'net-ldap'
       $net_ldap_package_provider = 'gem'
     }
@@ -153,12 +162,14 @@ class ldap::params {
     }
   }
 
-  $client_config_file         = "${ldap_config_directory}/ldap.conf"
-  $server_config_file         = "${ldap_config_directory}/slapd.conf"
-  $server_dynconfig_directory = "${ldap_config_directory}/slapd.d"
-  $server_schema_directory    = "${ldap_config_directory}/schema"
-  $pidfile                    = "${server_run_directory}/slapd.pid"
-  $argsfile                   = "${server_run_directory}/slapd.args"
+  $client_config_file           = "${ldap_config_directory}/ldap.conf"
+  $server_config_file           = "${ldap_config_directory}/slapd.conf"
+  $server_config_file_mode      = '0400'
+  $server_dynconfig_directory   = "${ldap_config_directory}/slapd.d"
+  $server_schema_directory      = "${ldap_config_directory}/schema"
+  $server_schema_directory_mode = '0755'
+  $pidfile                      = "${server_run_directory}/slapd.pid"
+  $argsfile                     = "${server_run_directory}/slapd.args"
 
   $server_purge_dynconfig_directory = false
 
@@ -167,6 +178,7 @@ class ldap::params {
   $server_krb5_ticket_cache   = "${ldap_config_directory}/ldap.krb5cc"
 
   $server_db_config_file      = "${server_directory}/DB_CONFIG"
+  $server_db_config_file_mode = '0644'
   $server_db_config_template  = 'ldap/DB_CONFIG.erb'
 
   $server_sizelimit                 = '500'

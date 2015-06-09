@@ -41,7 +41,7 @@ class ldap::server::config inherits ldap::server {
     owner   => $ldap::server::ldapowner,
     group   => $ldap::server::ldapgroup,
     # may contain passwords
-    mode    => '0400',
+    mode    => $ldap::server::config_file_mode,
     content => template($ldap::server::config_template),
   }
 
@@ -49,7 +49,7 @@ class ldap::server::config inherits ldap::server {
     file { $ldap::server::default_file:
       owner   => 0,
       group   => 0,
-      mode    => '0644',
+      mode    => $ldap::server::default_file_mode,
       content => template($ldap::server::default_template),
     }
   }
@@ -58,7 +58,7 @@ class ldap::server::config inherits ldap::server {
     ensure => directory,
     owner  => 0,
     group  => 0,
-    mode   => '0755',
+    mode   => $ldap::server::schema_directory_mode,
   }
   ->
   ldap::schema_file { $ldap::server::extra_schemas:
@@ -70,21 +70,21 @@ class ldap::server::config inherits ldap::server {
     ensure => directory,
     owner  => $ldap::server::ldapowner,
     group  => $ldap::server::ldapgroup,
-    mode   => '0700',
+    mode   => $ldap::server::directory_mode,
   }
 
-  file { $ldap::server::server_run_directory:
+  file { $ldap::server::run_directory:
     ensure => directory,
     owner  => $ldap::server::ldapowner,
     group  => $ldap::server::ldapgroup,
-    mode   => '0700',
+    mode   => $ldap::server::run_directory_mode,
   }
 
   if $ldap::server::backend == 'bdb' or $ldap::server::backend == 'hdb' {
     file { $ldap::server::db_config_file:
       owner   => $ldap::server::ldapowner,
       group   => $ldap::server::ldapgroup,
-      mode    => '0644',
+      mode    => $ldap::server::db_config_file_mode,
       content => template($ldap::server::db_config_template),
       require => File[$ldap::server::directory],
     }

@@ -80,7 +80,11 @@
 #   An array of overlays which should be added to the database.
 #
 # [*memberof_group_oc*]
-#   Group objectclass for memberof overlay.
+#   The value <group-oc> is the name of the objectClass that triggers the reverse group membership update. It defaults to groupOfNames.
+#
+# [*memberof_member_ad*]
+#   The value <member-ad> is the name of the attribute that contains the names of the members in the group objects; it must be DN-valued. It defaults to member.
+#   for more information man slapo-memberof
 #
 # [*refint_attributes*]
 #   Attributes for refint overlay.
@@ -354,7 +358,7 @@ class ldap::server (
   $ldapowner           = $ldap::params::ldapowner,
   $ldapgroup           = $ldap::params::ldapgroup,
   $memberof_group_oc   = $ldap::params::server_memberof_group_oc,
-  $memberof_member_ad = $ldap::params::server_memberof_member_ad,
+  $memberof_member_ad  = $ldap::params::server_memberof_member_ad,
   $refint_attributes   = $ldap::params::server_refint_attributes,
   $sizelimit           = $ldap::params::server_sizelimit,
   $timelimit           = $ldap::params::server_timelimit
@@ -469,6 +473,9 @@ class ldap::server (
 
   if $memberof_group_oc {
     validate_string($memberof_group_oc)
+  }
+  if $memberof_member_ad {
+    validate_string($memberof_member_ad)
   }
   if $refint_attributes {
     validate_string($refint_attributes)

@@ -88,6 +88,7 @@ class ldap::params {
   $server_sync_tls_reqcert    = undef
 
   $server_memberof_group_oc   = undef
+  $server_memberof_member_ad  = undef
   $server_refint_attributes   = undef
 
   $gem_ensure       = 'present'

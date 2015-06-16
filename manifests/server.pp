@@ -309,6 +309,7 @@ class ldap::server (
   $ldapowner        = $ldap::params::ldapowner,
   $ldapgroup        = $ldap::params::ldapgroup,
   $memberof_group_oc = $ldap::params::server_memberof_group_oc,
+  $memberof_member_ad = $ldap::params::server_memberof_member_ad,
   $refint_attributes = $ldap::params::server_refint_attributes,
 ) inherits ldap::params {
 

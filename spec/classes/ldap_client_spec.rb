@@ -23,7 +23,7 @@ describe 'ldap::client' do
           it { is_expected.to contain_class('ldap::client::config') }
 
           it { is_expected.to contain_package('ldap-client').with_ensure('present') }
-          it { is_expected.to contain_package('ldap-gem').with_ensure('present') }
+          it { is_expected.to contain_package('net-ldap').with_ensure('present') }
         end
       end
     end

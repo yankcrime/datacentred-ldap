@@ -78,13 +78,7 @@ access to *
 # Define a config database (cn=config)
 
 database config
-rootdn    "<%= @configdn %>"
-rootpw    "<%= @configpw %>"
-
-access to *
-        by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" manage
-        by dn.exact="<%= @configdn %>" manage
-        by * none
+rootdn    "<%= @_configdn %>"
 
 <% end -%>
 <% if @monitor == true -%>
@@ -93,13 +87,7 @@ access to *
 # - database is unwriteable.
 
 database monitor
-# suffix "cn=Monitor"
-rootdn    "<%= @monitordn %>"
-rootpw    "<%= @monitorpw %>"
-access to *
-  by dn.exact="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" read
-  by dn.exact="<%= @monitordn %>" read
-  by * none
+rootdn    "<%= @_monitordn %>"
 <% end -%>
 
 # Database definition
@@ -191,3 +179,7 @@ index <%= i %>
 cachesize 10000
 checkpoint 128 15
 <% end -%>
+
+# Connection limits
+sizelimit <%= @sizelimit %>
+timelimit <%= @timelimit %>

@@ -31,6 +31,20 @@
 # [*ssl_ciphersuite*]
 #   specify tls ciphersuite.
 #
+# [*manage_package_dependencies*]
+#   Whether to automatically install additional software packages such as
+#   net-ldap (Default: true).
+#
+# [*net_ldap_package_name*]
+#   The name of the net-ldap package to install (Default: OS-dependant
+#   ruby-net-ldap or net-ldap).
+#
+# [*net_ldap_package_ensure*]
+#   The ensure of the net-ldap package (Default: present).
+#
+# [*net_ldap_package_provider*]
+#  The provider of the net-ldap package (Default: OS-dependant apt or gem).
+#
 # [*sizelimit*]
 #   Maximum number of entries to return by default.
 #
@@ -59,8 +73,10 @@ class ldap::client (
   $config_directory = $ldap::params::ldap_config_directory,
   $config_file      = $ldap::params::client_config_file,
   $config_template  = $ldap::params::client_config_template,
-  $gem_name         = $ldap::params::gem_name,
-  $gem_ensure       = $ldap::params::gem_ensure,
+  $manage_package_dependencies = $ldap::params::manage_package_dependencies,
+  $net_ldap_package_name       = $ldap::params::net_ldap_package_name,
+  $net_ldap_package_ensure     = $ldap::params::net_ldap_package_ensure,
+  $net_ldap_package_provider   = $ldap::params::net_ldap_package_provider,
   $sizelimit        = $ldap::params::client_sizelimit,
   $timelimit        = $ldap::params::client_timelimit,
 ) inherits ldap::params {
@@ -88,6 +104,11 @@ class ldap::client (
       validate_re($ssl_reqcert, ['never', 'allow', 'try', 'demand'])
     }
   }
+
+  validate_bool($manage_package_dependencies)
+  validate_string($net_ldap_package_name)
+  validate_string($net_ldap_package_ensure)
+  validate_string($net_ldap_package_provider)
 
   anchor { 'ldap::client::begin': } ->
   class { '::ldap::client::install': } ->

@@ -146,6 +146,12 @@
 # [*sync_tls_reqcert*]
 #   requirement of server certificat verification
 #
+# [*slapd_services*]
+#   to specify the interface you listen on.
+#   ex : ldap://127.0.0.1:389/ ldap://10.2.0.5:389/ to listen only on to ip
+#   Default with ssl :    ldap:/// ldaps:/// ldapi:///
+#   Default without ssl : ldap:/// ldapi:///
+#
 # [*ssl*]
 #   Whether the server should listen on port 636 (SSL).
 #   Default: false
@@ -322,6 +328,7 @@ class ldap::server (
   $disable_safe_default_acls = $ldap::params::server_disable_safe_default_acls,
   $access_writeable_on_sync_provider_only = undef,
   $access_for_ldapi_rootdn = undef,
+  $slapd_services   = $ldap::params::server_slapd_services,
   $ssl              = $ldap::params::server_ssl,
   $ssl_cacert       = $ldap::params::server_ssl_cacert,
   $ssl_cert         = $ldap::params::server_ssl_cert,
@@ -454,6 +461,9 @@ class ldap::server (
   }
   if $sync_credentials {
     validate_string($sync_credentials)
+  }
+  if $slapd_services {
+    validate_string($slapd_services)
   }
   if $sync_saslmech {
     validate_string($sync_saslmech)

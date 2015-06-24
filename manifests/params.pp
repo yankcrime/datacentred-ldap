@@ -27,6 +27,7 @@ class ldap::params {
 
   $server_log_level = 'none'
 
+  $server_slapd_services = undef
   $server_ssl        = false
   $server_ssl_cacert = undef
   $server_ssl_cert   = undef

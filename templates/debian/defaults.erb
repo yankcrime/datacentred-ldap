@@ -21,10 +21,14 @@ SLAPD_PIDFILE=
 # sockets.
 # Example usage:
 # SLAPD_SERVICES="ldap://127.0.0.1:389/ ldaps:/// ldapi:///"
-<% if @ssl -%>
-SLAPD_SERVICES="ldap:/// ldaps:/// ldapi:///"
+<% if @slapd_services -%>
+SLAPD_SERVICES="<%= @slapd_services %>"
 <% else -%>
+<%    if @ssl -%>
+SLAPD_SERVICES="ldap:/// ldaps:/// ldapi:///"
+<%    else -%>
 SLAPD_SERVICES="ldap:/// ldapi:///"
+<%    end -%>
 <% end -%>
 
 # If SLAPD_SENTINEL_FILE is set to path to a file and that file exists,

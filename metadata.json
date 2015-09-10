@@ -1,6 +1,6 @@
 {
   "name": "datacentred-ldap",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "DataCentred Ltd",
   "summary": "Module for managing OpenLDAP",
   "license": "Apache-2.0",

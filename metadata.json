@@ -1,6 +1,6 @@
 {
   "name": "datacentred-ldap",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "author": "DataCentred Ltd",
   "summary": "Module for managing OpenLDAP",
   "license": "Apache-2.0",
@@ -8,9 +8,16 @@
   "project_page": "https://github.com/datacentred/datacentred-ldap",
   "issues_url": "https://github.com/datacentred/datacentred-ldap/issues",
   "description": "Install and manage OpenLDAP",
-  "tags": ["ldap", "slapd", "openldap"],
+  "tags": [
+    "ldap",
+    "slapd",
+    "openldap"
+  ],
   "dependencies": [
-    { "name": "puppetlabs/stdlib", "version_requirement": "4.x" }
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": "4.x"
+    }
   ],
   "operatingsystem_support": [
     {

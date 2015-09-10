@@ -96,8 +96,10 @@ ldap_entry { 'cn=Foo,ou=Bar,dc=baz,dc=co,dc=uk':
   base        => 'dc=baz,dc=co,dc=uk',
   username    => 'cn=admin,dc=baz,dc=co,dc=uk',
   password    => 'password',
-  attributes  => { givenName   => 'Foo',
-                   objectClass => ["top", "person", "inetorgPerson"]}
+  attributes  => { 'givenName'    => 'Foo',
+                   'objectClass'  => ["top", "person", "inetorgPerson"]}
+                   'userPassword' => '{CRYPT}$6$ReygQlJ9xZQt.Br4$Bb0GDx9bMxTUblhlglxWlu.BU1YxpsCOrlMerl.ZRNF9a.QRBIts2PvuDVmydfMgOpGH0/Z/5gAKpRupFFBLt/' },
+  mutable     => [ 'userPassword' ],
 }
 
 ldap_entry { 'cn=Foo,ou=Bar,dc=baz,dc=co,dc=uk':
@@ -110,6 +112,10 @@ ldap_entry { 'cn=Foo,ou=Bar,dc=baz,dc=co,dc=uk':
 ```
 
 Please note that password entries need to be hashed before being passed to LDAP. You may use the puppet function `sha1digest` (see the Functions section below) or another hashing scheme such as MD5 or libcrypt. These will appear as `"{MD5}ghGY787GHvh8Uhj"` or `"{CRYPT}$6$hG7Ggh$hjhjkHUGYU67hgGt67h01hdsghGH"`, respectively.
+
+#### Attribute Mutability
+
+As demonstrated in the above example attributes can be flagged as being mutable.  This enables the provider to merely check for the existence of an attribute and ignore the actual content.  The typical use case would be to initialise the directory with default values which can then be updated by the user, in this case the _userPassword_ attribute is set to _Passw0rd_, which can then be changed at will by the user as directed by their security policy without having to update configuration management code to do so.
 
 #### Hiera example
 

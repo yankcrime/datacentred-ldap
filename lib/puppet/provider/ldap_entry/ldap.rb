@@ -17,8 +17,11 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
       return false
     elsif status == LDAP::Success
       results.select{|r| r.dn == resource[:name]}.each do |entry|
+        @entry = entry
+        @mutable = [resource[:mutable]].flatten
         matching = resource[:attributes].all? do |k, _|
           return false unless entry.respond_to?(k)
+          return true if @mutable.include? k
           entry.send(k).sort.join(",").force_encoding('UTF-8') == [resource[:attributes][k]].flatten.sort.join(",")
         end
         return matching
@@ -35,21 +38,17 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
   end
 
   def create
-    status, results = ldap_search([resource[:host], resource[:port], resource[:username], resource[:password],
-                   {:base => resource[:name], :attributes => attributes(resource[:attributes])}])
-    if status == LDAP::Success
-      # Entry exists but there are differences
-      results.select{|r| r.dn == resource[:name]}.each do |entry|
-        resource[:attributes].each do |k, v|
-          if entry.respond_to?(k)
-            unless entry.send(k).to_set == [v].flatten.to_set
-              ldap_replace_attribute([resource[:host], resource[:port], resource[:username], resource[:password],
-                          [resource[:name], k, v]])
-            end
-          else
-            ldap_add_attribute([resource[:host], resource[:port], resource[:username], resource[:password],
-                          [resource[:name], k, v]])
+    if @entry
+      resource[:attributes].each do |k, v|
+        if @entry.respond_to?(k)
+          next if @mutable.include? k
+          unless @entry.send(k).to_set == [v].flatten.to_set
+            ldap_replace_attribute([resource[:host], resource[:port], resource[:username], resource[:password],
+                        [resource[:name], k, v]])
           end
+        else
+          ldap_add_attribute([resource[:host], resource[:port], resource[:username], resource[:password],
+                        [resource[:name], k, v]])
         end
       end
     else

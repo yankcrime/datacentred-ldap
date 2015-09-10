@@ -9,8 +9,10 @@
 #   base        => 'dc=baz,dc=co,dc=uk',
 #   username    => 'cn=admin,dc=baz,dc=co,dc=uk',
 #   password    => 'password',
-#   attributes  => { givenName   => 'Foo',
-#                    objectClass => ["top", "person", "inetorgPerson"]}
+#   attributes  => { 'givenName'    => 'Foo',
+#                    'objectClass'  => ["top", "person", "inetorgPerson"],
+#                    'userPassword' => '{CRYPT}$1$8.3a./.1$6gzjEn31TDPTeBMjAUbrE1' },
+#   mutable     => [ 'userPassword' ],
 # }
 #
 # ldap_entry { 'cn=Foo,ou=Bar,dc=baz,dc=co,dc=uk':
@@ -82,6 +84,11 @@ Puppet::Type.newtype(:ldap_entry) do
         raise ArgumentError, 'ldap_entry::attributes is not a hash'
       end
     end
+  end
+
+  newparam(:mutable) do
+    desc 'LDAP entry attribute(s) which may be externally modified'
+    defaultto []
   end
 
   newparam(:self_signed) do

@@ -131,6 +131,9 @@
 # [*sync_credentials*]
 #   Simple bind credentials for provider.
 #
+# [*sync_mirrormode*]
+#   Enable mirror mode replication.
+#
 # [*sync_saslmech*]
 #   SASL mechanism for syncrepl replication.
 #
@@ -318,6 +321,7 @@ class ldap::server (
   $sync_bindmethod     = $ldap::params::server_sync_bindmethod,
   $sync_binddn         = $ldap::params::server_sync_binddn,
   $sync_credentials    = $ldap::params::server_sync_credentials,
+  $sync_mirrormode     = $ldap::params::server_sync_mirrormode,
   $sync_bindmethod     = $ldap::params::server_sync_bindmethod,
   $sync_saslmech       = $ldap::params::server_sync_saslmech,
   $sync_tls_cert       = $ldap::params::server_sync_tls_cert,
@@ -461,6 +465,9 @@ class ldap::server (
   }
   if $sync_credentials {
     validate_string($sync_credentials)
+  }
+  if $sync_mirrormode {
+    validate_string($sync_mirrormode)
   }
   if $slapd_services {
     validate_string($slapd_services)

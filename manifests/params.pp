@@ -82,6 +82,7 @@ class ldap::params {
   $server_sync_bindmethod     = undef
   $server_sync_binddn         = undef
   $server_sync_credentials    = undef
+  $server_sync_mirrormode     = undef
   $server_sync_saslmech       = undef
   $server_sync_tls_cert       = undef
   $server_sync_tls_key        = undef

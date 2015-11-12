@@ -156,6 +156,9 @@ syncrepl
   tls_reqcert=<%= @sync_tls_reqcert %>
 <% end -%>
 
+<% if @sync_mirrormode -%>
+mirrormode <%= @sync_mirrormode %>
+<% end -%>
 updateref <%= @sync_master_uri_cfg %>
 <% end -%>
 

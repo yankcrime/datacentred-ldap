@@ -22,6 +22,13 @@ group :system_tests do
   gem 'beaker-rspec'
 end
 
+# Constrain the net-ldap gem on ruby 1.9.3 systems
+if Gem::Version.new(/\d+\.\d+\.\d+/.match(%x{ruby --version})) == Gem::Version.new('1.9.3')
+  net_ldap_gem = [ '>=0.10.0', '<0.13.0' ]
+else
+  net_ldap_gem = [ '>=0.13.0' ]
+end
+
 group :production do
-  gem 'net-ldap'
+  gem 'net-ldap', *net_ldap_gem
 end 

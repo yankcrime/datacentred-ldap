@@ -1,22 +1,21 @@
----
 sudo: false
 cache: bundler
 language: ruby
-bundler_args: --without development system_tests
+bundler_args: "--without development system_tests"
 before_install: rm Gemfile.lock || true
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.0
+- 1.9.3
+- 2.0.0
+- 2.1.0
 script: bundle exec rake test
 env:
-  - PUPPET_VERSION="~> 3.2.0"
-  - PUPPET_VERSION="~> 3.3.0"
-  - PUPPET_VERSION="~> 3.4.0"
-  - PUPPET_VERSION="~> 3.5.0" STRICT_VARIABLES=yes
-  - PUPPET_VERSION="~> 3.6.0" STRICT_VARIABLES=yes
-  - PUPPET_VERSION="~> 3.7.0" STRICT_VARIABLES=yes
-  - PUPPET_VERSION="~> 3.7.0" STRICT_VARIABLES=yes FUTURE_PARSER=yes
+- PUPPET_VERSION="~> 3.2.0"
+- PUPPET_VERSION="~> 3.3.0"
+- PUPPET_VERSION="~> 3.4.0"
+- PUPPET_VERSION="~> 3.5.0" STRICT_VARIABLES=yes
+- PUPPET_VERSION="~> 3.6.0" STRICT_VARIABLES=yes
+- PUPPET_VERSION="~> 3.7.0" STRICT_VARIABLES=yes
+- PUPPET_VERSION="~> 3.7.0" STRICT_VARIABLES=yes FUTURE_PARSER=yes
 matrix:
   exclude:
   - rvm: 2.1.0
@@ -27,10 +26,5 @@ matrix:
     env: PUPPET_VERSION="~> 3.4.0"
 notifications:
   email: false
-  hipchat:
-    on_success: change
-    on_failure: change
-    template:
-      - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}'
-    rooms:
-      secure: gaOkIYdQeK7/FMmZ3YxgeEGWXzg4JmCN0FZ+z7XtTLegKr2RwgNYcleovOyaxi3Ch++UK1z2Yd8gf/StTR2IgbltuCOt/f65Ffz3f6dcOLgbco6ywMREUHEQ3cfFBQPygqFgRIDfCX6JyEy4WSPu8P6NuI8U9IVSe1Czye1e5U0=
+  slack:
+    secure: Jn+sIT/zyQeqRRnfUsdg3Pmj8PHZWRk+TlJX91JUXpdXV45jXnOZ48Jrwcov0A9KhYVj3IDvUBh2Lb1R2dglfwtyGL0GKvJBVV8uN3BWLJo238xhnSMvG1aoiVvNnLd4WlcNuOASNKhvQHbn7cxX2xdjS7cxHYkDcOl9fCRX6RA=

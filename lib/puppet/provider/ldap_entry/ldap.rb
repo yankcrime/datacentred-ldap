@@ -26,6 +26,7 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
         end
         return matching
       end
+      return nil if results.empty?
     else
       raise "LDAP Error #{status}: #{results}. Check server log for more info."
     end

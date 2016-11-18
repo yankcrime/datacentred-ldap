@@ -89,6 +89,9 @@
 # [*refint_attributes*]
 #   Attributes for refint overlay.
 #
+# [*service_flags*]
+#   Flags that steer the service parameters, only useful for OpenBSD, defaults to 'undef'.
+#
 # [*sync_rid*]
 #   Replication ID to use for syncrepl replication.
 #
@@ -350,6 +353,7 @@ class ldap::server (
   $package_ensure   = $ldap::params::server_package_ensure,
   $service_manage   = $ldap::params::server_service_manage,
   $service_name     = $ldap::params::server_service_name,
+  $service_flags    = undef,
   $service_enable   = $ldap::params::server_service_enable,
   $service_ensure   = $ldap::params::server_service_ensure,
   $config_directory = $ldap::params::ldap_config_directory,

@@ -277,6 +277,12 @@
 #   a search request.
 #   Default: 3600
 #
+# [*pidfile*]
+#   Location of pid file (contains process ID).
+#
+# [*argsfile*]
+#   Location of args file (contains some of the arguments with which the slapd process is started).
+#
 # === Examples
 #
 #  class { 'ldap::server':
@@ -371,8 +377,10 @@ class ldap::server (
   $memberof_member_ad  = $ldap::params::server_memberof_member_ad,
   $refint_attributes   = $ldap::params::server_refint_attributes,
   $sizelimit           = $ldap::params::server_sizelimit,
-  $timelimit           = $ldap::params::server_timelimit
-
+  $timelimit           = $ldap::params::server_timelimit,
+  $pidfile             = $ldap::params::pidfile,
+  $argsfile            = $ldap::params::argsfile,
+  
 ) inherits ldap::params {
 
   include stdlib

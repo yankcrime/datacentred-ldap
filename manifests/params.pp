@@ -137,8 +137,8 @@ class ldap::params {
       $server_default_template   = undef
       $server_directory          = '/var/openldap-data'
       $server_directory_mode     = '0700'
-      $net_ldap_package_name     = 'net-ldap'
-      $net_ldap_package_provider = 'gem'
+      $net_ldap_package_name     = 'rubygem-net-ldap'
+      $net_ldap_package_provider = 'pkgng'
     }
     'OpenBSD': {
       $ldap_config_directory     = '/etc/openldap'

@@ -20,9 +20,9 @@ describe 'ldap::server' do
           it { is_expected.to compile.with_all_deps }
 
           it { is_expected.to contain_class('ldap::params') }
-          it { is_expected.to contain_class('ldap::server::install').that_comes_before('ldap::server::config') }
+          it { is_expected.to contain_class('ldap::server::install').that_comes_before('Class[ldap::server::config]') }
           it { is_expected.to contain_class('ldap::server::config') }
-          it { is_expected.to contain_class('ldap::server::service').that_subscribes_to('ldap::server::config') }
+          it { is_expected.to contain_class('ldap::server::service').that_subscribes_to('Class[ldap::server::config]') }
 
           it { is_expected.to contain_service('ldap-server') }
           it { is_expected.to contain_package('ldap-server').with_ensure('present') }

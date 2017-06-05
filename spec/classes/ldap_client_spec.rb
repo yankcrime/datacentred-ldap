@@ -19,11 +19,15 @@ describe 'ldap::client' do
           it { is_expected.to compile.with_all_deps }
 
           it { is_expected.to contain_class('ldap::params') }
-          it { is_expected.to contain_class('ldap::client::install').that_comes_before('ldap::client::config') }
+          it { is_expected.to contain_class('ldap::client::install').that_comes_before('Class[ldap::client::config]') }
           it { is_expected.to contain_class('ldap::client::config') }
 
           it { is_expected.to contain_package('ldap-client').with_ensure('present') }
-          it { is_expected.to contain_package('net-ldap').with_ensure('present') }
+          if Puppet.version.to_f < 4.0
+              it { is_expected.to contain_package('net-ldap').with_ensure('present') }
+          else
+              it { is_expected.not_to contain_package('net-ldap').with_ensure('present') }
+          end
         end
       end
     end

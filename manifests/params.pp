@@ -27,13 +27,19 @@ class ldap::params {
 
   $server_log_level = 'none'
 
-  $server_slapd_services = undef
-  $server_ssl        = false
-  $server_ssl_cacert = undef
-  $server_ssl_cert   = undef
-  $server_ssl_key    = undef
+  $server_slapd_services    = undef
+  $server_ssl               = false
+  $server_ssl_cacert        = undef
+  $server_ssl_cert          = undef
+  $server_ssl_ca_cert_path  = undef
+  $server_ssl_key           = undef
+  $server_ssl_dh_param_file = undef
+  $server_ssl_protocol_min  = undef
+  $server_ssl_rand_file     = undef
+  $server_ssl_ciphersuite   = undef
   $server_ssl_verify_client = undef
-  $server_ssl_ciphersuite = undef
+  $server_ssl_crl_check     = undef
+  $server_ssl_crl_file      = undef
 
   $config           = false
   $monitor          = false

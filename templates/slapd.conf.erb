@@ -30,12 +30,30 @@ moduleload <%= m %>
 # SSL
 TLSCACertificateFile   <%= @ssl_cacert %>
 TLSCertificateFile     <%= @ssl_cert %>
+<%   if @ssl_ca_cert_path -%>
+TLSCACertificatePath   <%= @ssl_ca_cert_path %>
+<%   end -%>
 TLSCertificateKeyFile  <%= @ssl_key %>
+<%   if @ssl_dh_param_file -%>
+TLSDHParamFile         <%= @ssl_dh_param_file %>
+<%   end -%>
+<%   if @ssl_protocol_min -%>
+TLSProtocolMin         <%= @ssl_protocol_min %>
+<%   end -%>
+<%   if @ssl_rand_file -%>
+TLSRandFile            <%= @ssl_rand_file %>
+<%   end -%>
 <%   if @ssl_ciphersuite -%>
 TLSCipherSuite         <%= @ssl_ciphersuite %>
 <%   end -%>
 <%   if @ssl_verify_client -%>
 TLSVerifyClient        <%= @ssl_verify_client %>
+<%   end -%>
+<%   if @ssl_crl_check -%>
+TLSCRLCheck            <%= @ssl_crl_check %>
+<%   end -%>
+<%   if @ssl_crl_file -%>
+TLSCRLFile             <%= @ssl_crl_file %>
 <%   end -%>
 <% end -%>
 

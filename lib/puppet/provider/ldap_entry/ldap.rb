@@ -44,19 +44,21 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
         if @entry.respond_to?(k)
           next if @mutable.include? k
           unless @entry.send(k).to_set == [v].flatten.to_set
-            ldap_replace_attribute([resource[:host], resource[:port], resource[:username], resource[:password],
+            status, message = ldap_replace_attribute([resource[:host], resource[:port], resource[:username], resource[:password],
                         [resource[:name], k, v]])
+            raise "LDAP Error #{status}: #{message}. Check server log for more info." unless status == LDAP::Success
           end
         else
-          ldap_add_attribute([resource[:host], resource[:port], resource[:username], resource[:password],
+          status, message = ldap_add_attribute([resource[:host], resource[:port], resource[:username], resource[:password],
                         [resource[:name], k, v]])
+          raise "LDAP Error #{status}: #{message}. Check server log for more info." unless status == LDAP::Success
         end
       end
     else
       status, message = ldap_add([resource[:host], resource[:port], resource[:username], resource[:password],
                           {:dn => resource[:name], :attributes => resource[:attributes]}])
+      raise "LDAP Error #{status}: #{message}. Check server log for more info." unless status == LDAP::Success
     end
-    raise "LDAP Error #{status}: #{message}. Check server log for more info." unless status == LDAP::Success
   end
 
   private

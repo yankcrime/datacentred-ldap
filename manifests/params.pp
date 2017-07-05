@@ -23,7 +23,6 @@ class ldap::params {
   $server_service_ensure      = 'running'
   $server_service_manage      = true
   $server_config_template     = 'ldap/slapd.conf.erb'
-  $server_backend             = 'bdb'
 
   $server_log_level = 'none'
 
@@ -106,6 +105,7 @@ class ldap::params {
     'Debian': {
       $ldap_config_directory     = '/etc/ldap'
       $os_config_directory       = '/etc/default'
+      $server_backend            = 'bdb'
       $server_run_directory      = '/var/run/slapd'
       $server_run_directory_mode = '0700'
 
@@ -124,9 +124,32 @@ class ldap::params {
       $net_ldap_package_name     = 'ruby-net-ldap'
       $net_ldap_package_provider = 'apt'
     }
+    'FreeBSD': {
+      $ldap_config_directory     = '/usr/local/etc/openldap'
+      $os_config_directory       = undef
+      $server_backend            = 'mdb'
+      $server_run_directory      = '/var/run/openldap'
+      $server_run_directory_mode = '0755'
+
+      $client_package_name       = 'openldap-client'
+
+      $ldapowner                 = 'ldap'
+      $ldapgroup                 = 'ldap'
+
+      $server_package_name       = 'openldap-server'
+      $server_service_name       = 'slapd'
+      $server_default_file       = undef
+      $server_default_file_mode  = undef
+      $server_default_template   = undef
+      $server_directory          = '/var/openldap-data'
+      $server_directory_mode     = '0700'
+      $net_ldap_package_name     = 'rubygem-net-ldap'
+      $net_ldap_package_provider = 'pkgng'
+    }
     'OpenBSD': {
       $ldap_config_directory     = '/etc/openldap'
       $os_config_directory       = undef
+      $server_backend            = 'bdb'
       $server_run_directory      = '/var/run/openldap'
       $server_run_directory_mode = '0755'
 
@@ -148,6 +171,7 @@ class ldap::params {
     'RedHat': {
       $ldap_config_directory     = '/etc/openldap'
       $os_config_directory       = '/etc/sysconfig'
+      $server_backend            = 'bdb'
       $server_run_directory      = '/var/run/openldap'
       $server_run_directory_mode = '0700'
 

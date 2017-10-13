@@ -15,6 +15,9 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
                    {:base => resource[:name], :attributes => attributes(resource[:attributes])}])
     if status == LDAP::NoSuchObject
       return false
+    elsif status == LDAP::Success && resource[:ensure] == :absent
+      # If it is found we don't care if the attributes are the same dn values are unique.
+      return true
     elsif status == LDAP::Success
       results.select{|r| r.dn == resource[:name]}.each do |entry|
         @entry = entry
@@ -39,18 +42,23 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
   end
 
   def create
+    # Marked as a succes unless otherwise ran and failed. This should not be needed
+    status = LDAP::Success
     if @entry
       resource[:attributes].each do |k, v|
         if @entry.respond_to?(k)
           next if @mutable.include? k
           unless @entry.send(k).to_set == [v].flatten.to_set
-            ldap_replace_attribute([resource[:host], resource[:port], resource[:username], resource[:password],
+            status, message = ldap_replace_attribute([resource[:host], resource[:port], resource[:username], resource[:password],
                         [resource[:name], k, v]])
           end
         else
-          ldap_add_attribute([resource[:host], resource[:port], resource[:username], resource[:password],
+          status, message = ldap_add_attribute([resource[:host], resource[:port], resource[:username], resource[:password],
                         [resource[:name], k, v]])
         end
+      
+        # Raise an error for any LDAP attempt that fails.
+        raise "LDAP Error #{status}: #{message}. Check server log for more info." unless status == LDAP::Success
       end
     else
       status, message = ldap_add([resource[:host], resource[:port], resource[:username], resource[:password],

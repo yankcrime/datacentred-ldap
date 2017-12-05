@@ -49,7 +49,12 @@
 #   Maximum number of entries to return by default.
 #
 # [*timelimit*]
-#   Maximum number of seconds to wait for answers by default.
+#   Maximum number of seconds to wait for answers by default. Set to '' (empty
+#   string) to remove this parameter from config file.
+#
+# [*sasl_nocanon*]
+#   If set to true, do not perform reverse DNS lookups to canonicalize SASL host
+#   names.
 #
 # === Examples
 #
@@ -79,6 +84,7 @@ class ldap::client (
   $net_ldap_package_provider   = $ldap::params::net_ldap_package_provider,
   $sizelimit        = $ldap::params::client_sizelimit,
   $timelimit        = $ldap::params::client_timelimit,
+  $sasl_nocanon     = $ldap::params::client_sasl_nocanon,
 ) inherits ldap::params {
 
   include stdlib

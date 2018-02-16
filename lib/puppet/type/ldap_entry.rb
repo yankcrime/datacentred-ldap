@@ -47,7 +47,7 @@ Puppet::Type.newtype(:ldap_entry) do
   end
 
   newparam(:port) do
-    desc  'Port of the LDAP server (default 389)'
+    desc  'Port of the LDAP server (default 636)'
     defaultto 636
     validate do |value|
       unless (1..65535).include?(value.to_i)

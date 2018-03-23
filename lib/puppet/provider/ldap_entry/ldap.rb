@@ -90,8 +90,8 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
 
   def ldap_add(args)
     ldap = ldap(args)
-    if(!params(args).include?('userpassword'))
-      Puppet.info("LDAP Add: #{params(args).inspect}")
+    if(!params(args).inspect.include?('userpassword'))
+      Puppet.debug("LDAP Add: #{params(args).inspect}")
     end
     ldap.add(params(args))
     return_code_and_message(ldap)
@@ -99,8 +99,8 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
 
   def ldap_remove(args)
     ldap = ldap(args)
-    if(!params(args).include?('userpassword'))
-      Puppet.info("LDAP Remove: #{params(args).inspect}")
+    if(!params(args).inspect.include?('userpassword'))
+      Puppet.debug("LDAP Remove: #{params(args).inspect}")
     end
     ldap.delete(params(args))
     return_code_and_message(ldap)
@@ -108,8 +108,8 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
 
   def ldap_add_attribute(args)
     ldap = ldap(args)
-    if(!params(args).include?('userpassword'))
-      Puppet.info("LDAP Add Attribute: #{params(args).inspect}")
+    if(!params(args).inspect.include?('userpassword'))
+      Puppet.debug("LDAP Add Attribute: #{params(args).inspect}")
     end
     ldap.add_attribute(*params(args))
     return_code_and_message(ldap)
@@ -117,8 +117,8 @@ Puppet::Type.type(:ldap_entry).provide(:ldap) do
 
   def ldap_replace_attribute(args)
     ldap = ldap(args)
-    if(!params(args).include?('userpassword'))
-      Puppet.info("LDAP Replace Attribute: #{params(args).inspect}")
+    if(!params(args).inspect.include?('userpassword'))
+      Puppet.debug("LDAP Replace Attribute: #{params(args).inspect}")
     end
     ldap.replace_attribute(*params(args))
     return_code_and_message(ldap)

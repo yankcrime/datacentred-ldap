@@ -2,6 +2,13 @@
 BASE <%= @base %>
 URI  <%= @uri %>
 
+<%- if @bindn == true -%>
+BINDDN <%= @binddn %>
+<% end %>
+<%- if @binpw == true -%>
+BINDPW <%= @bindpw %>
+<% end %>
+
 # Timeout options
 <%- if @sizelimit -%>
 SIZELIMIT <%= @sizelimit %>

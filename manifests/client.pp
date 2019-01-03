@@ -10,6 +10,12 @@
 # [*base*]
 #   The domain for which the LDAP server provides information for.
 #
+# [*binddn*]
+#   Bind to a specific username instead of using an anonymous connection 
+#
+# [*bindpw*]
+#   Bind to the specific username with this password
+#
 # [*ssl*]
 #   Whether the client should attempt to connect over SSL (false, true).
 #
@@ -61,6 +67,8 @@
 class ldap::client (
   $uri,
   $base,
+  $binddn           = $ldap::params::binddn,
+  $bindpw           = $ldap::params::bindpw,
   $ssl              = $ldap::params::client_ssl,
   $ssl_cacertdir    = $ldap::params::client_ssl_cacertdir,
   $ssl_cacert       = $ldap::params::client_ssl_cacert,

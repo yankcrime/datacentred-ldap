@@ -6,6 +6,9 @@ class ldap::params {
 
   $client_package_ensure   = 'present'
   $client_config_template  = 'ldap/ldap.conf.erb'
+  
+  $client_binddn = undef
+  $client_bindpw = undef
 
   $client_ssl             = false
   $client_ssl_cacert      = undef

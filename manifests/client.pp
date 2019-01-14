@@ -67,8 +67,8 @@
 class ldap::client (
   $uri,
   $base,
-  $binddn           = $ldap::params::binddn,
-  $bindpw           = $ldap::params::bindpw,
+  $binddn           = $ldap::params::client_binddn,
+  $bindpw           = $ldap::params::client_bindpw,
   $ssl              = $ldap::params::client_ssl,
   $ssl_cacertdir    = $ldap::params::client_ssl_cacertdir,
   $ssl_cacert       = $ldap::params::client_ssl_cacert,

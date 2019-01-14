@@ -24,15 +24,18 @@ class ldap::client::install inherits ldap::client {
 
         # Puppet 4 has its own self-contained ruby environment so install the
         # requisite packages there
-        exec { '/opt/puppetlabs/puppet/bin/gem install net-ldap':
-          unless => '/opt/puppetlabs/puppet/bin/gem list | grep net-ldap',
+        if $ldap::client::manage_package_dependencies {
+          exec { '/opt/puppetlabs/puppet/bin/gem install net-ldap':
+            unless => '/opt/puppetlabs/puppet/bin/gem list | grep net-ldap',
+          }
         }
-
       } else {
-        package { 'net-ldap':
-          ensure   => $ldap::client::net_ldap_package_ensure,
-          name     => $ldap::client::net_ldap_package_name,
-          provider => $ldap::client::net_ldap_package_provider,
+        if $ldap::client::manage_package_dependencies {
+          package { 'net-ldap':
+            ensure   => $ldap::client::net_ldap_package_ensure,
+            name     => $ldap::client::net_ldap_package_name,
+            provider => $ldap::client::net_ldap_package_provider,
+          }
         }
       }
     }

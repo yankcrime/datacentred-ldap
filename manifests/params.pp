@@ -6,6 +6,9 @@ class ldap::params {
 
   $client_package_ensure   = 'present'
   $client_config_template  = 'ldap/ldap.conf.erb'
+  
+  $client_binddn = undef
+  $client_bindpw = undef
 
   $client_ssl             = false
   $client_ssl_cacert      = undef
@@ -144,7 +147,7 @@ class ldap::params {
       $server_directory          = '/var/openldap-data'
       $server_directory_mode     = '0700'
       $net_ldap_package_name     = 'rubygem-net-ldap'
-      $net_ldap_package_provider = 'pkgng'
+      $net_ldap_package_provider = 'gem'
     }
     'OpenBSD': {
       $ldap_config_directory     = '/etc/openldap'

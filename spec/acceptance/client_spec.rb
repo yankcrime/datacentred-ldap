@@ -21,4 +21,22 @@ describe 'ldap::client class' do
     end
   end
 
+  context 'optional parameters' do
+    it 'should work idempotently with no errors' do
+      pp = <<-EOS
+        class { 'ldap::client':
+          uri  => 'ldap://localhost',
+          base => 'dc=example,dc=com',
+          binddn => 'dc=example,dc=com',
+          bindpw => 'dc=example,dc=com',
+        }
+      EOS
+
+      # Run it twice and test for idempotency
+      apply_manifest(pp, :catch_failures => true)
+      apply_manifest(pp, :catch_changes  => true)
+    end
+  end
+
+
 end

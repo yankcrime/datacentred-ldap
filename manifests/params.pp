@@ -20,6 +20,8 @@ class ldap::params {
 
   $client_sizelimit = undef
   $client_timelimit = 15
+  $client_sasl_nocanon = false
+
 
   $server_package_ensure      = 'present'
   $server_service_enable      = true

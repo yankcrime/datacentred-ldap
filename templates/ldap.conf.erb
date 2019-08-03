@@ -13,9 +13,12 @@ BINDPW <%= @bindpw %>
 <%- if @sizelimit -%>
 SIZELIMIT <%= @sizelimit %>
 <% end -%>
-<%- if @timelimit -%>
+<%- if @timelimit and @timelimit != '' -%>
 TIMELIMIT <%= @timelimit %>
 <% end -%>
+<%- if @sasl_nocanon -%>
+SASL_NOCANON on
+<%- end -%>
 
 <%- if @ssl == true -%>
 # SSL

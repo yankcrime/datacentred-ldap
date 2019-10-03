@@ -70,8 +70,7 @@ access to <%= what %>
 <%     end -%>
 <%     byrules.each do |byrule| -%>
 <%       byrule.each do |who, access| -%>
-<%         access.sub!('@@writeable_on_sync_provider_only@@', @access_writeable_on_sync_provider_only_cfg) -%>
-  by <%= who %> <%= access %>
+  by <%= who %> <%=  access.sub('@@writeable_on_sync_provider_only@@', @access_writeable_on_sync_provider_only_cfg) %>
 <%       end -%>
 <%     end -%>
 <%   end -%>

@@ -248,7 +248,7 @@ GEM
     nenv (0.2.0)
     net-http-persistent (2.9.4)
     net-http-pipeline (1.0.1)
-    net-ldap (0.11)
+    net-ldap (0.17.1)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
@@ -344,7 +344,7 @@ GEM
       sfl
     stringify-hash (0.0.2)
     thor (0.19.1)
-    thread_safe (0.3.5)
+    thread_safe (0.3.6)
     travis (1.8.0)
       addressable (~> 2.3)
       backports
@@ -361,7 +361,7 @@ GEM
     trollop (2.1.2)
     typhoeus (0.7.3)
       ethon (>= 0.7.4)
-    tzinfo (1.2.2)
+    tzinfo (1.2.10)
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
@@ -377,7 +377,7 @@ DEPENDENCIES
   beaker-rspec
   guard-rake
   metadata-json-lint
-  net-ldap
+  net-ldap (>= 0.13.0)
   puppet (~> 4.2.0)
   puppet-blacksmith
   puppetlabs_spec_helper
